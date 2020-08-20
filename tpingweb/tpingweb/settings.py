@@ -54,7 +54,7 @@ ROOT_URLCONF = 'tpingweb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['C:/ProyectoIW/tpingweb/tpingweb/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

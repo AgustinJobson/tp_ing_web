@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from login import viewslogin
+from tpingweb import views
 
 urlpatterns = [
-    path('login/', include('login.urls')),
+    #path('login/', include('login.urls')),
+    path('', views.home),
+    path('login/', viewslogin.inicio_sesion),
+    
+    
     path('admin/', admin.site.urls),
 ]
