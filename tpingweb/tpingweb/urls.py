@@ -22,7 +22,9 @@ urlpatterns = [
     #path('login/', include('login.urls')),
     path('', views.home),
     path('login/', viewslogin.inicio_sesion),
-    
-    
+    path('logueado/', viewslogin.pagina_logueado),
+    path('register/', viewslogin.register),
+    path('logout/', viewslogin.logout),
+        
     path('admin/', admin.site.urls),
 ]
