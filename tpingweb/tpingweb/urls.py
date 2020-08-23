@@ -20,7 +20,7 @@ from tpingweb import views
 
 urlpatterns = [
     #path('login/', include('login.urls')),
-    path('', views.home),
+    path('', views.home, name='home'),
     path('login/', viewslogin.inicio_sesion),
     path('logueado/', viewslogin.pagina_logueado),
     path('register/', viewslogin.register),
