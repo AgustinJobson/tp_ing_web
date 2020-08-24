@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from login import viewslogin
-from tpingweb import views
+from apps.login import viewslogin
+from apps.home import viewshome
 
 urlpatterns = [
     #path('login/', include('login.urls')),
-    path('', views.home, name='home'),
+    #path('', include('home.urls')),
+    path('', viewshome.home, name='home'),
     path('login/', viewslogin.inicio_sesion),
     path('logueado/', viewslogin.pagina_logueado),
     path('register/', viewslogin.register),

@@ -29,11 +29,11 @@ def inicio_sesion(request):
                     do_login(request, user)
                     return redirect('/logueado')
         
-        return render(request, "users/signup.html", {'form': form})
+        return render(request, "signup.html", {'form': form})
 
 def pagina_logueado(request):
     if request.user.is_authenticated:
-        return render(request, "users/usuario_logueado.html")
+        return render(request, "usuario_logueado.html")
     return redirect('/login')
 
 def register(request):
@@ -62,7 +62,7 @@ def register(request):
         form.fields['password1'].help_text = None
         form.fields['password2'].help_text = None
 
-        return render(request, "users/register.html", {'form': form})
+        return render(request, "register.html", {'form': form})
 
 def logout(request):
     do_logout(request)
