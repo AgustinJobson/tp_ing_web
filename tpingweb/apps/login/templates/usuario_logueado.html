@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-
+{% extends 'banner.html' %}
 <html>
 <body>
+{% block content %}
+    <h2>Área para usuarios logueados</h2>
 
-<h2>Área para usuarios logueados</h2>
+    <p>
+        Bienvenido, esta página es exclusiva para usuarios registrados.
+    </p>
 
-<p>
-    Bienvenido, esta página es exclusiva para usuarios registrados.
-</p>
-
-<hr />
-<a href="/logout">Cerrar sesión</a>
-
+    <a href="/logout">Cerrar sesión</a>
+{% endblock %}
 </body>
 </html>

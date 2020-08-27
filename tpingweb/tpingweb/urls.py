@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import include, path
 from apps.login import viewslogin
 from apps.home import viewshome
+from apps.shared import views
+from apps.eventos import viewsevents
 
 urlpatterns = [
     #path('login/', include('login.urls')),
@@ -26,6 +28,6 @@ urlpatterns = [
     path('logueado/', viewslogin.pagina_logueado),
     path('register/', viewslogin.register),
     path('logout/', viewslogin.logout),
-        
+    path('eventos/', viewsevents.eventos),    
     path('admin/', admin.site.urls),
 ]
