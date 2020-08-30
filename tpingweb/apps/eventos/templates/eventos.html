@@ -1,5 +1,32 @@
 <!DOCTYPE html>
 {% extends 'banner.html' %}
 <html>
-
+    {% block content %}
+        <br>
+        <div class="row">
+            <div class="col-md">
+                <div class="card card-body">
+                    <h5> Eventos disponibles</h5>
+                </div>
+                <div class="card card-body">
+                    <table class="table">
+                        <tr>
+                            <th>Evento</th>
+                            <th>Fecha</th>
+                            <th>Empresa Organizadora</th>
+                            <th>Calificar</th>
+                        </tr>
+                        {% for i in eventos_disponibles%}
+                            <tr>                               
+                                <td>{{i.nombre_evento}}</td>
+                                <td>{{i.fecha_evento}}</td>
+                                <td>{{i.empresa_organizadora.nombre_empresa}}</td>
+                                <td><a href="">Calificar</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
 </html>
