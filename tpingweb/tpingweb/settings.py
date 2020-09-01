@@ -16,6 +16,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'apps.login',
     'apps.shared',
     'apps.eventos',
+    'django_registration',
 ]
 
 MIDDLEWARE = [

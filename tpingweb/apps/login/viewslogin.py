@@ -10,7 +10,7 @@ from .forms import CreateUserForm
 
 def inicio_sesion(request):
     if request.user.is_authenticated:
-        return redirect("/logueado")
+        return redirect("/login/logueado")
     else:
         form = AuthenticationForm()
         if request.method == "POST":
@@ -27,7 +27,7 @@ def inicio_sesion(request):
                 # Si existe un usuario con ese nombre y contraseña
                 if user is not None:
                     do_login(request, user)
-                    return redirect('/logueado')
+                    return redirect('/login/logueado')
         
         return render(request, "signup.html", {'form': form})
 
@@ -38,7 +38,7 @@ def pagina_logueado(request):
 
 def register(request):
     if request.user.is_authenticated:
-        return redirect("/logueado")
+        return redirect("/login/logueado/")
     else:
         # Creamos el formulario de autenticación vacío
         form = CreateUserForm()
@@ -57,7 +57,7 @@ def register(request):
 
                 # Si el usuario se crea correctamente 
                 #if user is not None:
-                #    do_login(request, user)
+                #    do_login(request, user)    
                 #    return redirect('/login')
                 
         # Para borrar los campos de ayuda
