@@ -15,21 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from apps.login import viewslogin
 from apps.home import viewshome
 from apps.shared import views
-from apps.eventos import viewsevents
 
 urlpatterns = [
-    path('login/', include('apps.login.urls')),
-    
+    path('', viewshome.home, name='home'),
+    path('login/', include('apps.login.urls')),    
     
     #path('login/', include('django_registration.backends.activation.urls')),
     #path('login/', include('django.contrib.auth.urls')),
     
     
-    path('', viewshome.home, name='home'),
 
-    path('eventos/', viewsevents.eventos),    
+    path('events/', include('apps.eventos.urls')),
+    #path('eventos/', viewsevents.eventos),    
     path('admin/', admin.site.urls),
 ]

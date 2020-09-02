@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+        <br>
+        <div class="row">
+            <div class="col-md">
+                </div>
+                <div class="card card-body">
+                    <table class="table">
+                        <tr>
+                            <th>Evento</th>
+                            <th>Fecha</th>
+                            <th>Empresa Organizadora</th>
+                        </tr>                        
+                        <tr>                               
+                            <td>{{event.nombre_evento}}</td>
+                            <td>{{event.fecha_evento}}</td>
+                            <td>{{event.empresa_organizadora.nombre_empresa}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+</html>

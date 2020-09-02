@@ -11,17 +11,19 @@
                 <div class="card card-body">
                     <table class="table">
                         <tr>
+                            <th>Número de Evento</th>
                             <th>Evento</th>
                             <th>Fecha</th>
                             <th>Empresa Organizadora</th>
-                            <th>Calificar</th>
+                            <th>Ver Más</th>
                         </tr>
                         {% for i in eventos_disponibles%}
-                            <tr>                               
+                            <tr>       
+                                <td>{{i.id_evento}}</td>                        
                                 <td>{{i.nombre_evento}}</td>
                                 <td>{{i.fecha_evento}}</td>
                                 <td>{{i.empresa_organizadora.nombre_empresa}}</td>
-                                <td><a href="">Calificar</a></td>
+                                <td><a href='{{i.get_absolute_url}}'>Ver Más</a></td>
                             </tr>
                         {% endfor %}
                     </table>

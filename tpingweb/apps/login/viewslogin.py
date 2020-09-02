@@ -17,6 +17,7 @@ from django.urls import reverse
 from .utils import token_generator
 from django.views.generic import View
 from django.contrib.auth.models import User
+from django.contrib import auth
 
 def inicio_sesion(request):
     if (request.user.is_authenticated):
@@ -37,12 +38,11 @@ def inicio_sesion(request):
                 # Si existe un usuario con ese nombre y contraseña
                 if user is not None:
                     if user.is_active:
-                        do_login(request, user)
+                        auth.login(request, user)
                         return redirect('/login/logueado')
-                    #else:
-                        #messages.error(request,'El usuario no está activo, chequee su email')
-                        #return redirect('/login')
-
+                    else:
+                        messages.error(request,'El usuario no está activo, verifique su email')
+                        return redirect('/login')
                 messages.error(request, 'Las credenciales son incorrectas, intente denuevo.')
 
         
@@ -96,7 +96,8 @@ def register(request):
         return render(request, "register.html", {'form': form})
 
 def logout(request):
-    do_logout(request)
+    auth.logout(request)
+    #do_logout(request)
     return redirect('home')
 
 class VerificationView(View):
@@ -119,6 +120,9 @@ class VerificationView(View):
             pass
         return redirect('/login')
 
-        
+
+
+
+
 
         

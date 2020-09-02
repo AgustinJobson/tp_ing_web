@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class empresa(models.Model):
     nombre_empresa=models.CharField(max_length = 40)
     cod_postal=models.CharField(max_length = 6)
@@ -17,5 +16,8 @@ class evento(models.Model):
     desc_seguridad = models.TextField(default="")
     empresa_organizadora = models.ForeignKey(empresa, on_delete=models.CASCADE)
     
+    def get_absolute_url(self):
+        return f"/events/{self.id_evento}/"
+
 
 
