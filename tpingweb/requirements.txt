@@ -9,3 +9,4 @@ sqlparse==0.3.1
 whitenoise==5.2.0
 pylint-django==2.3.0
 django-registration==3.1
+six==1.15.0

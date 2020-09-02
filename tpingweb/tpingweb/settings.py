@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'apps.login',
     'apps.shared',
     'apps.eventos',
-    'django_registration',
+    #'django_registration',
 ]
 
 MIDDLEWARE = [
@@ -123,6 +123,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'validation.jaguarun@gmail.com'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'validation.jaguarun@gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = 'Lokiaqswde1234'
+
 
 STATIC_URL = '/static/'
 django_heroku.settings(locals())

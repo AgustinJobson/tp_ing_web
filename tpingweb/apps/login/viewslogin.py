@@ -8,8 +8,18 @@ from django.contrib.auth import logout as do_logout
 from django.contrib import messages
 from .forms import CreateUserForm
 
+from django.core.mail import send_mail, EmailMessage
+
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site 
+from django.urls import reverse
+from .utils import token_generator
+from django.views.generic import View
+from django.contrib.auth.models import User
+
 def inicio_sesion(request):
-    if request.user.is_authenticated:
+    if (request.user.is_authenticated) and (request.user.is_active):
         return redirect("/login/logueado")
     else:
         form = AuthenticationForm()
@@ -26,8 +36,9 @@ def inicio_sesion(request):
 
                 # Si existe un usuario con ese nombre y contraseña
                 if user is not None:
-                    do_login(request, user)
-                    return redirect('/login/logueado')
+                    if user.is_active:
+                        do_login(request, user)
+                        return redirect('/login/logueado')
         
         return render(request, "signup.html", {'form': form})
 
@@ -37,7 +48,7 @@ def pagina_logueado(request):
     return redirect('/login')
 
 def register(request):
-    if request.user.is_authenticated:
+    if (request.user.is_authenticated) and (request.user.is_active):
         return redirect("/login/logueado/")
     else:
         # Creamos el formulario de autenticación vacío
@@ -52,14 +63,24 @@ def register(request):
                 # Creamos la nueva cuenta de usuario
                 user = form.save()
                 usernombrex = form.cleaned_data.get('username')
+                email_user = form.cleaned_data.get('email')
                 messages.success(request,'El usuario ' + usernombrex + ' fue creado correctamente!')
+                
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                domain = get_current_site(request).domain
+                link = reverse('activate',kwargs={'uidb64':uidb64,'token':token_generator.make_token(user)})
+                
+                activate_url = 'http://'+domain+link
+
+                email = EmailMessage(
+                    'Hola ' +usernombrex+ '. Gracias Por Registrarte en Jaguarun',
+                    'Activa tu cuenta con este link: '+ activate_url,
+                    'validation.jaguarun@gmail.com',
+                    [email_user]
+                )
+                email.send(fail_silently=False)
                 return redirect('/login')
 
-                # Si el usuario se crea correctamente 
-                #if user is not None:
-                #    do_login(request, user)    
-                #    return redirect('/login')
-                
         # Para borrar los campos de ayuda
         form.fields['username'].help_text = None
         form.fields['password1'].help_text = None
@@ -70,3 +91,27 @@ def register(request):
 def logout(request):
     do_logout(request)
     return redirect('home')
+
+class VerificationView(View):
+    def get(self, request, uidb64, token):
+        try:
+            id = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id = pk)
+
+            if not token_generator.check_token(user, token):
+                return redirect('/login')
+
+            if user.is_active:
+                return redirect('/login')
+            user.is_active = True
+            user.save()
+
+            messages.success(request, 'Usuario activado con Éxito')
+            return redirect('/login')
+        except Exception as ex:
+            pass
+        return redirect('/login')
+
+        
+
+        

@@ -22,14 +22,14 @@ from apps.eventos import viewsevents
 
 urlpatterns = [
     path('login/', include('apps.login.urls')),
-    path('login/', include('django_registration.backends.activation.urls')),
-    path('login/', include('django.contrib.auth.urls')),
-    #path('', include('home.urls')),
+    
+    
+    #path('login/', include('django_registration.backends.activation.urls')),
+    #path('login/', include('django.contrib.auth.urls')),
+    
+    
     path('', viewshome.home, name='home'),
-    #path('login/', viewslogin.inicio_sesion),
-    #path('logueado/', viewslogin.pagina_logueado),
-    #path('register/', viewslogin.register),
-    #path('logout/', viewslogin.logout),
+
     path('eventos/', viewsevents.eventos),    
     path('admin/', admin.site.urls),
 ]
