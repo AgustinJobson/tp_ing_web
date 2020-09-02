@@ -21,7 +21,7 @@ from django.contrib import auth
 
 def inicio_sesion(request):
     if (request.user.is_authenticated):
-        return redirect("/login/logueado")
+        return redirect("/account/logueado")
     else:
         form = AuthenticationForm()
         if request.method == "POST":
@@ -39,23 +39,23 @@ def inicio_sesion(request):
                 if user is not None:
                     if user.is_active:
                         auth.login(request, user)
-                        return redirect('/login/logueado')
+                        return redirect('/account/logueado')
                     else:
                         messages.error(request,'El usuario no está activo, verifique su email')
-                        return redirect('/login')
+                        return redirect('/account/login')
                 messages.error(request, 'Las credenciales son incorrectas, intente denuevo.')
 
         
-        return render(request, "signup.html", {'form': form})
+        return render(request, "login.html", {'form': form})
 
 def pagina_logueado(request):
     if request.user.is_authenticated:
         return render(request, "usuario_logueado.html")
-    return redirect('/login')
+    return redirect('/account/login')
 
 def register(request):
     if (request.user.is_authenticated) and (request.user.is_active):
-        return redirect("/login/logueado/")
+        return redirect("/account/logueado/")
     else:
         # Creamos el formulario de autenticación vacío
         form = CreateUserForm()
@@ -86,7 +86,7 @@ def register(request):
                     [email_user]
                 )
                 email.send(fail_silently=False)
-                return redirect('/login')
+                return redirect('/account/login')
 
         # Para borrar los campos de ayuda
         form.fields['username'].help_text = None
@@ -107,18 +107,18 @@ class VerificationView(View):
             user = User.objects.get(pk=id)
 
             if not token_generator.check_token(user, token):
-                return redirect('/login')
+                return redirect('/account/login')
 
             if user.is_active:
-                return redirect('/login')
+                return redirect('/account/login')
             user.is_active = True
             user.save()
 
             messages.success(request, 'Usuario activado con Éxito')
-            return redirect('/login')
+            return redirect('/account/login')
         except Exception as ex:
             pass
-        return redirect('/login')
+        return redirect('/account/login')
 
 
 

@@ -20,14 +20,8 @@ from apps.shared import views
 
 urlpatterns = [
     path('', viewshome.home, name='home'),
-    path('login/', include('apps.login.urls')),    
-    
-    #path('login/', include('django_registration.backends.activation.urls')),
-    #path('login/', include('django.contrib.auth.urls')),
-    
-    
-
+    path('account/', include('apps.account.urls')),        
     path('events/', include('apps.eventos.urls')),
-    #path('eventos/', viewsevents.eventos),    
+
     path('admin/', admin.site.urls),
 ]
