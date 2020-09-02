@@ -19,7 +19,7 @@ from django.views.generic import View
 from django.contrib.auth.models import User
 
 def inicio_sesion(request):
-    if (request.user.is_authenticated) and (request.user.is_active):
+    if (request.user.is_authenticated):
         return redirect("/login/logueado")
     else:
         form = AuthenticationForm()
@@ -39,6 +39,12 @@ def inicio_sesion(request):
                     if user.is_active:
                         do_login(request, user)
                         return redirect('/login/logueado')
+                    #else:
+                        #messages.error(request,'El usuario no está activo, chequee su email')
+                        #return redirect('/login')
+
+                messages.error(request, 'Las credenciales son incorrectas, intente denuevo.')
+
         
         return render(request, "signup.html", {'form': form})
 
@@ -59,9 +65,10 @@ def register(request):
 
             if form.is_valid():
                 
-
+                
                 # Creamos la nueva cuenta de usuario
                 user = form.save()
+                user.is_active=False
                 usernombrex = form.cleaned_data.get('username')
                 email_user = form.cleaned_data.get('email')
                 messages.success(request,'El usuario ' + usernombrex + ' fue creado correctamente!')
@@ -71,7 +78,7 @@ def register(request):
                 link = reverse('activate',kwargs={'uidb64':uidb64,'token':token_generator.make_token(user)})
                 
                 activate_url = 'http://'+domain+link
-
+                user.save()
                 email = EmailMessage(
                     'Hola ' +usernombrex+ '. Gracias Por Registrarte en Jaguarun',
                     'Activa tu cuenta con este link: '+ activate_url,
@@ -96,7 +103,7 @@ class VerificationView(View):
     def get(self, request, uidb64, token):
         try:
             id = force_text(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(id = pk)
+            user = User.objects.get(pk=id)
 
             if not token_generator.check_token(user, token):
                 return redirect('/login')
