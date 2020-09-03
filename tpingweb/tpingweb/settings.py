@@ -123,6 +123,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+
+#SMTP Configuration
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'validation.jaguarun@gmail.com'
 EMAIL_USE_TLS = True

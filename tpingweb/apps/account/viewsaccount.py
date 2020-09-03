@@ -122,49 +122,4 @@ class VerificationView(View):
             pass
         return redirect('/account/login')
 
-
-class RequestPasswordResetEmail(View):
-    def get(self,request):
-        return render(request,'resetpassword.html')
-    @csrf_protect
-    def post(self,request):
-        email_user = request.POST['email']
-        
-        context = {
-            'values':request.POST
-        }
-
-        form = CreateUserForm()
-        user=request.objects.filter(email = email_user)
-        if user.exists():
-            domain = get_current_site(request).domain
-            email_content = {
-                'user':user[0],
-                'domain':current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user[0].pk)),
-                'token': PasswordResetTokenGenerator().make_token(user[0])
-            }
-            email_subject = "Instrucciones de cambio de contraseña"
-            link = reverse('reset-user-password',kwargs={'uidb64':email_content['uid'],'token':email_content['token']})                
-            reset_url = 'http://'+current_site.domain+link
-        
-            email = EmailMessage(
-                'Hola!',
-                'Por favor, haz click en el link para cambiar tu contraseña \n'+ activate_url,
-                'validation.jaguarun@gmail.com',
-                [email_user]
-            )
-            email.send(fail_silently=False) 
-            messages.success(request, 'Te hemos enviado un mail para actualizar tu contraseña.')
-        
-        return render(request,'account/resetpassword.html')
-
-
-class CompletePasswordReset(View):
-    def get(self,request,uidb64,token):
-        return render(request, 'account/set_new_passowrd.html')
-    def post(self,request,uidb64,token):
-        return render(request, 'account/set_new_passowrd.html')
-
-
         
