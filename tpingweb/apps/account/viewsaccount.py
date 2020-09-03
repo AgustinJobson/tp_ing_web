@@ -6,18 +6,20 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login as do_login
 from django.contrib.auth import logout as do_logout
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib import auth
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
 from .forms import CreateUserForm
 
 from django.core.mail import send_mail, EmailMessage
-
+from django.views.decorators.csrf import csrf_protect
 from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site 
 from django.urls import reverse
 from .utils import token_generator
 from django.views.generic import View
-from django.contrib.auth.models import User
-from django.contrib import auth
 
 def inicio_sesion(request):
     if (request.user.is_authenticated):
@@ -121,8 +123,48 @@ class VerificationView(View):
         return redirect('/account/login')
 
 
+class RequestPasswordResetEmail(View):
+    def get(self,request):
+        return render(request,'resetpassword.html')
+    @csrf_protect
+    def post(self,request):
+        email_user = request.POST['email']
+        
+        context = {
+            'values':request.POST
+        }
+
+        form = CreateUserForm()
+        user=request.objects.filter(email = email_user)
+        if user.exists():
+            domain = get_current_site(request).domain
+            email_content = {
+                'user':user[0],
+                'domain':current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user[0].pk)),
+                'token': PasswordResetTokenGenerator().make_token(user[0])
+            }
+            email_subject = "Instrucciones de cambio de contraseña"
+            link = reverse('reset-user-password',kwargs={'uidb64':email_content['uid'],'token':email_content['token']})                
+            reset_url = 'http://'+current_site.domain+link
+        
+            email = EmailMessage(
+                'Hola!',
+                'Por favor, haz click en el link para cambiar tu contraseña \n'+ activate_url,
+                'validation.jaguarun@gmail.com',
+                [email_user]
+            )
+            email.send(fail_silently=False) 
+            messages.success(request, 'Te hemos enviado un mail para actualizar tu contraseña.')
+        
+        return render(request,'account/resetpassword.html')
 
 
+class CompletePasswordReset(View):
+    def get(self,request,uidb64,token):
+        return render(request, 'account/set_new_passowrd.html')
+    def post(self,request,uidb64,token):
+        return render(request, 'account/set_new_passowrd.html')
 
 
         
