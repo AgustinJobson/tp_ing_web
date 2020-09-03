@@ -8,7 +8,6 @@ from django.contrib.auth import logout as do_logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib import auth
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 from .forms import CreateUserForm
 
