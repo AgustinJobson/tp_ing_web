@@ -1,0 +1,1 @@
+web: gunicorn --chdir tpingweb tpingweb.wsgi:application --log-file -
