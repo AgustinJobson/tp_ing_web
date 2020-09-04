@@ -11,6 +11,7 @@ class evento(models.Model):
     id_evento = models.IntegerField(primary_key=True)
     nombre_evento = models.CharField(max_length = 40)
     fecha_evento = models.DateField()
+    categoria_evento = models.CharField(max_length = 40)
     costo_inscripcion = models.IntegerField(default=0)
     certificado = models.BooleanField(default=False)
     desc_seguridad = models.TextField(default="")

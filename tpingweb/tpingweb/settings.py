@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.account',
     'apps.shared',
     'apps.eventos',
+    'apps.entrenamientos',
     'crispy_forms',
 ]
 
