@@ -20,14 +20,12 @@
                                 <td>{{i.autor.username}}</td>
                                 <td>{{i.duracion_entrenamiento}}</td>
                                 <td>{{i.nombre_entrenamiento}}</td>                                
-                                <td><a href='{{i.get_absolute_url_entrenamiento}}'>Ver Más</a></td>
+                                <td><a href='{{i.ver_mas_entrenamiento}}'>Ver Más</a></td>
                             </tr>
                         {% endfor %}
                     </table>
                 </div>
             </div>
         </div>
-    <p></p>
-    <a href = "/training/nuevo">Cargar Nuevo Entrenamiento</a>
     {% endblock %}
 </html>

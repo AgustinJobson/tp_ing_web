@@ -13,16 +13,20 @@
                             <th>Autor</th>
                             <th>Duración (Días)</th>
                             <th>Nombre Entrenamiento</th>
-                            <th>Modificar</th>
                             <th>Ver Más</th>
+                            <th>Nuevo Dia</th>
+                            <th>Modificar</th>
+                            <th>Eliminar</th>
                         </tr>
                         {% for i in entrenamientos_disponibles%}
                             <tr>                     
                                 <td>{{i.autor.username}}</td>
                                 <td>{{i.duracion_entrenamiento}}</td>
                                 <td>{{i.nombre_entrenamiento}}</td>
-                                <td><a class="btn btn -sm btn-info" href="">Modificar</a></td>
-                                <td><a class="btn btn -sm btn-info" href='{{i.get_absolute_url_entrenamiento}}'>Ver Más</a></td>
+                                <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_entrenamiento}}'>Ver Más</a></td>
+                                <td><a class="btn btn -sm btn-info" href='{{i.nuevo_dia_entrenamiento}}'>Agregar</a></td>
+                                <td><a class="btn btn -sm btn-info" href="{{i.modificar_entrenamiento}}">Modificar</a></td>
+                                <td><a class="btn btn -sm btn-danger" href="{{i.eliminar_entrenamiento}}">Eliminar</a></td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -30,6 +34,6 @@
             </div>
         </div>
     <p></p>
-    <a href = "/training/nuevo">Cargar Nuevo Entrenamiento</a>
+    <a class="btn btn -sm btn-info" href = "/training/nuevo">Cargar Nuevo Entrenamiento</a>
     {% endblock %}
 </html>

@@ -10,8 +10,20 @@ class entrenamiento(models.Model):
     nombre_entrenamiento = models.CharField(max_length = 40)
     categoria_entrenamiento = models.CharField(max_length=40)
     
-    def get_absolute_url_entrenamiento(self):
+    def ver_mas_entrenamiento(self):
         return f"/training/{self.id}/"
+    
+    def nuevo_dia_entrenamiento(self):
+        return f"/training/{self.id}/nuevo_dia/"
+
+    def modificar_entrenamiento(self):
+        return f"/training/{self.id}/modificate/"
+    
+    def eliminar_entrenamiento(self):
+        return f"/training/{self.id}/eliminate/"
+
+    def __str__(self):
+        return 'Autor: %s --- Entrenamiento: %s' % (self.autor.username, self.nombre_entrenamiento)
 
 class detalle_entrenamiento(models.Model):
     entrenamiento = models.ForeignKey(entrenamiento, on_delete=models.CASCADE)

@@ -6,7 +6,6 @@ class FormEntrenamiento(ModelForm):
     class Meta:
         model = entrenamiento
         fields = [
-            'autor',
             'duracion_entrenamiento',
             'nombre_entrenamiento',
             'categoria_entrenamiento'
@@ -16,8 +15,6 @@ class FormDetalleEntrenamiento(ModelForm):
     class Meta:
         model = detalle_entrenamiento
         fields = [
-            'entrenamiento',
-            'dia',
             'minutos_de_entrenamiento_por_dia',
             'detalle'
         ]
