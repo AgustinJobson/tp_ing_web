@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+        <br>
+        <div class="row">
+            <div class="col-md">
+                </div>
+                <div class="card card-body">
+                    <table class="table">
+                        <tr>
+                            <th>Dia</th>
+                            <th>Minutos</th>
+                            <th>Detalle</th>
+                            <!--<th>Comenta Acerca del Evento</th>
+                            <th>Califica el Evento</th>-->
+                        </tr>                        
+                        <tr>                               
+                            {% for i in descripciones%}
+                            <tr>   
+                                <td>{{i.dia}}</td>                  
+                                <td>{{i.minutos_de_entrenamiento_por_dia}}</td>
+                                <td>{{i.detalle}}</td>
+                            </tr>
+                            {% endfor %}
+                            <!--<td><a href="">Comentar</a></td>
+                            <td><a href="">Calificar</a></td> -->
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+</html>

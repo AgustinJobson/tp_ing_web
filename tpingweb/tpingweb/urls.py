@@ -18,10 +18,11 @@ from django.urls import include, path
 from apps.home import viewshome
 from apps.shared import views
 
+
 urlpatterns = [
     path('', viewshome.home, name='home'),
     path('account/', include('apps.account.urls')),        
     path('events/', include('apps.eventos.urls')),
-
+    path('training/',include('apps.entrenamientos.urls')),
     path('admin/', admin.site.urls),
 ]
