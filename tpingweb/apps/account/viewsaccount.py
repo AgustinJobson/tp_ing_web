@@ -48,7 +48,6 @@ def inicio_sesion(request):
     return render(request, "login.html", {'form': form})
 
 
-@usuarios_permitidos(roles_permitidos = ['comun'])
 def pagina_logueado(request):
     if request.user.is_authenticated:
         return render(request, "usuario_logueado.html")

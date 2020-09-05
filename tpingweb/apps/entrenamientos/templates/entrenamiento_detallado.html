@@ -16,7 +16,7 @@
                             <th>Califica el Evento</th>-->
                         </tr>                        
                         <tr>                               
-                            {% for i in descripciones%}
+                            {% for i in descripciones %}
                             <tr>   
                                 <td>{{i.dia}}</td>                  
                                 <td>{{i.minutos_de_entrenamiento_por_dia}}</td>
@@ -30,6 +30,6 @@
                 </div>
             </div>
         </div>
-    <a href="{{i.get_absolute_url_entrenamiento}}/nuevo_detalle">Agregar Detalles</a>
+    <a class="btn btn -sm btn-info" href="">Agregar Día de Entrenamiento</a>
     {% endblock %}
 </html>

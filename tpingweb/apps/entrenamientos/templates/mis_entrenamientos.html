@@ -13,14 +13,16 @@
                             <th>Autor</th>
                             <th>Duración (Días)</th>
                             <th>Nombre Entrenamiento</th>
+                            <th>Modificar</th>
                             <th>Ver Más</th>
                         </tr>
                         {% for i in entrenamientos_disponibles%}
                             <tr>                     
                                 <td>{{i.autor.username}}</td>
                                 <td>{{i.duracion_entrenamiento}}</td>
-                                <td>{{i.nombre_entrenamiento}}</td>                                
-                                <td><a href='{{i.get_absolute_url_entrenamiento}}'>Ver Más</a></td>
+                                <td>{{i.nombre_entrenamiento}}</td>
+                                <td><a class="btn btn -sm btn-info" href="">Modificar</a></td>
+                                <td><a class="btn btn -sm btn-info" href='{{i.get_absolute_url_entrenamiento}}'>Ver Más</a></td>
                             </tr>
                         {% endfor %}
                     </table>

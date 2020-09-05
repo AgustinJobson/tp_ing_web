@@ -7,6 +7,18 @@ def entrenamiento_Get(request):
     entrenamientos = entrenamiento.objects.all()
     return render(request, "entrenamientos.html", {'entrenamientos_disponibles':entrenamientos})
 
+
+def mis_entrenamientos_Get(request):
+    entrenamientos = entrenamiento.objects.all()
+    entrenamientos_user = []
+    current_user = request.user
+    for e in entrenamientos:
+        if (e.autor == current_user):
+            entrenamientos_user.append(e)
+    return render(request, "mis_entrenamientos.html", {'entrenamientos_disponibles':entrenamientos_user})
+
+
+
 def entrenamiento_detallado(request, id):
     entrenamientos = entrenamiento.objects.all()
     descripcions = []
