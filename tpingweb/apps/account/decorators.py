@@ -12,7 +12,6 @@ def usuario_no_autentificado(view_func):
 def usuarios_permitidos(roles_permitidos = []):
     def decorator(view_func):
         def wrapper_func(request, *args, **kwargs):
-
             grupo = None
             if request.user.groups.exists():
                 grupo = request.user.groups.all()[0].name

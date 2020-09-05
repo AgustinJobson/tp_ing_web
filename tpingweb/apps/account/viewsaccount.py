@@ -20,6 +20,7 @@ from django.urls import reverse
 from .utils import token_generator
 from django.views.generic import View
 from .decorators import usuario_no_autentificado, usuarios_permitidos
+from .models import Usuario_Comun
 
 @usuario_no_autentificado
 def inicio_sesion(request):
@@ -47,7 +48,7 @@ def inicio_sesion(request):
     return render(request, "login.html", {'form': form})
 
 
-@usuarios_permitidos(roles_permitidos = ['admin'])
+@usuarios_permitidos(roles_permitidos = ['comun'])
 def pagina_logueado(request):
     if request.user.is_authenticated:
         return render(request, "usuario_logueado.html")
@@ -62,8 +63,6 @@ def register(request):
         form = CreateUserForm(data=request.POST)
 
         if form.is_valid():
-            
-            
             # Creamos la nueva cuenta de usuario
             user = form.save()
             user.is_active=False
@@ -71,7 +70,10 @@ def register(request):
             email_user = form.cleaned_data.get('email')
             grupo = Group.objects.get(name = 'comun')
             user.groups.add(grupo)
-            
+            Usuario_Comun.objects.create(
+                user = user,
+                email = user.email
+            )
             messages.success(request,'El usuario ' + usernombrex + ' fue creado correctamente!')
             
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))

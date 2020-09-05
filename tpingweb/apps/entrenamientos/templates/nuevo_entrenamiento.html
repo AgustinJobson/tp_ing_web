@@ -3,17 +3,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <body>
 {% block content %}
-<h2>Registrar usuario</h2>
+<h2>Crear Nuevo Entrenamiento</h2>
 {% load crispy_forms_tags %}
 <form method="POST">
     {% csrf_token %}
     {{ form|crispy }}
     <input class="btn btn-primary" type="submit" value="Registrar">
 </form>
-
-<hr />
-<a href="/account/login">Iniciar sesión</a>
 {% endblock %}
 </body>
 </html>
-    
