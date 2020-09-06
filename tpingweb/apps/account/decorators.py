@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 def usuario_autentificado(view_func):
     def wrapper_func(request, *args, **kwargs):
         if (request.user.is_authenticated):
-            return redirect("/account/logueado")
+            return redirect("/account/my_account")
         else:
             return view_func(request, *args, **kwargs)
     return wrapper_func

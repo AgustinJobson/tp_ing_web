@@ -19,7 +19,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import token_generator
 from django.views.generic import View
-from .decorators import usuario_autentificado, usuarios_permitidos
+from .decorators import usuario_autentificado, usuarios_permitidos, usuario_no_autentificado
 from .models import Comun
 
 @usuario_autentificado
@@ -40,14 +40,14 @@ def inicio_sesion(request):
             if user is not None:
                 if user.is_active:
                     auth.login(request, user)
-                    return redirect('/account/logueado')
+                    return redirect('/account/my_account')
                 else:
                     messages.error(request,'El usuario no está activo, verifique su email')
                     return redirect('/account/login')
             messages.error(request, 'Las credenciales son incorrectas, intente denuevo.')    
     return render(request, "login.html", {'form': form})
 
-
+@usuario_no_autentificado
 def pagina_logueado(request):
     if request.user.is_authenticated:
 
