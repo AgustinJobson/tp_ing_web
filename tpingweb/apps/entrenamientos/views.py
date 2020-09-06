@@ -1,8 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import FormEntrenamiento, FormDetalleEntrenamiento
 from apps.account.decorators import usuarios_permitidos
 from apps.account.decorators import usuario_no_autentificado
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+
+def LikeView(request, pk):
+    entr = get_object_or_404(entrenamiento, id=request.POST.get('entrenamiento_id'))
+    entr.likes.add(request.user)
+    return HttpResponseRedirect(reverse('entrenamiento_detallado', args=[str(pk)]))
+
 
 
 def entrenamiento_Get(request):
@@ -29,7 +38,8 @@ def entrenamiento_detallado(request, id):
                 if (desc.entrenamiento.id == id):
                     descripcions.append(desc)
             descripcions = sorted(descripcions, key=lambda x: x.dia)
-            return render(request, "entrenamiento_detallado.html", {'entrenamiento':entren, 'descripciones':descripcions})
+            likes_stuff = entren.total_likes()
+            return render(request, "entrenamiento_detallado.html", {'entrenamiento':entren, 'descripciones':descripcions, 'total_likes':likes_stuff})
     return redirect('/training')
 
 @usuarios_permitidos(roles_permitidos = ['entrenador'])

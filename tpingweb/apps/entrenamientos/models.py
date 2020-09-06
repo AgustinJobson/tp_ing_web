@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.auth.models import User
 
 class entrenamiento(models.Model):
     autor = models.ForeignKey(
@@ -9,7 +10,12 @@ class entrenamiento(models.Model):
     duracion_entrenamiento = models.IntegerField()  #En dias
     nombre_entrenamiento = models.CharField(max_length = 40)
     categoria_entrenamiento = models.CharField(max_length=40)
+    likes = models.ManyToManyField(User, related_name='training_posts')
     
+
+    def total_likes(self):
+        return self.likes.count()
+
     def ver_mas_entrenamiento(self):
         return f"/training/{self.id}/"
     
