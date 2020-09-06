@@ -19,10 +19,10 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import token_generator
 from django.views.generic import View
-from .decorators import usuario_no_autentificado, usuarios_permitidos
+from .decorators import usuario_autentificado, usuarios_permitidos
 from .models import Usuario_Comun
 
-@usuario_no_autentificado
+@usuario_autentificado
 def inicio_sesion(request):
     form = AuthenticationForm()
     if request.method == "POST":
@@ -53,7 +53,7 @@ def pagina_logueado(request):
         return render(request, "usuario_logueado.html")
     return redirect('/account/login')
 
-@usuario_no_autentificado
+@usuario_autentificado
 def register(request):
     # Creamos el formulario de autenticación vacío
     form = CreateUserForm()
@@ -71,10 +71,12 @@ def register(request):
             user.groups.add(grupo)
             Usuario_Comun.objects.create(
                 user = user,
+                nombre = user.first_name,
+                apellido = user.last_name,
                 email = user.email
             )
-            messages.success(request,'El usuario ' + usernombrex + ' fue creado correctamente!')
-            
+            #messages.success(request,'El usuario ' + usernombrex + ' fue creado correctamente!')
+        
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
             domain = get_current_site(request).domain
             link = reverse('activate',kwargs={'uidb64':uidb64,'token':token_generator.make_token(user)})

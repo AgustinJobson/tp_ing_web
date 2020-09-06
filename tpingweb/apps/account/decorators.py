@@ -1,10 +1,18 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect
 
-def usuario_no_autentificado(view_func):
+def usuario_autentificado(view_func):
     def wrapper_func(request, *args, **kwargs):
         if (request.user.is_authenticated):
             return redirect("/account/logueado")
+        else:
+            return view_func(request, *args, **kwargs)
+    return wrapper_func
+
+def usuario_no_autentificado(view_func):
+    def wrapper_func(request, *args, **kwargs):
+        if (not request.user.is_authenticated):
+            return redirect("/account/login")
         else:
             return view_func(request, *args, **kwargs)
     return wrapper_func

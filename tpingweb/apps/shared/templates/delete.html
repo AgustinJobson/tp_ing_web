@@ -6,8 +6,8 @@
     
     <form action = "{% url 'eliminar' item.id %}" method = 'POST'>
         {% csrf_token %}
-        <a href = "/account/logueado">Cancelar</a>
-        <input type = "submit" name = "confirmar">
+        <a class="btn btn -sm btn-info" href = "/training/mis_entrenamientos">Cancelar</a>
+        <input  class="btn btn -sm btn-danger" type = "submit" value = "Eliminar Definitivamente" name ="confirmar">
     </form>
     {% endblock %}
 </html>

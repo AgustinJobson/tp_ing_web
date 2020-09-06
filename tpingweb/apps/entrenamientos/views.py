@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import FormEntrenamiento, FormDetalleEntrenamiento
 from apps.account.decorators import usuarios_permitidos
+from apps.account.decorators import usuario_no_autentificado
+
 
 def entrenamiento_Get(request):
     entrenamientos = entrenamiento.objects.all()
     return render(request, "entrenamientos.html", {'entrenamientos_disponibles':entrenamientos})
 
-
+@usuario_no_autentificado
 def mis_entrenamientos_Get(request):
     entrenamientos = entrenamiento.objects.all()
     entrenamientos_user = []
@@ -16,8 +18,6 @@ def mis_entrenamientos_Get(request):
         if (e.autor == current_user):
             entrenamientos_user.append(e)
     return render(request, "mis_entrenamientos.html", {'entrenamientos_disponibles':entrenamientos_user})
-
-
 
 def entrenamiento_detallado(request, id):
     entrenamientos = entrenamiento.objects.all()
