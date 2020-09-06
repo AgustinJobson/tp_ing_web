@@ -18,6 +18,8 @@ from django.urls import include, path
 from apps.home import viewshome
 from apps.shared import views
 
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('', viewshome.home, name='home'),
@@ -25,4 +27,4 @@ urlpatterns = [
     path('events/', include('apps.eventos.urls')),
     path('training/',include('apps.entrenamientos.urls')),
     path('admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

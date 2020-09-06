@@ -1,6 +1,16 @@
 {% extends 'banner.html' %}
 <html>
+
+
     {% block content %}
+    <style>
+        .profile-pic{
+            max-width: 50px;
+            max-height: 50 px;
+            margin: 0 auto;
+            border-radius: 50%;
+        }
+    </style>
         <br>
         <div class="row">
             <div class="col-md">
@@ -12,12 +22,12 @@
                         <tr>
                             <th>Autor</th>
                             <th>Duración (Días)</th>
-                            <th>Nombre Entrenamiento</th>
+                            <th>Descripción Entrenamiento</th>
                             <th>Ver Más</th>
                         </tr>
                         {% for i in entrenamientos_disponibles%}
                             <tr>                     
-                                <td>{{i.autor.username}}</td>
+                                <td><img class="profile-pic" src="{{i.autor.comun.profile_pic.url}}" ></td>
                                 <td>{{i.duracion_entrenamiento}}</td>
                                 <td>{{i.nombre_entrenamiento}}</td>                                
                                 <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_entrenamiento}}'>Ver Más</a></td>

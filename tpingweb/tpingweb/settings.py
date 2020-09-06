@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import django_heroku
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -139,4 +139,8 @@ EMAIL_HOST_PASSWORD = 'Lokiaqswde1234'
 
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/images/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'apps/static')]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'apps/static/images')
 django_heroku.settings(locals())

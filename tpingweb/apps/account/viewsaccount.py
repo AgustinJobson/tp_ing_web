@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib import auth
 
-from .forms import CreateUserForm
+from .forms import CreateUserForm, UsuarioComunForm
 
 from django.core.mail import send_mail, EmailMessage
 from django.views.decorators.csrf import csrf_protect
@@ -20,7 +20,7 @@ from django.urls import reverse
 from .utils import token_generator
 from django.views.generic import View
 from .decorators import usuario_autentificado, usuarios_permitidos
-from .models import Usuario_Comun
+from .models import Comun
 
 @usuario_autentificado
 def inicio_sesion(request):
@@ -50,8 +50,20 @@ def inicio_sesion(request):
 
 def pagina_logueado(request):
     if request.user.is_authenticated:
-        return render(request, "usuario_logueado.html")
-    return redirect('/account/login')
+
+        user_comun = request.user.comun
+        form = UsuarioComunForm(instance=user_comun)
+
+        if request.method == 'POST':
+            form = UsuarioComunForm(request.POST, request.FILES, instance = user_comun)
+            if(form.is_valid):
+                form.save()
+
+        context = {'form':form }
+        return render(request, "account_settings.html", context)
+
+
+
 
 @usuario_autentificado
 def register(request):
@@ -69,7 +81,7 @@ def register(request):
             email_user = form.cleaned_data.get('email')
             grupo = Group.objects.get(name = 'comun')
             user.groups.add(grupo)
-            Usuario_Comun.objects.create(
+            Comun.objects.create(
                 user = user,
                 nombre = user.first_name,
                 apellido = user.last_name,

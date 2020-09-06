@@ -3,6 +3,7 @@ from . import viewsaccount
 from .viewsaccount import VerificationView, inicio_sesion, pagina_logueado, register, logout, user_no_autorizado
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     path('login/', inicio_sesion, name='login'),
     path('logueado/', pagina_logueado),
