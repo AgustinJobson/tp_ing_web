@@ -34,11 +34,22 @@
         <br/> <br/>
         <hr>
         <br/>
-        <form action="{% url 'like_training' entrenamiento.pk %}" method="POST">
-            {% csrf_token %}
-            <button type="submit", name="entrenamiento_id", value="{{ entrenamiento.id }}", class="btn btn-primary btn-sm">Like</button> - {{ total_likes }} Likes
-            
-        </form>
-    <!--<a class="btn btn -sm btn-info" href="">Agregar Día de Entrenamiento</a>-->
+        {{ total_likes }} Seguidores
+        <p></p>
+        {% if user.is_authenticated and user.groups == 'comun'%}
+            <form action="{% url 'like_training' entrenamiento.pk %}" method="POST">
+                {% csrf_token %}
+                {% if liked %}
+                    <button type="submit", name="entrenamiento_id", value="{{ entrenamiento.id }}", class="btn btn-danger btn-sm">Dejar de Seguir</button>  
+                {% else %}
+                    <button type="submit", name="entrenamiento_id", value="{{ entrenamiento.id }}", class="btn btn-primary btn-sm">Seguir Entrenamiento</button>
+                {% endif%}   
+            </form>
+        {% else %}
+            {% if not user.is_authenticated%}
+                <a href="/account/login">Inicia Sesión para poder seguir los eventos que deseas.</a>
+            {% endif %}
+        {% endif %}
+        
     {% endblock %}
 </html>

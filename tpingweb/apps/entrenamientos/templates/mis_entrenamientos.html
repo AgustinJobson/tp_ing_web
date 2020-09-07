@@ -5,7 +5,12 @@
         <div class="row">
             <div class="col-md">
                 <div class="card card-body">
-                    <h5> Entrenamientos</h5>
+                    <h3> Entrenamientos</h3>
+                    {% if user.groups == 'entrenador'%}
+                        <p>Aquí podes encontrar tus entrenamientos, puedes agregarles detalles, modificarlos, eliminarlos y crear nuevos entrenamientos</p>
+                    {% else %}
+                        <p>Estos son los entrenamientos que has seguido</p>
+                    {% endif %}
                 </div>
                 <div class="card card-body">
                     <table class="table">
@@ -14,9 +19,11 @@
                             <th>Duración (Días)</th>
                             <th>Nombre Entrenamiento</th>
                             <th>Ver Más</th>
-                            <th>Nuevo Dia</th>
-                            <th>Modificar</th>
-                            <th>Eliminar</th>
+                            {% if user.groups == 'entrenador'%}
+                                <th>Nuevo Dia</th>
+                                <th>Modificar</th>
+                                <th>Eliminar</th>
+                            {% endif %}
                         </tr>
                         {% for i in entrenamientos_disponibles%}
                             <tr>                     
@@ -24,9 +31,11 @@
                                 <td>{{i.duracion_entrenamiento}}</td>
                                 <td>{{i.nombre_entrenamiento}}</td>
                                 <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_entrenamiento}}'>Ver Más</a></td>
-                                <td><a class="btn btn -sm btn-info" href='{{i.nuevo_dia_entrenamiento}}'>Agregar</a></td>
-                                <td><a class="btn btn -sm btn-info" href="{{i.modificar_entrenamiento}}">Modificar</a></td>
-                                <td><a class="btn btn -sm btn-danger" href="{{i.eliminar_entrenamiento}}">Eliminar</a></td>
+                                {% if user.groups == 'entrenador'%}
+                                    <td><a class="btn btn -sm btn-info" href='{{i.nuevo_dia_entrenamiento}}'>Agregar</a></td>
+                                    <td><a class="btn btn -sm btn-info" href="{{i.modificar_entrenamiento}}">Modificar</a></td>
+                                    <td><a class="btn btn -sm btn-danger" href="{{i.eliminar_entrenamiento}}">Eliminar</a></td>                                    
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     </table>
@@ -34,6 +43,8 @@
             </div>
         </div>
     <p></p>
+    {% if user.groups == 'entrenador'%}
     <a class="btn btn -sm btn-info" href = "/training/nuevo">Cargar Nuevo Entrenamiento</a>
+    {% endif %}
     {% endblock %}
 </html>

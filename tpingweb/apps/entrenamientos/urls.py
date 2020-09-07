@@ -8,7 +8,7 @@ from .views import (
     mis_entrenamientos_Get,
     modificar_entrenamiento,
     eliminar_entrenamiento,
-    LikeView,
+    LikeView
 )
 
 urlpatterns = [
@@ -19,5 +19,5 @@ urlpatterns = [
     path('<int:id>/nuevo_dia/', carga_detalle_entrenamiento, name="nuevo_dia"),
     path('<int:id>/modificate/', modificar_entrenamiento),
     path('<int:id>/eliminate/', eliminar_entrenamiento, name = "eliminar"),
-    path('like/<int:pk>', LikeView, name='like_training'),
+    path('like/<int:pk>', LikeView, name='like_training')
 ]

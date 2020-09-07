@@ -5,14 +5,19 @@ from apps.account.decorators import usuarios_permitidos
 from apps.account.decorators import usuario_no_autentificado
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.models import User, Group
 
 
 def LikeView(request, pk):
     entr = get_object_or_404(entrenamiento, id=request.POST.get('entrenamiento_id'))
-    entr.likes.add(request.user)
+    liked = False
+    if (entr.likes.filter(id=request.user.id).exists()):
+        entr.likes.remove(request.user)
+        liked = False
+    else:
+        entr.likes.add(request.user)
+        liked = True
     return HttpResponseRedirect(reverse('entrenamiento_detallado', args=[str(pk)]))
-
-
 
 def entrenamiento_Get(request):
     entrenamientos = entrenamiento.objects.all()
@@ -23,10 +28,21 @@ def mis_entrenamientos_Get(request):
     entrenamientos = entrenamiento.objects.all()
     entrenamientos_user = []
     current_user = request.user
-    for e in entrenamientos:
-        if (e.autor == current_user):
-            entrenamientos_user.append(e)
-    return render(request, "mis_entrenamientos.html", {'entrenamientos_disponibles':entrenamientos_user})
+    if request.user.groups == 'entrenador':
+        for e in entrenamientos:
+            if (e.autor == current_user):
+                entrenamientos_user.append(e)
+    else:
+        for e in entrenamientos:
+            lista_likes = e.likes.all()
+            for like in lista_likes:
+                if request.user.username == like.username:
+                    entrenamientos_user.append(e)
+    context = {
+        'entrenamientos_disponibles':entrenamientos_user,
+        'user': request.user
+    }
+    return render(request, "mis_entrenamientos.html", context)
 
 def entrenamiento_detallado(request, id):
     entrenamientos = entrenamiento.objects.all()
@@ -39,7 +55,16 @@ def entrenamiento_detallado(request, id):
                     descripcions.append(desc)
             descripcions = sorted(descripcions, key=lambda x: x.dia)
             likes_stuff = entren.total_likes()
-            return render(request, "entrenamiento_detallado.html", {'entrenamiento':entren, 'descripciones':descripcions, 'total_likes':likes_stuff})
+            liked = False
+            if entren.likes.filter(id = request.user.id).exists():
+                liked = True
+            context = {
+                'entrenamiento':entren, 
+                'descripciones':descripcions, 
+                'total_likes':likes_stuff,
+                'liked': liked
+            }
+            return render(request, "entrenamiento_detallado.html", context)
     return redirect('/training')
 
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
