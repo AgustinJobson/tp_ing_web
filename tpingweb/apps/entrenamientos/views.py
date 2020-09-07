@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
-from .forms import FormEntrenamiento, FormDetalleEntrenamiento
+from .forms import FormEntrenamiento, FormDetalleEntrenamiento, FormRunningTeam
 from apps.account.decorators import usuarios_permitidos
 from apps.account.decorators import usuario_no_autentificado
 from django.http import HttpResponseRedirect
@@ -25,7 +25,12 @@ def entrenamiento_Get(request):
 
 def runningteams_Get(request):
     runningteams = runningteam.objects.all()
-    return render(request, "runningteams.html", {'runningteams_disponibles':runningteams})
+    es_trainer = False
+    current_user = request.user
+    if current_user.groups.filter(name='entrenador').exists():
+        es_trainer = True
+    
+    return render(request, "runningteams.html", {'runningteams_disponibles':runningteams, "es_trainer":es_trainer})
 
 @usuario_no_autentificado
 def mis_entrenamientos_Get(request):
@@ -160,4 +165,25 @@ def eliminar_entrenamiento(request, id):
         'item': entren
     }
     return render(request, "delete.html", context)
+    
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
+def agregar_runningteam(request):
+    form = FormRunningTeam()
+    user_comun = request.user
+    if request.method == 'POST':
+        form = FormRunningTeam(request.POST, request.FILES)
+        if (form.is_valid()):
+            nuevort = runningteam()
+            nuevort.entrenador = request.user
+            nuevort.nombre_runningteam = form.cleaned_data.get('nombre_runningteam')
+            nuevort.localidad = form.cleaned_data.get('localidad')
+            nuevort.logo = form.cleaned_data.get('logo')
+            nuevort.hora_inicio = form.cleaned_data.get('hora_inicio')
+            nuevort.hora_fin = form.cleaned_data.get('hora_fin')
+            nuevort.weekdays = form.cleaned_data.get('weekdays')
+            nuevort.ubicacion = form.cleaned_data.get('ubicacion')
+            nuevort.save()
+            return redirect('/training/runningteams')  
 
+    context = {'form':form }
+    return render(request,"nuevo_runningteam.html",context)

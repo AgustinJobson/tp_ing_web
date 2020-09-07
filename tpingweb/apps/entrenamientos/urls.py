@@ -12,6 +12,7 @@ from .views import (
     entrenador_bio,
     runningteams_Get,
     runningteam_detalle,
+    agregar_runningteam,
 )
 
 urlpatterns = [
@@ -19,7 +20,7 @@ urlpatterns = [
     path('mis_entrenamientos/', mis_entrenamientos_Get, name='mis_entrenamientos'),
 
     path('runningteams/', runningteams_Get),
-
+    path('runningteams/nuevo/', agregar_runningteam, name = 'carga_runningteam'),
     path('<int:id>/', entrenamiento_detallado, name='entrenamiento_detallado'),
     path('nuevo/', carga_entrenamiento, name = 'carga_entrenamiento'),
     path('<int:id>/nuevo_dia/', carga_detalle_entrenamiento, name="nuevo_dia"),

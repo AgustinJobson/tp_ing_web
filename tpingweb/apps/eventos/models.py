@@ -16,7 +16,7 @@ class evento(models.Model):
     certificado = models.BooleanField(default=False)
     desc_seguridad = models.TextField(default="")
     empresa_organizadora = models.ForeignKey(empresa, on_delete=models.CASCADE)
-    logo = models.ImageField(upload_to="fotos_eventos", null=True, blank = True)
+    logo = models.ImageField(default = "No_Image_Profile.png",upload_to="fotos_eventos", null=True, blank = True)
 
     
     def get_absolute_url(self):

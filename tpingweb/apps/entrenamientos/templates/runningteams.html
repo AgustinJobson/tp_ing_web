@@ -27,5 +27,10 @@
         {% endfor %}
         </div>
     </div>
+
+        {% if es_trainer %}
+            <p>{{request.user.comun}}, como sos entrenador podés agregar tu Running Team. </p>
+            <p><a class="btn btn -sm btn-info" href='nuevo/'>Crear tu Running Team</a></p>
+        {% endif %}
     {% endblock %}
 </html>

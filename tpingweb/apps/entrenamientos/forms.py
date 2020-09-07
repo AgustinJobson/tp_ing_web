@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import entrenamiento, detalle_entrenamiento
+from .models import entrenamiento, detalle_entrenamiento,runningteam
 
 class FormEntrenamiento(ModelForm):
     class Meta:
@@ -17,4 +17,17 @@ class FormDetalleEntrenamiento(ModelForm):
         fields = [
             'minutos_de_entrenamiento_por_dia',
             'detalle'
+        ]
+
+class FormRunningTeam(ModelForm):
+    class Meta:
+        model = runningteam
+        fields = [
+            'nombre_runningteam',
+            'localidad',
+            'hora_inicio',
+            'hora_fin',
+            'weekdays',
+            'ubicacion',
+            'logo',
         ]

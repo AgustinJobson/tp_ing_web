@@ -50,7 +50,7 @@ class runningteam(models.Model):
     hora_fin = models.TimeField(blank=True)
     weekdays = models.CharField(max_length = 100)
     ubicacion = models.CharField(max_length=40)
-    logo = models.ImageField(upload_to="fotos_runningteams", null=True, blank = True)
+    logo = models.ImageField(upload_to="fotos_runningteams", default = "No_Image_Profile.png", null=True, blank = True)
 
     def ver_mas(self):
         return f"/training/runningteams/{self.id}/ver_mas"
