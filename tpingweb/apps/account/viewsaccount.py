@@ -50,18 +50,23 @@ def inicio_sesion(request):
 @usuario_no_autentificado
 def pagina_logueado(request):
     if request.user.is_authenticated:
-        print(request.user.groups)
-        if request.user.is_staff:
-            return redirect('home')
         user_comun = request.user.comun
         form = UsuarioComunForm(instance=user_comun)
+        if request.user.groups.filter(name='entrenador').exists():
+            es = 'entrenador'
+        else:
+            es = 'comun'
+            form.fields.pop('biografia')
+        if request.user.is_staff:
+            return redirect('home')
+
 
         if request.method == 'POST':
             form = UsuarioComunForm(request.POST, request.FILES, instance = user_comun)
             if(form.is_valid):
                 form.save()
 
-        context = {'form':form }
+        context = {'form':form,'tipo':es }
         return render(request, "account_settings.html", context)
         
 

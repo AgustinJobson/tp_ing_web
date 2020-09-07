@@ -2,10 +2,14 @@
 {% extends 'banner.html' %}
 <html>
     {% block content %}
+    <style>
+
+    </style>
         <br>
-        <h2>Entrenamiento {{entrenamiento.nombre}}</h2>
+        <h2>Entrenamiento </h2>
+        <h4>{{entrenamiento}}</h4>
         <div class="row">
-            <div class="col-md">
+            <div class="align-self-center">
                 </div>
                 <div class="card card-body">
                     <table class="table">
@@ -50,6 +54,9 @@
                 <a href="/account/login">Inicia Sesión para poder seguir los eventos que deseas.</a>
             {% endif %}
         {% endif %}
+        <h3>Biografía del Entrenador</h3>
+        {{entrenador.biografia | safe}}
+        
         
     {% endblock %}
 </html>

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% extends 'banner.html' %}
+<html>
+<body>
+{% block content %}
+    <h4>Biografia de {{entrenador}}</h4>
+    {{entrenador.biografia | safe}}
+{% endblock %}
+</body>
+</html>

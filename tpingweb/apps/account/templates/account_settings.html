@@ -28,8 +28,13 @@
         <form method="POST" action="" enctype="multipart/form-data">
             {% csrf_token %}
             {{form.as_p}}
+            {% if tipo == "entrenador" %}
+                {% csrf_token %}
+                {{form.media}}
+            {% endif %}
             <input class="btn btn-primary" type="submit" value="Actualizar Información">
         </form>
     </div>
 </div>
+<br>
 {% endblock %}

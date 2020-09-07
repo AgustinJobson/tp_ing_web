@@ -6,7 +6,7 @@ from apps.account.decorators import usuario_no_autentificado
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
-
+from apps.account.models import *
 
 def LikeView(request, pk):
     entr = get_object_or_404(entrenamiento, id=request.POST.get('entrenamiento_id'))
@@ -58,7 +58,8 @@ def entrenamiento_detallado(request, id):
     descripcions = []
     desc_entrenamientos = detalle_entrenamiento.objects.all()
     for entren in entrenamientos:
-        if (entren.id == id):            
+        if (entren.id == id):
+            entrenamiento_pd = entren            
             for desc in desc_entrenamientos:
                 if (desc.entrenamiento.id == id):
                     descripcions.append(desc)
@@ -67,16 +68,24 @@ def entrenamiento_detallado(request, id):
             liked = False
             if entren.likes.filter(id = request.user.id).exists():
                 liked = True
-            
+            user_entrenador = entren.autor.comun
             context = {
-                'entrenamiento':entren, 
+                'entrenamiento':entrenamiento_pd, 
                 'descripciones':descripcions, 
                 'total_likes':likes_stuff,
                 'liked': liked,
-                'tipo': es
+                'tipo': es,
+                'entrenador':user_entrenador,
             }
             return render(request, "entrenamiento_detallado.html", context)
     return redirect('/training')
+
+def entrenador_bio(request,id):
+    usuario_entrenador = Comun.objects.get(id=id)
+    context = {
+        'entrenador':usuario_entrenador
+    }
+    return render(request,"entrenador_biografia.html",context)
 
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def carga_entrenamiento(request):

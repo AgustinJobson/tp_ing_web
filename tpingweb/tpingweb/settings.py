@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.eventos',
     'apps.entrenamientos',
     'crispy_forms',
+    'ckeditor',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
