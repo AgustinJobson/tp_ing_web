@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+        <h4>Subir Nueva Foto del Evento {{event.nombre_evento}}</h4>
+        <form actions = "." method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form_foto.as_p }}
+            <button class="btn btn-success" type="submit" value= "Guardar">Guardar</button>
+        </form>
+    {% endblock %}
+</html>

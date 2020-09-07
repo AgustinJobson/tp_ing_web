@@ -15,6 +15,7 @@
                             <th>Fecha</th>
                             <th>Empresa Organizadora</th>
                             <th>Ver Más</th>
+                            <th>Agregar Foto</th>
                         </tr>
                         {% for i in eventos_disponibles%}
                             <tr>                     
@@ -22,6 +23,7 @@
                                 <td>{{i.fecha_evento}}</td>
                                 <td>{{i.empresa_organizadora.nombre_empresa}}</td>
                                 <td><a class="btn btn -sm btn-info" href='{{i.get_absolute_url}}'>Ver Más</a></td>
+                                <td><a class="btn btn -sm btn-info" href='{{i.subir_foto}}'>Agregar</a></td></td>
                             </tr>
                         {% endfor %}
                     </table>

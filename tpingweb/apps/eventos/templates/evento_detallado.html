@@ -30,5 +30,11 @@
                 </div>
             </div>
         </div>
+        {% if not vacio%}
+            <h4>Imagenes del Evento</h4>
+            {% for foto in fotos %}
+                <img src="{{foto.imagen.url}}">
+            {% endfor %}
+        {% endif %}
     {% endblock %}
 </html>

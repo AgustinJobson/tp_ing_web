@@ -20,5 +20,14 @@ class evento(models.Model):
     def get_absolute_url(self):
         return f"/events/{self.id_evento}/"
 
+    def subir_foto(self):
+        return f"/events/{self.id_evento}/subir_foto"
+
+    def __str__(self):
+        return 'Evento: ' + self.nombre_evento
+
+class FotoEvento(models.Model):
+    evento = models.ForeignKey(evento, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to="fotos_eventos", null=True, blank = True)
 
 

@@ -57,10 +57,6 @@ def pagina_logueado(request):
         else:
             es = 'comun'
             form.fields.pop('biografia')
-        if request.user.is_staff:
-            return redirect('home')
-
-
         if request.method == 'POST':
             form = UsuarioComunForm(request.POST, request.FILES, instance = user_comun)
             if(form.is_valid):
@@ -69,10 +65,6 @@ def pagina_logueado(request):
         context = {'form':form,'tipo':es }
         return render(request, "account_settings.html", context)
         
-
-
-
-
 @usuario_autentificado
 def register(request):
     # Creamos el formulario de autenticación vacío
