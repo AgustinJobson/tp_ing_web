@@ -6,10 +6,10 @@
             <div class="col-md">
                 <div class="card card-body">
                     <h3> Entrenamientos</h3>
-                    {% if user.groups == 'entrenador'%}
-                        <p>Aquí podes encontrar tus entrenamientos, puedes agregarles detalles, modificarlos, eliminarlos y crear nuevos entrenamientos</p>
+                    {% if tipo == "entrenador" %}
+                        <p>Bienvenido a mis entrenamientos {{user.first_name}}, aquí podes encontrar tus entrenamientos, puedes agregarles detalles, modificarlos, eliminarlos y crear nuevos entrenamientos</p>
                     {% else %}
-                        <p>Estos son los entrenamientos que has seguido</p>
+                        <p>Bienvenido a mis entrenamientos {{user.first_name}}, estos son los entrenamientos que has seguido</p>
                     {% endif %}
                 </div>
                 <div class="card card-body">
@@ -19,19 +19,19 @@
                             <th>Duración (Días)</th>
                             <th>Nombre Entrenamiento</th>
                             <th>Ver Más</th>
-                            {% if user.groups == 'entrenador'%}
+                            {% if tipo == "entrenador" %}
                                 <th>Nuevo Dia</th>
                                 <th>Modificar</th>
                                 <th>Eliminar</th>
                             {% endif %}
                         </tr>
-                        {% for i in entrenamientos_disponibles%}
+                        {% for i in entrenamientos_disponibles %}
                             <tr>                     
                                 <td>{{i.autor.username}}</td>
                                 <td>{{i.duracion_entrenamiento}}</td>
                                 <td>{{i.nombre_entrenamiento}}</td>
                                 <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_entrenamiento}}'>Ver Más</a></td>
-                                {% if user.groups == 'entrenador'%}
+                                {% if tipo == "entrenador" %}
                                     <td><a class="btn btn -sm btn-info" href='{{i.nuevo_dia_entrenamiento}}'>Agregar</a></td>
                                     <td><a class="btn btn -sm btn-info" href="{{i.modificar_entrenamiento}}">Modificar</a></td>
                                     <td><a class="btn btn -sm btn-danger" href="{{i.eliminar_entrenamiento}}">Eliminar</a></td>                                    
@@ -43,7 +43,7 @@
             </div>
         </div>
     <p></p>
-    {% if user.groups == 'entrenador'%}
+    {% if tipo == "entrenador" %}
     <a class="btn btn -sm btn-info" href = "/training/nuevo">Cargar Nuevo Entrenamiento</a>
     {% endif %}
     {% endblock %}

@@ -36,7 +36,7 @@
         <br/>
         {{ total_likes }} Seguidores
         <p></p>
-        {% if user.is_authenticated and user.groups == 'comun'%}
+        {% if user.is_authenticated and tipo == "comun" %}
             <form action="{% url 'like_training' entrenamiento.pk %}" method="POST">
                 {% csrf_token %}
                 {% if liked %}
@@ -46,7 +46,7 @@
                 {% endif%}   
             </form>
         {% else %}
-            {% if not user.is_authenticated%}
+            {% if not user.is_authenticated %}
                 <a href="/account/login">Inicia Sesión para poder seguir los eventos que deseas.</a>
             {% endif %}
         {% endif %}

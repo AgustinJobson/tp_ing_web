@@ -28,11 +28,14 @@ def mis_entrenamientos_Get(request):
     entrenamientos = entrenamiento.objects.all()
     entrenamientos_user = []
     current_user = request.user
-    if request.user.groups == 'entrenador':
+    print(current_user.groups)
+    if current_user.groups.filter(name='entrenador').exists():
+        es = 'entrenador'
         for e in entrenamientos:
             if (e.autor == current_user):
                 entrenamientos_user.append(e)
     else:
+        es = 'comun'
         for e in entrenamientos:
             lista_likes = e.likes.all()
             for like in lista_likes:
@@ -40,11 +43,17 @@ def mis_entrenamientos_Get(request):
                     entrenamientos_user.append(e)
     context = {
         'entrenamientos_disponibles':entrenamientos_user,
-        'user': request.user
+        'user': current_user,
+        'tipo': es
     }
     return render(request, "mis_entrenamientos.html", context)
 
 def entrenamiento_detallado(request, id):
+    current_user = request.user
+    if current_user.groups.filter(name='entrenador').exists():
+        es = 'entrenador'
+    else:
+        es = 'comun'
     entrenamientos = entrenamiento.objects.all()
     descripcions = []
     desc_entrenamientos = detalle_entrenamiento.objects.all()
@@ -58,11 +67,13 @@ def entrenamiento_detallado(request, id):
             liked = False
             if entren.likes.filter(id = request.user.id).exists():
                 liked = True
+            
             context = {
                 'entrenamiento':entren, 
                 'descripciones':descripcions, 
                 'total_likes':likes_stuff,
-                'liked': liked
+                'liked': liked,
+                'tipo': es
             }
             return render(request, "entrenamiento_detallado.html", context)
     return redirect('/training')
