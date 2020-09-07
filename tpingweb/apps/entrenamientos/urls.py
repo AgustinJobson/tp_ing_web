@@ -9,12 +9,17 @@ from .views import (
     modificar_entrenamiento,
     eliminar_entrenamiento,
     LikeView,
-    entrenador_bio
+    entrenador_bio,
+    runningteams_Get,
+    runningteam_detalle,
 )
 
 urlpatterns = [
     path('', entrenamiento_Get, name='Training'),
     path('mis_entrenamientos/', mis_entrenamientos_Get, name='mis_entrenamientos'),
+
+    path('runningteams/', runningteams_Get),
+
     path('<int:id>/', entrenamiento_detallado, name='entrenamiento_detallado'),
     path('nuevo/', carga_entrenamiento, name = 'carga_entrenamiento'),
     path('<int:id>/nuevo_dia/', carga_detalle_entrenamiento, name="nuevo_dia"),
@@ -22,4 +27,5 @@ urlpatterns = [
     path('<int:id>/eliminate/', eliminar_entrenamiento, name = "eliminar"),
     path('like/<int:pk>', LikeView, name='like_training'),
     path('biografia/<int:id>', entrenador_bio, name="biografia" ),
+    path('runningteams/<int:id>/ver_mas/', runningteam_detalle, name="ver_mas"),
 ]

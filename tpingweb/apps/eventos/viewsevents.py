@@ -5,7 +5,10 @@ from .forms import FormFoto
 
 def eventos(request):
     eventss = evento.objects.all()
-    return render(request, "eventos.html", {'eventos_disponibles':eventss})
+    bol = False
+    if request.user.is_staff:
+        bol = True
+    return render(request, "eventos.html", {'eventos_disponibles':eventss, 'es_admin':bol})
 
 def evento_detallado(request, id):
     eventos = evento.objects.all()

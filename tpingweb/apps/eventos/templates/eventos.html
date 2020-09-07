@@ -3,30 +3,22 @@
 <html>
     {% block content %}
         <br>
-        <div class="row">
-            <div class="col-md">
-                <div class="card card-body">
-                    <h5> Eventos disponibles</h5>
-                </div>
-                <div class="card card-body">
-                    <table class="table">
-                        <tr>
-                            <th>Evento</th>
-                            <th>Fecha</th>
-                            <th>Empresa Organizadora</th>
-                            <th>Ver Más</th>
-                            <th>Agregar Foto</th>
-                        </tr>
-                        {% for i in eventos_disponibles%}
-                            <tr>                     
-                                <td>{{i.nombre_evento}}</td>
-                                <td>{{i.fecha_evento}}</td>
-                                <td>{{i.empresa_organizadora.nombre_empresa}}</td>
-                                <td><a class="btn btn -sm btn-info" href='{{i.get_absolute_url}}'>Ver Más</a></td>
-                                <td><a class="btn btn -sm btn-info" href='{{i.subir_foto}}'>Agregar</a></td></td>
-                            </tr>
-                        {% endfor %}
-                    </table>
+            <h5> Eventos disponibles</h5>
+                <div class="container">
+                    <div class="card-deck">
+                            {% for i in eventos_disponibles %}
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="{{i.logo.url}}" alt="Card image cap">
+                                <div class="card-body">
+                                <h5 class="card-title">{{i.nombre_evento}}</h5>
+                                <h7 class="card-text">{{i.empresa_organizadora.nombre_empresa}}</h7>
+                                <p class="card-text"> <a class="btn btn -sm btn-info" href='{{i.get_absolute_url}}'>Ver Más</a> </p>
+                                {% if es_admin %}
+                                <p><a class="btn btn -sm btn-info" href='{{i.subir_foto}}'>Agregar Imagen del Evento</a></p>
+                                {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
                 </div>
             </div>
         </div>

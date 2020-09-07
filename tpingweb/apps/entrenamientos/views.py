@@ -23,6 +23,10 @@ def entrenamiento_Get(request):
     entrenamientos = entrenamiento.objects.all()
     return render(request, "entrenamientos.html", {'entrenamientos_disponibles':entrenamientos})
 
+def runningteams_Get(request):
+    runningteams = runningteam.objects.all()
+    return render(request, "runningteams.html", {'runningteams_disponibles':runningteams})
+
 @usuario_no_autentificado
 def mis_entrenamientos_Get(request):
     entrenamientos = entrenamiento.objects.all()
@@ -79,6 +83,13 @@ def entrenamiento_detallado(request, id):
             }
             return render(request, "entrenamiento_detallado.html", context)
     return redirect('/training')
+
+def runningteam_detalle(request,id):
+    rt = runningteam.objects.get(id=id)
+    context = {
+        'runningteam':rt,
+    }
+    return render(request, "runningteam_detalle.html", context)
 
 def entrenador_bio(request,id):
     usuario_entrenador = Comun.objects.get(id=id)

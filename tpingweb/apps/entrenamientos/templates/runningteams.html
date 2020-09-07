@@ -1,0 +1,31 @@
+{% extends 'banner.html' %}
+<html>
+
+
+    {% block content %}
+    <style>
+        .profile-pic{
+            max-width: 50px;
+            max-height: 50 px;
+            margin: 0 auto;
+            border-radius: 50%;
+        }
+    </style>
+        <br>
+    <div class="container">
+        <div class="card-deck">
+        {% for i in runningteams_disponibles %}
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="{{i.logo.url}}" alt="Card image cap">
+                <div class="card-body">
+                <h5 class="card-title">{{ i.nombre_runningteam }}</h5>
+                <h7 class="card-text">Entrenador</h7>
+                <p class="card-text"> <a class="btn btn -sm light" href='{{ i.entrenador.comun.ver_biografia }}'>{{i.entrenador.comun}}</a></p>
+                <a href="{{i.ver_mas}}" class="btn btn-primary">Ver más</a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+</html>

@@ -1,0 +1,13 @@
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+        <h3>Running Team: {{runningteam}}</h3>
+        <img  src="{{runningteam.logo.url}}"width="300" height="300">
+        <h6>Entrenador: {{runningteam.entrenador.comun}}</h6>
+        <h6>Localidad: {{runningteam.localidad}}</h6>
+        <h6>Dias de entrenamiento: {{runningteam.weekdays}}</h6>
+        <h6>Hora Inicio: {{runningteam.hora_inicio}}</h6>
+        <h6>Hora Fin: {{runningteam.hora_fin}}</h6>
+        <h6>Ubicacion: {{runningteam.ubicacion}}</h6>
+        
+    {% endblock %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+import weekday_field
 
 class entrenamiento(models.Model):
     autor = models.ForeignKey(
@@ -38,6 +39,24 @@ class detalle_entrenamiento(models.Model):
     detalle = models.CharField(max_length = 200)
 
 
+class runningteam(models.Model):
+    entrenador = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    nombre_runningteam = models.CharField(max_length = 40)
+    localidad = models.CharField(max_length = 40)
+    hora_inicio = models.TimeField(blank=True)
+    hora_fin = models.TimeField(blank=True)
+    weekdays = models.CharField(max_length = 100)
+    ubicacion = models.CharField(max_length=40)
+    logo = models.ImageField(upload_to="fotos_runningteams", null=True, blank = True)
+
+    def ver_mas(self):
+        return f"/training/runningteams/{self.id}/ver_mas"
+
+    def __str__(self):
+        return self.nombre_runningteam
 
 
 
