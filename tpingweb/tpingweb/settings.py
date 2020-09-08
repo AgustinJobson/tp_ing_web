@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'apps.entrenamientos',
     'crispy_forms',
     'ckeditor',
+    'django_filters'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

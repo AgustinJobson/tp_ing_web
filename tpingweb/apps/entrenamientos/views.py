@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from apps.account.models import *
+from .filters import OrderFilter
 
 def LikeView(request, pk):
     entr = get_object_or_404(entrenamiento, id=request.POST.get('entrenamiento_id'))
@@ -21,13 +22,20 @@ def LikeView(request, pk):
 
 def entrenamiento_Get(request):
     entrenamientos = entrenamiento.objects.all()
-    return render(request, "entrenamientos.html", {'entrenamientos_disponibles':entrenamientos})
+    myFilter = OrderFilter(request.GET, queryset=entrenamientos)
+    entrenamientos=myFilter.qs
+    context = {
+        'entrenamientos_disponibles':entrenamientos,
+        'myFilter':myFilter,
+        }
+    return render(request, "entrenamientos.html", context)
 
 def runningteams_Get(request):
     runningteams = runningteam.objects.all()
     es_trainer = False
     current_user = request.user
     if current_user.groups.filter(name='entrenador').exists():
+        print(current_user.groups)
         es_trainer = True
     
     return render(request, "runningteams.html", {'runningteams_disponibles':runningteams, "es_trainer":es_trainer})

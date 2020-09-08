@@ -1,18 +1,28 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
-import weekday_field
+from django.core.validators import MinValueValidator
+
+
+class tipoentrenamiento(models.Model):
+    detalle_tipo=models.CharField(max_length = 40)
+    descripcion_tipo=models.CharField(max_length = 40)
+
+    def __str__(self):
+        return self.detalle_tipo
+
 
 class entrenamiento(models.Model):
     autor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    duracion_entrenamiento = models.IntegerField()  #En dias
+    duracion_entrenamiento = models.PositiveIntegerField(validators=[MinValueValidator(1)]) #En dias
     nombre_entrenamiento = models.CharField(max_length = 40)
     categoria_entrenamiento = models.CharField(max_length=40)
     likes = models.ManyToManyField(User, related_name='training_posts')
-    
+    tipo_entrenamiento=models.ForeignKey(tipoentrenamiento, on_delete=models.CASCADE, null=True)
+    tiempo_estimado = models.PositiveIntegerField(validators=[MinValueValidator(10)])
 
     def total_likes(self):
         return self.likes.count()
