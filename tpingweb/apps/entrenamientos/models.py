@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
-
+from ckeditor.fields import RichTextField
 
 class tipoentrenamiento(models.Model):
     detalle_tipo=models.CharField(max_length = 40)
@@ -79,3 +79,13 @@ class runningteam(models.Model):
 
 
 
+class Pedidoentrenador(models.Model):
+    usuario = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    fecha_creado = models.DateTimeField(auto_now_add=True)
+    certificado = models.FileField(upload_to='certificado_usuarios', null=False)
+    pedido = RichTextField(blank=True, null=True)
+    aceptado = models.BooleanField(default=False)

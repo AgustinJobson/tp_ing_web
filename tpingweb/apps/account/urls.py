@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import viewsaccount
-from .viewsaccount import VerificationView, inicio_sesion, pagina_logueado, register, logout, user_no_autorizado
+from .viewsaccount import VerificationView, inicio_sesion, pagina_logueado, register, logout, user_no_autorizado, home_logueado, pedido_entrenador
 from django.contrib.auth import views as auth_views
 
 
@@ -10,6 +10,8 @@ urlpatterns = [
     path('register/', register),
     path('logout/', logout),
     path('no-autorizado/', user_no_autorizado),
+    path('home/', home_logueado),
+    path('pedidoentrenador/', pedido_entrenador),
 
     path('', include('django.contrib.auth.urls')),
 

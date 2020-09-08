@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+{% extends 'banner.html' %}
+<body>
+{% block content %}
+<h2>Realizar Pedido Entrenador</h2>
+{% load crispy_forms_tags %}
+<form method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input class="btn btn-primary" type="submit" value="Registrar">
+</form>
+{% endblock %}
+</body>
+</html>

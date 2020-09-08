@@ -18,3 +18,5 @@ class Comun(models.Model):
 
     def ver_biografia(self):
         return f"/training/biografia/{self.id}"
+
+

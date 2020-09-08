@@ -3,13 +3,17 @@
 <html>
 <body>
 {% block content %}
-    <h2>Área para usuarios logueados</h2>
+    <h2>Home Usuarios</h2>
 
-    <p>
-        Bienvenido, esta página es exclusiva para usuarios registrados.
-    </p>
+    <p>Hola {{user.comun}}! Gracias por loguearte.</p>
 
-    <a href="/account/logout">Cerrar sesión</a>
+    {% if es_trainer %}
+        
+    {% else %}
+        <p> <a href="/account/pedidoentrenador">¿Querés formar parte de los entrenadores de la página? Aplicá haciendo click acá!</a></p>
+    {% endif %}
+
+    
 {% endblock %}
 </body>
 </html>

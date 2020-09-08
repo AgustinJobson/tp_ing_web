@@ -17,5 +17,8 @@
 {% for message in messages %}
     <p> {{message}} </p>
 {% endfor %}
+{% if no_activo %}
+    <p>El usuario no está activo. Por favor, revise su email y siga las instrucciones para poder activar su cuenta. </p>
+{% endif %}
 </body>
 </html>

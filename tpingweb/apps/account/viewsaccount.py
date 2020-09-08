@@ -8,8 +8,8 @@ from django.contrib.auth import logout as do_logout
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib import auth
-
-from .forms import CreateUserForm, UsuarioComunForm
+from django.utils.safestring import mark_safe
+from .forms import CreateUserForm, UsuarioComunForm, CreatePedidoForm
 
 from django.core.mail import send_mail, EmailMessage
 from django.views.decorators.csrf import csrf_protect
@@ -21,11 +21,14 @@ from .utils import token_generator
 from django.views.generic import View
 from .decorators import usuario_autentificado, usuarios_permitidos, usuario_no_autentificado
 from .models import Comun
+from apps.entrenamientos.models import Pedidoentrenador
 
 @usuario_autentificado
 def inicio_sesion(request):
     form = AuthenticationForm()
+    no_activo = False
     if request.method == "POST":
+        print('pasa')
         # Añadimos los datos recibidos al formulario
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -40,10 +43,12 @@ def inicio_sesion(request):
             if user is not None:
                 if user.is_active:
                     auth.login(request, user)
-                    return redirect('/account/my_account')
+                    return redirect('/account/home')
                 else:
+                    no_activo = True
+                    context = {'no_activo': no_activo}
                     messages.error(request,'El usuario no está activo, verifique su email')
-                    return redirect('/account/login')
+                    return redirect('/account/login', context)
             messages.error(request, 'Las credenciales son incorrectas, intente denuevo.')    
     return render(request, "login.html", {'form': form})
 
@@ -64,7 +69,43 @@ def pagina_logueado(request):
 
         context = {'form':form,'tipo':es }
         return render(request, "account_settings.html", context)
-        
+
+def home_logueado(request):
+    es_trainer = False
+    current_user = request.user
+    if current_user.groups.filter(name='entrenador').exists():
+        es_trainer = True
+
+    context = {
+        'es_trainer':es_trainer,
+        'user':request.user
+    }
+    return render(request, "usuario_logueado.html", context)
+
+def pedido_entrenador(request):
+    form=CreatePedidoForm()
+    pedido_aceptado = False
+    pedidos = Pedidoentrenador.objects.all()
+    for pedido in pedidos:
+        if (request.user == pedido.usuario):
+            return render(request, "usuario_logueado.html")
+    if request.method == 'POST':
+        form = CreatePedidoForm(request.POST, request.FILES)
+        if form.is_valid():
+            nuevo_pedido = Pedidoentrenador()
+            nuevo_pedido.usuario = request.user
+            nuevo_pedido.pedido = form.cleaned_data.get('pedido')
+            nuevo_pedido.certificado = form.cleaned_data.get('certificado')
+            nuevo_pedido.save()
+            pedido_aceptado = True
+            context = {
+                'form':form,
+                'pedido_aceptado':pedido_aceptado
+            }
+            return render(request, "usuario_logueado.html", context)
+            
+    return render(request, "pedido_entrenador.html", {'form':form})
+
 @usuario_autentificado
 def register(request):
     # Creamos el formulario de autenticación vacío
