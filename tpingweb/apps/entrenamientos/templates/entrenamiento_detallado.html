@@ -17,6 +17,9 @@
                             <th>Dia</th>
                             <th>Minutos</th>
                             <th>Detalle</th>
+                            {% if entrenamiento.autor == request.user %}
+                                <th>Modificar</th>
+                            {% endif %}
                             <!--<th>Comenta Acerca del Evento</th>
                             <th>Califica el Evento</th>-->
                         </tr>                        
@@ -26,6 +29,9 @@
                                 <td>{{i.dia}}</td>                  
                                 <td>{{i.minutos_de_entrenamiento_por_dia}}</td>
                                 <td>{{i.detalle}}</td>
+                                {% if entrenamiento.autor == request.user %}
+                                    <td><a class="btn btn -sm btn-warning" href='{{i.modificar_detalle}}'>Modificar</a></td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                             <!--<td><a href="">Comentar</a></td>

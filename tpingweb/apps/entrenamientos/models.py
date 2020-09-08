@@ -48,6 +48,9 @@ class detalle_entrenamiento(models.Model):
     minutos_de_entrenamiento_por_dia = models.IntegerField()
     detalle = models.CharField(max_length = 200)
 
+    def modificar_detalle(self):
+        return f"{self.id}/modificar_dia"
+
 
 class runningteam(models.Model):
     entrenador = models.ForeignKey(
@@ -64,6 +67,12 @@ class runningteam(models.Model):
 
     def ver_mas(self):
         return f"/training/runningteams/{self.id}/ver_mas"
+    
+    def modificar_rt(self):
+        return f"/training/runningteams/{self.id}/modificar"
+    
+    def eliminar_rt(self):
+        return f"/training/runningteams/{self.id}/eliminar"
 
     def __str__(self):
         return self.nombre_runningteam

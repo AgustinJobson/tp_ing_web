@@ -8,7 +8,9 @@ class FormEntrenamiento(ModelForm):
         fields = [
             'duracion_entrenamiento',
             'nombre_entrenamiento',
-            'categoria_entrenamiento'
+            'categoria_entrenamiento',
+            'tipo_entrenamiento',
+            'tiempo_estimado'
         ]
 
 class FormDetalleEntrenamiento(ModelForm):

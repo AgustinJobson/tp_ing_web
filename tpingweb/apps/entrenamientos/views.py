@@ -37,8 +37,12 @@ def runningteams_Get(request):
     if current_user.groups.filter(name='entrenador').exists():
         print(current_user.groups)
         es_trainer = True
-    
-    return render(request, "runningteams.html", {'runningteams_disponibles':runningteams, "es_trainer":es_trainer})
+    context = {
+        'runningteams_disponibles':runningteams, 
+        'es_trainer':es_trainer,
+        'user':request.user
+    }
+    return render(request, "runningteams.html", context)
 
 @usuario_no_autentificado
 def mis_entrenamientos_Get(request):
@@ -123,6 +127,8 @@ def carga_entrenamiento(request):
             nuevo_entrenamiento.duracion_entrenamiento = form.cleaned_data.get('duracion_entrenamiento')
             nuevo_entrenamiento.nombre_entrenamiento = form.cleaned_data.get('nombre_entrenamiento')
             nuevo_entrenamiento.categoria_entrenamiento = form.cleaned_data.get('categoria_entrenamiento')
+            nuevo_entrenamiento.tipo_entrenamiento = form.cleaned_data.get('tipo_entrenamiento')
+            nuevo_entrenamiento.tiempo_estimado = form.cleaned_data.get('tiempo_estimado')
             nuevo_entrenamiento.save()
             return redirect('/training')
     return render (request, "nuevo_entrenamiento.html", {'form': form})
@@ -164,16 +170,52 @@ def modificar_entrenamiento(request, id):
     return render(request, "nuevo_entrenamiento.html", {'form': form})
 
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
+def modificar_dia(request, id_entren, id):
+    dia_entren = detalle_entrenamiento.objects.get(id = id)
+    form = FormDetalleEntrenamiento(instance = dia_entren)
+    print(dia_entren)
+    if request.method == 'POST':
+        form = FormDetalleEntrenamiento(request.POST, instance = dia_entren)
+        if form.is_valid():
+            form.save()
+            path = '/training/'+str(id_entren)
+            return redirect(path)
+    return render(request, "nuevo_detalle_entrenamiento.html", {'form': form})
+
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
 def eliminar_entrenamiento(request, id):
     entren = entrenamiento.objects.get(id=id)
     if request.method == 'POST':
         entren.delete()
         return redirect('/training/mis_entrenamientos')
     context = {
-        'item': entren
+        'item': entren,
     }
-    return render(request, "delete.html", context)
+    return render(request, "delete_entrenamiento.html", context)
     
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
+def modificar_runningteam(request, id):
+    rt = runningteam.objects.get(id=id)
+    form = FormRunningTeam(instance = rt)
+    if request.method == 'POST':
+        form = FormRunningTeam(request.POST, instance = rt)
+        if form.is_valid():
+            form.save()
+            return redirect('/training/runningteams')
+    return render(request, "nuevo_runningteam.html", {'form': form})
+
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
+def eliminar_runningteam(request, id):
+    rt = runningteam.objects.get(id=id)
+    if request.method == 'POST':
+        rt.delete()
+        return redirect('/training/runningteams')
+    context = {
+        'item': rt,
+    }
+    return render(request, "delete_runningteam.html", context)
+
+
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def agregar_runningteam(request):
     form = FormRunningTeam()
