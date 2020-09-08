@@ -198,7 +198,7 @@ def modificar_runningteam(request, id):
     rt = runningteam.objects.get(id=id)
     form = FormRunningTeam(instance = rt)
     if request.method == 'POST':
-        form = FormRunningTeam(request.POST, instance = rt)
+        form = FormRunningTeam(request.POST, request.FILES, instance = rt)
         if form.is_valid():
             form.save()
             return redirect('/training/runningteams')
