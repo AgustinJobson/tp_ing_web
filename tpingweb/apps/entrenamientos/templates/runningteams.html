@@ -15,12 +15,13 @@
     <div class="container">
         <div class="card-deck">
         {% for i in runningteams_disponibles %}
-            <div class="card" style="width: 18rem;">
+            <div class="card text-center p-0" style="max-width: 25rem;">
                 <img class="card-img-top" src="{{i.logo.url}}" alt="Card image cap">
                 <div class="card-body">
                 <h5 class="card-title">{{ i.nombre_runningteam }}</h5>
                 <h7 class="card-text">Entrenador</h7>
                 <p class="card-text"> <a class="btn btn -sm light" href='{{ i.entrenador.comun.ver_biografia }}'>{{i.entrenador.comun}}</a></p>
+                <div class="card-footer">
                 <a href="{{i.ver_mas}}" class="btn btn-primary">Ver más</a><br></br>
                 {% if es_trainer %}
                     {% if user == i.entrenador %}
@@ -28,6 +29,7 @@
                         <a href="{{i.eliminar_rt}}" class="btn btn-danger">Eliminar</a>
                     {% endif %}
                 {% endif %}
+                </div>
             </div>
             </div>
         {% endfor %}
