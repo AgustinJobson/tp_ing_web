@@ -17,7 +17,7 @@
         </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Jaguarun</a>
+        <a class="navbar-brand" href="/">Jaguarun</a>
 
   <!-- Collapse button -->
   <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -28,7 +28,6 @@
   <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
 
     <div class="navbar-nav">
-        <a class="nav-item nav-link" href="/">Home</a>
         {% if user.is_authenticated %}
             <a class="nav-item nav-link" href="/account/my_account">Mi Perfil</a>
         {% endif %}
@@ -45,6 +44,9 @@
                 {% endif %}
             </div>
         
+        </div>
+        <div class = "navbar-nav">
+            <a class="nav-item nav-link" href="/foro">Foro</a>
         </div>
         {% if user.is_authenticated %}
         <div class="navbar-nav">

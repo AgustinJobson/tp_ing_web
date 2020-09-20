@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'banner.html' %}
+<html>
+<body>
+{% block content %}
+<h2>Crear Nuevo Tema</h2>
+<!--{% load crispy_forms_tags %}-->
+<br/><br/>
+<div class="form-group">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{form.media}}
+        <input class="btn btn-primary" type="submit" value="Registrar">
+</div>
+{% endblock %}
+</body>
+</html>

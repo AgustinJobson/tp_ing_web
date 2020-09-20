@@ -1,0 +1,21 @@
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+        <h3>Título: {{post.titulo}}</h3>
+        <h6>Autor: {{post.autor.comun}}</h6>
+        <h6>Fecha del Post: {{post.fecha_post}}</h6>
+        <h6>Categoria: {{post.categoria}}</h6>
+        <h6>Descripcion del Post: {{post.body | safe}}</h6>
+
+        <br/>
+        {% if cantidad == 0%}
+            Aún no hay comentarios
+        {% else %}        
+            {% for i in comentarios%}
+                <h6>Autor Comentario: {{i.autor.comun}}</h6>
+                <h6>Fecha: {{i.fecha_comentario}}</h6>
+                <h6>Cuerpo: {{i.body | safe}}</h6>
+                <br/>
+            {% endfor %}
+        {% endif %}
+    {% endblock %}

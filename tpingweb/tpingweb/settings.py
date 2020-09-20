@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.shared',
     'apps.eventos',
     'apps.entrenamientos',
+    'apps.foro',
     'crispy_forms',
     'ckeditor',
     'django_filters',
