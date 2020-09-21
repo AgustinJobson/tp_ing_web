@@ -1,0 +1,46 @@
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+        <style>
+            .profile-pic{
+                max-width: 300px;
+                max-height: 300px;
+                margin: 0 auto;
+                border-radius: 50%;
+            }
+        </style>
+        <br>
+        <div class="row">
+            <div class="col-md">
+                <div class="card card-body">
+                    <h3> Mis Temas</h3>
+                    <img class="profile-pic" src="{{autor.comun.profile_pic.url}}"> <a class="btn btn -sm light" href='{{autor.comun.ver_biografia}}'>{{autor.comun}}</a>
+
+                </div>
+                <div class="card card-body">
+                    {% if cantidad == 0%}
+                            <h5>Usted no tiene temas de discusion agregados</h5>
+                    {% else %}
+                    <table class="table">
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Título</th>
+                        </tr>                       
+                            {% for i in posts_disponibles %}
+                                <tr>                     
+                                    <td>{{i.categoria}}</td>
+                                    <td>{{i.titulo}}</td>
+                                    <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_entrenamiento}}'>Ver Más</a></td>
+                                    <td><a class="btn btn -sm btn-warning" href= '{{i.edit_post}}'>Modificar</a></td>
+                                    <td><a class="btn btn -sm btn-danger" href='{{i.delete_post}}'>Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                    </table>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    <p></p>
+    <a class="btn btn -sm btn-success" href = "/foro/tema-nuevo">Nuevo Tema</a>
+    {% endblock %}
+</html>

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Post, Comentario
 from .filters import OrderFilter_Foro
 from .forms import FormPost
+import datetime
 
 def get_foro(request):
     posts = Post.objects.all()
@@ -15,10 +16,6 @@ def get_foro(request):
 
 def detalle_post(request, id):
     current_user = request.user
-    """if current_user.groups.filter(name='entrenador').exists():
-        es = 'entrenador'
-    else:
-        es = 'comun'"""
     posts = Post.objects.all()
     comentarios = []
     comentarios_post = Comentario.objects.all()
@@ -34,11 +31,9 @@ def detalle_post(request, id):
                 'post':post_pd, 
                 'comentarios':comentarios, 
                 'cantidad': cantiadad_comentarios
-                #'tipo': es,
-                #'entrenador':user_entrenador,
             }
             return render(request, "detalle_post.html", context)
-    return redirect('/training')
+    return redirect('/foro')
 
 def agregar_tema(request):
     form = FormPost()
@@ -51,5 +46,46 @@ def agregar_tema(request):
             nuevo_post.autor = request.user
             nuevo_post.categoria = form.cleaned_data.get('categoria')
             nuevo_post.save()
-            return redirect('/foro')
+            return redirect('/foro/mis_temas')
     return render (request, "nuevo_tema.html", {'form': form})
+
+def update_tema(request, id):
+    post = Post.objects.get(id=id)
+    form = FormPost(instance = post)
+    if request.method == 'POST':
+        form = FormPost(request.POST, instance = post)
+        if form.is_valid():
+            post.titulo = form.cleaned_data.get('titulo')
+            post.body = form.cleaned_data.get('body')
+            #post.autor = request.user
+            post.categoria = form.cleaned_data.get('categoria')
+            post.fecha_post = datetime.datetime.now()
+            post.save()
+            return redirect('/foro/mis_temas')
+    return render(request, "update_post.html", {'form': form})
+
+def delete_post(request, id):
+    post = Post.objects.get(id=id)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('/foro/mis_temas')
+    context = {
+        'item': post,
+    }
+    return render(request, "delete_post.html", context)
+
+def mis_temas(request):
+    posts = Post.objects.all()
+    posts_usuario = []
+    current_user = request.user
+    for post in posts:
+        if (post.autor == current_user):
+            posts_usuario.append(post)
+    cantidad = len(posts_usuario)
+    context = {
+        'posts_disponibles':posts_usuario,
+        'user': current_user,
+        'cantidad': cantidad,
+        'autor': current_user
+    }
+    return render(request, "mis_temas.html", context)

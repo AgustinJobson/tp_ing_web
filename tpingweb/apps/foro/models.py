@@ -17,7 +17,13 @@ class Post(models.Model):
 
     def ver_mas_post(self):
         return f"/foro/{self.id}/"
-        
+    
+    def edit_post(self):
+        return f"/foro/edit_post/{self.id}"
+
+    def delete_post(self):
+        return f"/foro/delete_post/{self.id}"
+
     def __str__(self):
         return self.titulo
 

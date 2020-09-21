@@ -1,12 +1,11 @@
 {% extends 'banner.html' %}
-{% load static %}
 <html>
     {% block content %}
     <p>Seguro que desea eliminar "{{item}}" ?</p>
     
-    <form action = "{% url 'eliminar' item.id %}" method = 'POST'>
+    <form action = "{% url 'delete_post' item.id %}" method = 'POST'>
         {% csrf_token %}
-        <a class="btn btn -sm btn-info" href = "/training/mis_entrenamientos">Cancelar</a>
+        <a class="btn btn -sm btn-info" href = "/foro">Cancelar</a>
         <input  class="btn btn -sm btn-danger" type = "submit" value = "Eliminar Definitivamente" name ="confirmar">
     </form>
     {% endblock %}
