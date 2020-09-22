@@ -1,12 +1,18 @@
 {% extends 'banner.html' %}
 <html>
     {% block content %}
-    <p>Seguro que desea eliminar "{{item}}" ?</p>
-    
-    <form action = "{% url 'delete_post' item.id %}" method = 'POST'>
-        {% csrf_token %}
-        <a class="btn btn -sm btn-info" href = "/foro">Cancelar</a>
-        <input  class="btn btn -sm btn-danger" type = "submit" value = "Eliminar Definitivamente" name ="confirmar">
-    </form>
+    {%if user.comun is item.autor.id %}
+        <p>Seguro que desea eliminar "{{item}}" ?</p>
+        
+        <form action = "{% url 'delete_post' item.id %}" method = 'POST'>
+            {% csrf_token %}
+            <a class="btn btn -sm btn-info" href = "/foro">Cancelar</a>
+            <input  class="btn btn -sm btn-danger" type = "submit" value = "Eliminar Definitivamente" name ="confirmar">
+        </form>
+    {% else %}
+        <h3>Usted no tiene permitido eliminar este post !!!!</h3>
+        <hr/>
+        <a class="btn btn -sm btn-info" href="/foro">Volver al Foro</a>
+    {% endif %}
     {% endblock %}
 </html>

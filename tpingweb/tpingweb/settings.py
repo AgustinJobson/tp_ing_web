@@ -142,6 +142,11 @@ EMAIL_PORT = 587
 EMAIL_HOST_PASSWORD = 'Lokiaqswde1234'
 
 
+#STATICFILES_DIRS = (
+#    os.path.join(__STATIC_PATH, "static"),
+#    )
+#STATIC_ROOT = os.path.join(__STATIC_PATH, 'static/')
+
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/images/'

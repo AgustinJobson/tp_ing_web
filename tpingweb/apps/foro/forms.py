@@ -16,3 +16,14 @@ class FormPost(ModelForm):
             'categoria': forms.Select(attrs={'class':'form-control'}),
             'body': forms.Textarea(attrs={'class':'form-control'}),
         }
+    
+class FormComentario(ModelForm):
+    class Meta:
+        model = Comentario
+        fields = [
+            'body',
+        ]
+
+        widgets = {
+            'body': forms.Textarea(attrs={'class':'form-control'}),
+        }

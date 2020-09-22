@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Post, Comentario
 from .filters import OrderFilter_Foro
-from .forms import FormPost
+from .forms import FormPost, FormComentario
 import datetime
 
 def get_foro(request):
@@ -27,10 +27,25 @@ def detalle_post(request, id):
                     comentarios.append(coment)
             #user_entrenador = entren.autor.comun
             cantiadad_comentarios = len(comentarios)
+            
+            form = FormComentario()
+            if request.method == "POST":
+                form = FormComentario(request.POST)
+                if form.is_valid():
+                    nuevo_comentario = Comentario()
+                    nuevo_comentario.autor = request.user
+                    nuevo_comentario.fecha_comentario = datetime.datetime.now()
+                    nuevo_comentario.post = post
+                    nuevo_comentario.body = form.cleaned_data.get('body')
+                    nuevo_comentario.save()
+                    path = '/foro/'+str(id)
+                    return redirect(path)
+            
             context = {
                 'post':post_pd, 
                 'comentarios':comentarios, 
-                'cantidad': cantiadad_comentarios
+                'cantidad': cantiadad_comentarios,
+                'form': form
             }
             return render(request, "detalle_post.html", context)
     return redirect('/foro')
@@ -51,6 +66,7 @@ def agregar_tema(request):
 
 def update_tema(request, id):
     post = Post.objects.get(id=id)
+    autor = post.autor
     form = FormPost(instance = post)
     if request.method == 'POST':
         form = FormPost(request.POST, instance = post)
@@ -62,7 +78,7 @@ def update_tema(request, id):
             post.fecha_post = datetime.datetime.now()
             post.save()
             return redirect('/foro/mis_temas')
-    return render(request, "update_post.html", {'form': form})
+    return render(request, "update_post.html", {'form': form, 'usuario': autor})
 
 def delete_post(request, id):
     post = Post.objects.get(id=id)

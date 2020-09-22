@@ -1,21 +1,43 @@
 {% extends 'banner.html' %}
 <html>
     {% block content %}
-        <h3>Título: {{post.titulo}}</h3>
-        <h6>Autor: {{post.autor.comun}}</h6>
-        <h6>Fecha del Post: {{post.fecha_post}}</h6>
-        <h6>Categoria: {{post.categoria}}</h6>
-        <h6>Descripcion del Post: {{post.body | safe}}</h6>
-
+        <h1>{{post.titulo}}</h1>
+        <small>Por:
+            {{post.autor.comun}} -
+            {{post.fecha_post}}
+            <br/>
+            Categoria: {{post.categoria}}
+        </small><br/>
+        <hr>
         <br/>
+        {{post.body | safe}}
+        <br/><br/>
+        <hr>
+        <h4>Comentarios...</h4>
         {% if cantidad == 0%}
             Aún no hay comentarios
+            <hr>
         {% else %}        
             {% for i in comentarios%}
-                <h6>Autor Comentario: {{i.autor.comun}}</h6>
-                <h6>Fecha: {{i.fecha_comentario}}</h6>
-                <h6>Cuerpo: {{i.body | safe}}</h6>
+                <small>
+                    <strong>
+                        {{i.autor.comun}} -
+                        {{i.fecha_comentario}}
+                    </strong>
+                </small>
                 <br/>
+                {{i.body | safe}}
+                <hr>
             {% endfor %}
+        {% endif %}
+        {% if user.is_authenticated %}
+            <div class="form-group">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {{form.media}}
+                    <input class="btn btn -sm btn-success" type="submit" value="Añadir Comentario">
+                </form>
+            </div>
         {% endif %}
     {% endblock %}

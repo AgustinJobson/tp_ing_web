@@ -3,16 +3,22 @@
 <html>
 <body>
 {% block content %}
-<h2>Editar Tema</h2>
-<!--{% load crispy_forms_tags %}-->
-<br/><br/>
-<div class="form-group">
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {{form.media}}
-        <input class="btn btn-primary" type="submit" value="Editar">
-</div>
+    {%if user.id == usuario.id %}
+        <h2>Editar Tema</h2>
+        <!--{% load crispy_forms_tags %}-->
+        <br/><br/>
+        <div class="form-group">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {{form.media}}
+                <input class="btn btn-primary" type="submit" value="Editar">
+        </div>
+    {% else %}
+        <h3>Usted no tiene permitido modificar este post !!!!</h3>
+        <hr/>
+        <a class="btn btn -sm btn-info" href="/foro">Volver al Foro</a>
+    {% endif %}
 {% endblock %}
 </body>
 </html>

@@ -13,6 +13,14 @@ class FormEntrenamiento(ModelForm):
             'tiempo_estimado'
         ]
 
+        widgets = {
+            'duracion_entrenamiento': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Indica la cantidad dias que durará el entrenamiento (i.e. 15)'}),           
+            'nombre_entrenamiento': forms.TextInput(attrs={'class':'form-control'}),
+            'categoria_entrenamiento': forms.TextInput(attrs={'class':'form-control'}),
+            'tipo_entrenamiento': forms.Select(attrs={'class':'form-control'}),
+            'tiempo_estimado': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'En cuantos minutos quiere terminar la carrera (i.e. 100)'}),
+        }
+
 class FormDetalleEntrenamiento(ModelForm):
     class Meta:
         model = detalle_entrenamiento
@@ -20,6 +28,10 @@ class FormDetalleEntrenamiento(ModelForm):
             'minutos_de_entrenamiento_por_dia',
             'detalle'
         ]
+        widgets = {
+            'minutos_de_entrenamiento_por_dia': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Indica la cantidad de minutos que durará el dia de entrenamiento (i.e. 30)'}),           
+            'detalle': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ingrese el detalle del entrenamiento'}),
+        }
 
 class FormRunningTeam(ModelForm):
     class Meta:
@@ -33,3 +45,12 @@ class FormRunningTeam(ModelForm):
             'ubicacion',
             'logo',
         ]
+
+        widgets = {
+            'nombre_runningteam': forms.TextInput(attrs={'class':'form-control'}),           
+            'localidad': forms.TextInput(attrs={'class':'form-control'}),
+            'hora_inicio': forms.TimeInput(attrs={'class':'form-control', 'placeholder':'Mantenga el formato HH:MM'}),
+            'hora_fin': forms.TimeInput(attrs={'class':'form-control', 'placeholder':'Mantenga el formato HH:MM'}),
+            'weekdays': forms.TextInput(attrs={'class':'form-control'}),
+            'ubicacion': forms.TextInput(attrs={'class':'form-control'}),
+        }
