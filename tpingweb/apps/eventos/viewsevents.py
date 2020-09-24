@@ -8,7 +8,13 @@ def eventos(request):
     bol = False
     if request.user.is_staff:
         bol = True
-    return render(request, "eventos.html", {'eventos_disponibles':eventss, 'es_admin':bol})
+    
+    context = {
+        'eventos_disponibles':eventss, 
+        'es_admin':bol
+    }
+
+    return render(request, "eventos.html", context)
 
 def evento_detallado(request, id):
     eventos = evento.objects.all()
@@ -52,11 +58,30 @@ def subir_foto_evento(request, id):
             return HttpResponseRedirect('/events')        
     return render(request, "subir_foto.html", {'form_foto': form_foto, 'event':event})
 
-def eliminar_foto_evento(request,id):
+def seleccionar_foto_eliminar(request,id):
     event = evento.objects.get(id_evento=id)
-    fotos = FotoEvento.objects.get(evento = event)
+    fotos_evento = []
+    fotos_eventos = FotoEvento.objects.all()
+    for foto in fotos_eventos:
+        if foto.evento == event:
+            fotos_evento.append(foto)
+
+    context = {
+        'event':event,
+        'fotos':fotos_evento
+    }
+    return render(request, "seleccionar_foto_eliminar.html", context)
+
+def eliminar_foto_evento(request, id):
+    foto = FotoEvento.objects.get(id=id)
+    if request.method == 'POST':
+        foto.delete()
+        return redirect('/events')
     
-    return render(request, "subir_foto.html", {'form_foto': form_foto, 'event':event})
+    context = {
+        'item': foto,
+    }
+    return render(request, "delete_foto_evento.html", context)
 
 
 

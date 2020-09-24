@@ -10,41 +10,25 @@
         }
     </style>
     <br>
-    <h4>Filtro</h4>
     <div class="row">
-        <div class="col">
+        <div class="col-md">
             <div class="card card-body">
-                <form method="get">
-                    {{myFilter.form}}
-                    <button class="btn btn-primary" type="submit"> Buscar </button>
-                </form>
+                <h5> Categorias del Foro</h5>
+            </div>
+            <div class="card card-body">
+                <table class="table">
+                    <tr>
+                        <th>Categoria</th>
+                    </tr>
+                    {% for i in categorias%}
+                        <tr>                     
+                            <td>{{i.nombre}}</td>                                
+                            <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_categoria}}'>Ver Más</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
     </div>
-        <br>
-        <div class="row">
-            <div class="col-md">
-                <div class="card card-body">
-                    <h5> Temas de Discusión</h5>
-                </div>
-                <div class="card card-body">
-                    <table class="table">
-                        <tr>
-                            <th>Autor</th>
-                            <th>Categoría</th>
-                            <th>Título</th>
-                        </tr>
-                        {% for i in posts_disponibles%}
-                            <tr>                     
-                                <td><img class="profile-pic" src="{{i.autor.comun.profile_pic.url}}"> <a class="btn btn -sm light" href='{{i.autor.comun.ver_biografia}}'>{{i.autor.comun}}</a></td>
-                                <td>{{i.categoria}}</td>
-                                <td>{{i.titulo}}</td>                                
-                                <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_post}}'>Ver Más</a></td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-        </div>
     {% endblock %}
 </html>

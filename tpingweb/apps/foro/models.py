@@ -7,6 +7,9 @@ class Categoria(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+    def ver_mas_categoria(self):
+        return f"/foro/posts/{self.id}"
 
 class Post(models.Model):
     titulo = models.CharField(max_length=255)

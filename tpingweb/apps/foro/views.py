@@ -1,18 +1,27 @@
 from django.shortcuts import render, redirect
-from .models import Post, Comentario
-from .filters import OrderFilter_Foro
+from .models import Post, Comentario, Categoria
 from .forms import FormPost, FormComentario
 import datetime
 
-def get_foro(request):
-    posts = Post.objects.all()
-    myFilter = OrderFilter_Foro(request.GET, queryset=posts)
-    posts=myFilter.qs
-    context = {
-        'posts_disponibles':posts,
-        'myFilter':myFilter,
-        }
+
+def get_categorias(request):
+    categorias = Categoria.objects.all()
+    context ={'categorias': categorias}
     return render(request, "foro.html", context)
+
+
+def get_foro(request, id):
+    posts = Post.objects.all()
+    categoria = Categoria.objects.get(id=id)
+    posts_categoria = []
+    for post in posts:
+        if (post.categoria == categoria):
+            posts_categoria.append(post)
+    context = {
+        'categoria':categoria,
+        'posts_disponibles':posts_categoria,
+    }
+    return render(request, "foro_por_categorias.html", context)
 
 def detalle_post(request, id):
     current_user = request.user

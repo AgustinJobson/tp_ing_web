@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+        {% if not fotos %}
+            <h3>Este evento no contiene fotos</h3>
+        {% else %} 
+            <h4>Seleccione la foto que desea eliminar del evento "{{event.nombre_evento}}"</h4>
+            <div class="container">
+                <div class="card-deck">
+                        {% for foto in fotos %}
+                        <div class="card text-center p-0" style="max-width: 25rem;">
+                            <img class="card-img-top" src="{{foto.imagen.url}}" alt="Card image cap">
+                            <div class="card-body">
+                            <div class="card-footer">
+                                <p class="card-text"> <a class="btn btn -sm btn-danger" href='{{foto.eliminar_imagen}}'>Eliminar Foto</a> </p>
+                            </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+            </div>
+        {% endif %}
+        
+        <hr>
+        <a class="btn btn -sm btn-info" href="/events">Volver a Eventos</a>
+        
+        <!--<form actions = "." method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form_foto.as_p }}
+            <button class="btn btn-success" type="submit" value= "Guardar">Guardar</button>
+        </form>-->
+    {% endblock %}
+</html>

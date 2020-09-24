@@ -1,0 +1,75 @@
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+    <style>
+        .profile-pic{
+            max-width: 50px;
+            max-height: 50 px;
+            margin: 0 auto;
+            border-radius: 50%;
+        }
+    </style>
+    <br>
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+        <!-- Blog Entries Column -->
+        
+        <div class="col-md-8">
+
+            <h1 class="my-4">FORO</div>
+            <small>{{categoria.nombre}}</small>
+            </h1>
+
+            <!-- Blog Post -->
+            {% for i in posts_disponibles%}
+                <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">{{i.titulo}}</h2>
+                    <p class="card-text">{{i.body | safe |truncatewords:50 |linebreaks}}</p>
+                    <a href="{{i.ver_mas_post}}" class="btn btn-primary">Ver Más &rarr;</a>
+                </div>
+                    <div class="card-footer text-muted">
+                        Posted on {{i.fecha_post}}, by
+                        <a href="#">{{i.autor.comun}}</a>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+
+
+
+
+
+
+
+    <!--
+    <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <h5> Temas de Discusión</h5>
+            </div>
+            <div class="card card-body">
+                <table class="table">
+                    <tr>
+                        <th>Autor</th>
+                        <th>Categoría</th>
+                        <th>Título</th>
+                    </tr>
+                    {% for i in posts_disponibles%}
+                        <tr>                     
+                            <td><img class="profile-pic" src="{{i.autor.comun.profile_pic.url}}"> <a class="btn btn -sm light" href='{{i.autor.comun.ver_biografia}}'>{{i.autor.comun}}</a></td>
+                            <td>{{i.categoria}}</td>
+                            <td>{{i.titulo}}</td>                                
+                            <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_post}}'>Ver Más</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>-->
+    {% endblock %}
+</html>

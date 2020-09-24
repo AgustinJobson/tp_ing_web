@@ -1,0 +1,14 @@
+{% extends 'banner.html' %}
+{% load static %}
+<html>
+    {% block content %}
+    <p>Seguro que desea eliminar la siguiente foto ?</p>
+    <img src="{{item.imagen.url}}" alt=""  width="528" height="428">
+    
+    <form action = "{% url 'eliminar_foto_evento' item.id %}" method = 'POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        <a class="btn btn -sm btn-info" href = "/events">Cancelar</a>
+        <input  class="btn btn -sm btn-danger" type = "submit" value = "Eliminar Definitivamente" name ="confirmar">
+    </form>
+    {% endblock %}
+</html>

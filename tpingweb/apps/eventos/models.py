@@ -24,6 +24,9 @@ class evento(models.Model):
 
     def subir_foto(self):
         return f"/events/{self.id_evento}/subir_foto"
+    
+    def eliminar_foto(self):
+        return f"/events/{self.id_evento}/seleccionar_foto_eliminar"
 
     def __str__(self):
         return 'Evento: ' + self.nombre_evento
@@ -31,4 +34,7 @@ class evento(models.Model):
 class FotoEvento(models.Model):
     evento = models.ForeignKey(evento, on_delete=models.CASCADE)
     imagen = models.ImageField(upload_to="fotos_eventos", null=True, blank = True)
+
+    def eliminar_imagen(self):
+        return f"/events/eliminar_foto/{self.id}"
 
