@@ -32,4 +32,3 @@ class FotoEvento(models.Model):
     evento = models.ForeignKey(evento, on_delete=models.CASCADE)
     imagen = models.ImageField(upload_to="fotos_eventos", null=True, blank = True)
 
-

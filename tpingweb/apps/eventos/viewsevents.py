@@ -51,6 +51,12 @@ def subir_foto_evento(request, id):
             nueva_foto.save()
             return HttpResponseRedirect('/events')        
     return render(request, "subir_foto.html", {'form_foto': form_foto, 'event':event})
+
+def eliminar_foto_evento(request,id):
+    event = evento.objects.get(id_evento=id)
+    fotos = FotoEvento.objects.get(evento = event)
     
+    return render(request, "subir_foto.html", {'form_foto': form_foto, 'event':event})
+
 
 
