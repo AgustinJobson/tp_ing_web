@@ -1,19 +1,50 @@
+
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style>
+    #login .container #login-row #login-column #login-box {
+      margin-top: 120px;
+      max-width: 600px;
+      height: 320px;
+      border: 1px solid #9C9C9C;
+      background-color: #963434;
+    }
+    #login .container #login-row #login-column #login-box #login-form {
+      padding: 20px;
+    }
+    #login .container #login-row #login-column #login-box #login-form #register-link {
+      margin-top: -85px;
+    }
+</style>
 <!DOCTYPE html>
 <html>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<body>
-{% block content %}
-<h2>Registrar usuario</h2>
-{% load crispy_forms_tags %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input class="btn btn-success" type="submit" value="Registrar">
-</form>
 
-<hr />
-<a href="/account/login">Iniciar sesión</a>
-{% endblock %}
-</body>
+<body>
+    {% load crispy_forms_tags %}
+        <div id="login" >    
+            <h3 class="text-center text-black pt-5">Jaguarun</h3>
+            <div class="container">
+                <div id="login-row" class="row justify-content-center align-items-center"
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-16">
+                        <form id="login-form" class="form" action="" method="POST">
+                            <h3 class="text-center text-info">Registro</h3>
+                            <hr>
+                            {{ form | crispy }}
+                            {% csrf_token %}
+                            <button class="btn btn-success" type="submit">Registrar</button>
+                        </form>
+                        <hr>
+                        <p><a href="/account/login">Logueate!</a></p>
+                        <p><a href="/account/reset_password">Click aquí si olvidaste tu contraseña</a></p>
+                        <p><a href="/">Home</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
     

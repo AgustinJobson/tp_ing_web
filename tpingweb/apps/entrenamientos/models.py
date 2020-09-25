@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from ckeditor.fields import RichTextField
+from embed_video.fields import EmbedVideoField
 
 class tipoentrenamiento(models.Model):
     detalle_tipo=models.CharField(max_length = 40)
@@ -77,7 +78,13 @@ class runningteam(models.Model):
     def __str__(self):
         return self.nombre_runningteam
 
+class runningteam_youtube(models.Model):
+    video = EmbedVideoField()
+    runningteam = models.ForeignKey(runningteam, on_delete=models.CASCADE)
 
+class runningteam_media(models.Model):
+    media=models.FileField(upload_to="videos_runningteams", null=True, blank = True)
+    runningteam = models.ForeignKey(runningteam, on_delete=models.CASCADE)
 
 class Pedidoentrenador(models.Model):
     usuario = models.OneToOneField(

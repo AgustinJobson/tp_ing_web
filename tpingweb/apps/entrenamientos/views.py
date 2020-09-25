@@ -103,8 +103,27 @@ def entrenamiento_detallado(request, id):
 
 def runningteam_detalle(request,id):
     rt = runningteam.objects.get(id=id)
+    videos_yt = runningteam_youtube.objects.all()
+    videos_rt = []
+    for video in videos_yt:
+        if video.runningteam == rt:
+            videos_rt.append(video)
+    medias=runningteam_media.objects.all()
+    medias_rt = []
+    imagenes_rt = []
+    for media in medias:
+        if media.runningteam == rt:
+            print(media.media.url)
+            last_chars = media.media.url[-3:]
+            if last_chars == "mp4":
+                medias_rt.append(media)
+            else:
+                imagenes_rt.append(media)
     context = {
         'runningteam':rt,
+        'videosyt':videos_rt,
+        'medias':medias_rt,
+        'imagenes':imagenes_rt
     }
     return render(request, "runningteam_detalle.html", context)
 

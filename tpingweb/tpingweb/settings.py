@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'django_filters',
     'django_extensions',
+    'embed_video',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
