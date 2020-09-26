@@ -1,15 +1,18 @@
-<!DOCTYPE html>
+{% extends 'banner.html' %}
 <html>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <body>
 {% block content %}
+<div class="container">
 <h2>Crear Nuevo Detalle de Entrenamiento</h2>
 {% load crispy_forms_tags %}
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form|crispy }}
-    <input class="btn btn-primary" type="submit" value="Cargar">
+    {{ form.as_p }}
+    {{form.media}}
+    <input class="btn btn -sm btn-success" type="submit" value="Añadir Día">
 </form>
+</div>
 {% endblock %}
 </body>
 </html>

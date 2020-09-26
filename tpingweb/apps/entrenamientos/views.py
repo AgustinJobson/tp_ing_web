@@ -146,12 +146,9 @@ def carga_entrenamiento(request):
     if request.method == "POST":
         form = FormEntrenamiento(data=request.POST)
         if form.is_valid():
-            entrenamientos = entrenamiento.objects.all()
             nuevo_entrenamiento = entrenamiento()
             nuevo_entrenamiento.autor = request.user
-            nuevo_entrenamiento.duracion_entrenamiento = form.cleaned_data.get('duracion_entrenamiento')
             nuevo_entrenamiento.nombre_entrenamiento = form.cleaned_data.get('nombre_entrenamiento')
-            nuevo_entrenamiento.categoria_entrenamiento = form.cleaned_data.get('categoria_entrenamiento')
             nuevo_entrenamiento.tipo_entrenamiento = form.cleaned_data.get('tipo_entrenamiento')
             nuevo_entrenamiento.tiempo_estimado = form.cleaned_data.get('tiempo_estimado')
             nuevo_entrenamiento.save()
@@ -160,28 +157,31 @@ def carga_entrenamiento(request):
 
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def carga_detalle_entrenamiento(request, id):
+    cantidad_dias = 0
     form = FormDetalleEntrenamiento()
+    entrenamientoo = entrenamiento.objects.get(id=id)
+    detalles = detalle_entrenamiento.objects.all()
+    for det in detalles:
+        if det.entrenamiento == entrenamientoo:
+            cantidad_dias += 1
     if request.method == "POST":
         form = FormDetalleEntrenamiento(data=request.POST)
         if form.is_valid():
             entrenamientos = entrenamiento.objects.all()
             nuevo_detalle = detalle_entrenamiento()
-            for entren in entrenamientos:
-                if (entren.id == id):
-                    nuevo_detalle.entrenamiento = entren
-                    break
-            detalles = detalle_entrenamiento.objects.all()
-            cantidad_dias = 0
-            for det in detalles:
-                if det.entrenamiento == entren:
-                    cantidad_dias += 1
-            #nuevo_detalle.dia = form.cleaned_data.get('dia')
-            nuevo_detalle.dia = cantidad_dias + 1
-            nuevo_detalle.minutos_de_entrenamiento_por_dia = form.cleaned_data.get('minutos_de_entrenamiento_por_dia')     
+            nuevo_detalle.entrenamiento = entrenamientoo
+            nuevo_detalle.dia = cantidad_dias + 1     
             nuevo_detalle.detalle = form.cleaned_data.get('detalle') 
             nuevo_detalle.save()
             return redirect('/training/mis_entrenamientos')
-    return render (request, "nuevo_detalle_entrenamiento.html", {'form': form})
+
+    context = {
+        'form':form,
+        'entrenamiento':entrenamientoo,
+        'cantidad_dias':cantidad_dias,
+    }    
+        
+    return render (request, "nuevo_detalle_entrenamiento.html", context)
 
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def modificar_entrenamiento(request, id):

@@ -18,9 +18,7 @@ class entrenamiento(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    duracion_entrenamiento = models.PositiveIntegerField(validators=[MinValueValidator(1)]) #En dias
     nombre_entrenamiento = models.CharField(max_length = 40)
-    categoria_entrenamiento = models.CharField(max_length=40)
     likes = models.ManyToManyField(User, related_name='training_posts')
     tipo_entrenamiento=models.ForeignKey(tipoentrenamiento, on_delete=models.CASCADE, null=True)
     tiempo_estimado = models.PositiveIntegerField(validators=[MinValueValidator(10)])
@@ -41,13 +39,12 @@ class entrenamiento(models.Model):
         return f"/training/{self.id}/eliminate/"
 
     def __str__(self):
-        return 'Autor: %s --- Entrenamiento: %s' % (self.autor.username, self.nombre_entrenamiento)
+        return '%s de %s' % (self.nombre_entrenamiento, self.autor.comun)
 
 class detalle_entrenamiento(models.Model):
     entrenamiento = models.ForeignKey(entrenamiento, on_delete=models.CASCADE)
     dia = models.IntegerField()
-    minutos_de_entrenamiento_por_dia = models.IntegerField()
-    detalle = models.CharField(max_length = 200)
+    detalle = RichTextField(blank=True, null=True)
 
     def modificar_detalle(self):
         return f"{self.id}/modificar_dia"

@@ -2,46 +2,26 @@
 {% extends 'banner.html' %}
 <html>
     {% block content %}
-    <style>
-
-    </style>
-        <br>
-        <h2>Entrenamiento </h2>
-        <h4>{{entrenamiento}}</h4>
-        <div class="row">
-            <div class="align-self-center">
-                </div>
-                <div class="card card-body">
-                    <table class="table">
-                        <tr>
-                            <th>Dia</th>
-                            <th>Minutos</th>
-                            <th>Detalle</th>
-                            {% if entrenamiento.autor == request.user %}
-                                <th>Modificar</th>
-                            {% endif %}
-                            <!--<th>Comenta Acerca del Evento</th>
-                            <th>Califica el Evento</th>-->
-                        </tr>                        
-                        <tr>                               
-                            {% for i in descripciones %}
-                            <tr>   
-                                <td>{{i.dia}}</td>                  
-                                <td>{{i.minutos_de_entrenamiento_por_dia}}</td>
-                                <td>{{i.detalle}}</td>
-                                {% if entrenamiento.autor == request.user %}
-                                    <td><a class="btn btn -sm btn-warning" href='{{i.modificar_detalle}}'>Modificar</a></td>
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                            <!--<td><a href="">Comentar</a></td>
-                            <td><a href="">Calificar</a></td> -->
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <br/> <br/>
+    <div class="container">
+        <h1>{{entrenamiento}}</h1>
+        <strong>
+            <br/>
+            Categoria: {{entrenamiento.tipo_entrenamiento}}
+            Tiempo de carrera estimado: {{entrenamiento.tiempo_estimado}}
+        </strong><br/>
+        <hr>
+        <br/>
+        {% for d in descripciones %}
+            <h3> Día numero: {{d.dia}}</h3>
+            {{d.detalle | safe}}
+            <p></p>
+            {% if request.user.comun == entrenador %}
+                <a href="{{d.modificar_detalle}}"> Modificar día</a>
+            {% endif %}
+            <hr>
+        {% endfor %}
+        <br/><br/>
+        <hr>
         <hr>
         <br/>
         {{ total_likes }} Seguidores
@@ -61,6 +41,7 @@
             {% endif %}
         {% endif %}
         <!--<h3>Biografía del Entrenador</h3>
-        {{entrenador.biografia | safe}}-->        
+        {{entrenador.biografia | safe}}-->  
+    </div>      
     {% endblock %}
 </html>

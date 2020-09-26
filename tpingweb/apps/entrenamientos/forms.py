@@ -6,17 +6,13 @@ class FormEntrenamiento(ModelForm):
     class Meta:
         model = entrenamiento
         fields = [
-            'duracion_entrenamiento',
             'nombre_entrenamiento',
-            'categoria_entrenamiento',
             'tipo_entrenamiento',
-            'tiempo_estimado'
+            'tiempo_estimado',
         ]
 
-        widgets = {
-            'duracion_entrenamiento': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Indica la cantidad dias que durará el entrenamiento (i.e. 15)'}),           
+        widgets = {         
             'nombre_entrenamiento': forms.TextInput(attrs={'class':'form-control'}),
-            'categoria_entrenamiento': forms.TextInput(attrs={'class':'form-control'}),
             'tipo_entrenamiento': forms.Select(attrs={'class':'form-control'}),
             'tiempo_estimado': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'En cuantos minutos quiere terminar la carrera (i.e. 100)'}),
         }
@@ -25,11 +21,9 @@ class FormDetalleEntrenamiento(ModelForm):
     class Meta:
         model = detalle_entrenamiento
         fields = [
-            'minutos_de_entrenamiento_por_dia',
             'detalle'
         ]
-        widgets = {
-            'minutos_de_entrenamiento_por_dia': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Indica la cantidad de minutos que durará el dia de entrenamiento (i.e. 30)'}),           
+        widgets = {      
             'detalle': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ingrese el detalle del entrenamiento'}),
         }
 
