@@ -1,0 +1,12 @@
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+    <p>Seguro que desea eliminar "{{item}}" ?</p>
+    
+    <form action = "{% url 'eliminar_evento' item.id_evento %}" method = 'POST'>
+        {% csrf_token %}
+        <a class="btn btn -sm btn-info" href = "/events">Cancelar</a>
+        <input  class="btn btn -sm btn-danger" type = "submit" value = "Eliminar Definitivamente" name ="confirmar">
+    </form>
+    {% endblock %}
+</html>

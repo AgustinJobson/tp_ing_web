@@ -24,10 +24,13 @@
                                 <h5 class="card-title">{{i.nombre_evento}}</h5>
                                 <h7 class="card-text">{{i.empresa_organizadora.nombre_empresa}}</h7>
                                 <div class="card-footer">
-                                    <p class="card-text"> <a class="btn btn -sm btn-info" href='{{i.get_absolute_url}}'>Ver Más</a> </p>
+                                    <p class="card-text"> <a class="btn btn-info btn-sm" href='{{i.get_absolute_url}}'>Ver Más</a> </p>
                                     {% if es_admin %}
-                                        <p><a class="btn btn -sm btn-success" href='{{i.subir_foto}}'>Agregar Imagen del Evento</a></p>
-                                        <p><a class="btn btn -sm btn-danger" href='{{i.eliminar_foto}}'>Eliminar Imágen del Evento</a></p>
+                                        <p><a  class="btn btn-danger btn-sm" href='{{i.eliminar_evento}}'>Eliminar</a></p>
+                                        <td><a class="btn btn-warning btn-sm" href="{{i.modificar_evento}}">Modificar</a></td>
+                                        <hr>
+                                        <p><a href='{{i.subir_foto}}'>Agregar imagen /</a> 
+                                        <a href='{{i.eliminar_foto}}'>Eliminar imagen</a></p>
                                     {% endif %}
                                 </div>
                                 </div>
@@ -36,5 +39,10 @@
                 </div>
             </div>
         </div>
+    <hr>
+    {% if es_admin %}
+        <p><a class="btn btn -sm btn-success" href='/events/nuevo'>Agregar nuevo Evento</a></p>
+    {% endif %}
     {% endblock %}
+
 </html>

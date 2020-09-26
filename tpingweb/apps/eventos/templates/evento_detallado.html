@@ -60,9 +60,15 @@
 
                 <h5>Descripción de seguridad: </h5>
                 <p>{{event.desc_seguridad}}</p>
+
+                <h5>Estado del evento </h5>
+                <p>{{event.estado}}</p>
                 <!-- Event content -->
 
             </div>
+            {% if request.user.is_staff %}
+                
+            {% endif %}
         </div>
     </div>
     {% endblock %}

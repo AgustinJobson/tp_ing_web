@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import evento, empresa, FotoEvento
-from .forms import FormFoto
+from .forms import FormFoto, FormEvento
 
 def eventos(request):
     eventss = evento.objects.all()
@@ -84,4 +84,41 @@ def eliminar_foto_evento(request, id):
     return render(request, "delete_foto_evento.html", context)
 
 
+def carga_evento(request):
+    user = request.user
+    if user.is_staff:
+        form = FormEvento()
+        if request.method == "POST":
+            form = FormEvento(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return redirect('/events')
+        return render (request, "nuevo_evento.html", {'form': form})
+    return redirect('/events')
 
+def eliminar_evento(request, id):
+    user = request.user
+    if user.is_staff:
+        event = evento.objects.get(id_evento=id)
+        if request.method == "POST":
+            event.delete()
+            return redirect('/events')
+        context = {
+        'item': event,
+        }
+        return render(request, "delete_eventos.html", context)
+    return redirect('/events')
+
+def modificar_evento(request, id):
+    user = request.user
+    if user.is_staff:
+        event = evento.objects.get(id_evento=id)
+        form = FormEvento(instance=event)
+        if request.method == 'POST':
+            form=FormEvento(request.POST, request.FILES, instance = event)
+            if form.is_valid():
+                form.save()
+                return redirect('/events')
+        return render(request, "nuevo_evento.html", {'form':form})
+    return redirect('/events')
+    

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+{% extends 'banner.html' %}
+<body>
+{% block content %}
+<div class="container">
+    <h2>Crear Evento</h2>
+    {% load crispy_forms_tags %}
+    <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input class="btn btn-primary" type="submit" value="Registrar">
+    </form>
+</div>
+{% endblock %}
+</body>
+</html>
