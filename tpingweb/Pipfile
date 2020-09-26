@@ -9,6 +9,7 @@ verify_ssl = true
 six = "*"
 django-ckeditor = "*"
 django-extensions = "*"
+django-embed-video = "*"
 
 [requires]
 python_version = "3.8"

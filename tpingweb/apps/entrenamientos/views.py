@@ -119,11 +119,17 @@ def runningteam_detalle(request,id):
                 medias_rt.append(media)
             else:
                 imagenes_rt.append(media)
+    
+    hay_archivos = True
+    if ((len(videos_rt) == 0) and (len(medias_rt) == 0) and (len(imagenes_rt) == 0)):
+        hay_archivos = False
+
     context = {
         'runningteam':rt,
         'videosyt':videos_rt,
         'medias':medias_rt,
-        'imagenes':imagenes_rt
+        'imagenes':imagenes_rt,
+        'hay_archivos':hay_archivos,
     }
     return render(request, "runningteam_detalle.html", context)
 

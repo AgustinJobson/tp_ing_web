@@ -55,19 +55,20 @@
             </div>
         
         </div>
-        <!--<div class = "navbar-nav">
-            <a class="nav-item nav-link" href="/foro">Foro</a>
-        </div>-->
-        {% if user.is_authenticated %}
-        <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/account/logout">Cerrar Sesión</a>
-        </div>
-        {% else %}
-        <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/account/login">Iniciar Sesión</a> / <a class="nav-item nav-link active" href="/account/register">Registrarse</a>            
-        </div>
-        {% endif %}
     </div>
+    <ul class="navbar-nav ml-auto">
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="btn btn-outline-success" href="/account/logout">Cerrar Sesión</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="btn btn-outline-success" href="/account/login">Iniciar Sesión</a>
+                <a class="btn btn-outline-secondary" href="/account/register">Registrarse</a>            
+            </li>
+        {% endif %}
+    </ul>
+    <!--</div>-->
   </div>
     </nav>
     <hr />
@@ -84,7 +85,6 @@
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Jaguarun</p>
     </div>
-    <!-- /.container -->
     </footer>
 </body>
 </html>

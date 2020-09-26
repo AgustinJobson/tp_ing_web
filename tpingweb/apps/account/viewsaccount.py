@@ -52,30 +52,6 @@ def inicio_sesion(request):
             messages.error(request, 'Las credenciales son incorrectas, intente denuevo.')    
     return render(request, "login.html", {'form': form})
 
-@usuario_autentificado
-def inicio_sesion_que_no_anda(request):
-    form = AuthenticationForm()
-    no_activo = False
-    if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    auth.login(request, user)
-                    return redirect('/account/home')
-                else:
-                    no_activo = True
-                    context = {'no_activo': no_activo}
-                    messages.error(request,'El usuario no está activo, verifique su email')
-                    return redirect('/account/login', context)
-            messages.error(request, 'Las credenciales son incorrectas, intente denuevo.')    
-    
-    return render(request, "login.html", {'form': form})
-
 @usuario_no_autentificado
 def pagina_logueado(request):
     if request.user.is_authenticated:

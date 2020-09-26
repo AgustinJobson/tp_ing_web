@@ -35,12 +35,11 @@
                             <hr>
                             {{ form | crispy }}
                             {% csrf_token %}
-                            <button class="btn btn-success" type="submit">Registrar</button>
+                            <button class="btn btn-success btn-lg btn-block" type="submit">Registrar</button>
                         </form>
                         <hr>
-                        <p><a href="/account/login">Logueate!</a></p>
-                        <p><a href="/account/reset_password">Click aquí si olvidaste tu contraseña</a></p>
-                        <p><a href="/">Home</a></p>
+                        <p><a class="btn btn-secondary btn-lg btn-block" href="/account/login">Sign In</a></p>
+                        <a type="button" href="/"class="btn btn-primary btn-lg btn-block">Volver al Home</a>
                     </div>
                 </div>
             </div>
