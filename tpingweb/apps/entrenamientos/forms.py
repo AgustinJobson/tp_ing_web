@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import entrenamiento, detalle_entrenamiento,runningteam
+from .models import *
 
 class FormEntrenamiento(ModelForm):
     class Meta:
@@ -54,3 +54,13 @@ class FormRunningTeam(ModelForm):
             'weekdays': forms.TextInput(attrs={'class':'form-control'}),
             'ubicacion': forms.TextInput(attrs={'class':'form-control'}),
         }
+
+class FormYoutube(ModelForm):
+    class Meta:
+        model = runningteam_youtube
+        fields = ['video']
+    
+class FormMedia(ModelForm):
+    class Meta:
+        model = runningteam_media
+        fields = ['media']

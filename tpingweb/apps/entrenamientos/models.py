@@ -74,6 +74,15 @@ class runningteam(models.Model):
     
     def eliminar_rt(self):
         return f"/training/runningteams/{self.id}/eliminar"
+    
+    def agregar_contenido(self):
+        return f"/training/runningteams/{self.id}/agregar_contenido"
+    
+    def contenido_youtube(self):
+        return f"/training/runningteams/{self.id}/subir_youtube"
+    
+    def contenido_media(self):
+        return f"/training/runningteams/{self.id}/subir_media"
 
     def __str__(self):
         return self.nombre_runningteam

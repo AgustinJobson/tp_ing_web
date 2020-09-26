@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
-from .forms import FormEntrenamiento, FormDetalleEntrenamiento, FormRunningTeam
+from .forms import *
 from apps.account.decorators import usuarios_permitidos
 from apps.account.decorators import usuario_no_autentificado
 from django.http import HttpResponseRedirect
@@ -262,3 +262,58 @@ def agregar_runningteam(request):
 
     context = {'form':form }
     return render(request,"nuevo_runningteam.html",context)
+
+
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
+def agregar_contenido(request, id):
+    rt = runningteam.objects.get(id=id)
+    context = {
+        'item': rt,
+    }
+    return render(request,"seleccionar_contenido.html",context)
+
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
+def contenido_youtube(request, id):
+    rt = runningteam.objects.get(id=id)
+    form = FormYoutube()
+    if request.method == 'POST':
+        form = FormYoutube(request.POST)
+        if form.is_valid():
+            yt = runningteam_youtube()
+            yt.runningteam = rt
+            yt.video = form.cleaned_data.get('video')
+            yt.save()
+            return redirect('/training/runningteams')
+        
+    return render (request, "subir_youtube.html", {'form': form})
+
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
+def contenido_youtube(request, id):
+    rt = runningteam.objects.get(id=id)
+    form = FormYoutube()
+    if request.method == 'POST':
+        form = FormYoutube(request.POST)
+        if form.is_valid():
+            yt = runningteam_youtube()
+            yt.runningteam = rt
+            yt.video = form.cleaned_data.get('video')
+            yt.save()
+            return redirect('/training/runningteams')
+        
+    return render (request, "subir_youtube.html", {'form': form})
+    
+    
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
+def contenido_media(request, id):
+    rt = runningteam.objects.get(id=id)
+    form = FormMedia()
+    if request.method == 'POST':
+        form = FormMedia(request.POST,request.FILES)
+        if form.is_valid():
+            md = runningteam_media()
+            md.runningteam = rt
+            md.media = form.cleaned_data.get('media')
+            md.save()
+            return redirect('/training/runningteams')
+        
+    return render (request, "subir_media.html", {'form': form})

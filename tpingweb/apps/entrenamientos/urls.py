@@ -16,6 +16,9 @@ from .views import (
     modificar_runningteam,
     eliminar_runningteam,
     modificar_dia,
+    agregar_contenido,
+    contenido_youtube,
+    contenido_media,
 )
 
 urlpatterns = [
@@ -40,5 +43,8 @@ urlpatterns = [
     path('runningteams/<int:id>/ver_mas/', runningteam_detalle, name="ver_mas"),
     path('runningteams/<int:id>/modificar/', modificar_runningteam, name="mod_rt"),
     path('runningteams/<int:id>/eliminar/', eliminar_runningteam, name="eli_rt"),
+    path('runningteams/<int:id>/agregar_contenido/', agregar_contenido ),
+    path('runningteams/<int:id>/subir_youtube/', contenido_youtube),
+    path('runningteams/<int:id>/subir_media/', contenido_media),
 ]
 

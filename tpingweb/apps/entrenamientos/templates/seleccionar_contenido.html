@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+{% extends 'banner.html' %}
+<body>
+{% block content %}
+<h2>Selecciona que contenido quieres agregar</h2>
+<hr>
+<a href="{{item.contenido_youtube}}" class="btn btn-outline-info">Agregar Contenido de Youtube</button></a>
+
+<a href="{{item.contenido_media}}" class="btn btn-info">Subir contenido a la página</a>
+{% endblock %}
+</body>
+</html>
