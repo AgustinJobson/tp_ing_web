@@ -83,6 +83,12 @@ class runningteam(models.Model):
     
     def contenido_media(self):
         return f"/training/runningteams/{self.id}/subir_media"
+    
+    def eliminar_youtube(self):
+        return f"/training/runningteams/{self.id}/seleccionar_video_eliminar"
+
+    def eliminar_media(self):
+        return f"/training/runningteams/{self.id}/seleccionar_media_eliminar"
 
     def __str__(self):
         return self.nombre_runningteam
@@ -91,9 +97,15 @@ class runningteam_youtube(models.Model):
     video = EmbedVideoField()
     runningteam = models.ForeignKey(runningteam, on_delete=models.CASCADE)
 
+    def eliminar_video(self):
+        return f"/training/runningteams/{self.id}/eliminar_video_youtube"
+
 class runningteam_media(models.Model):
     media=models.FileField(upload_to="videos_runningteams", null=True, blank = True)
     runningteam = models.ForeignKey(runningteam, on_delete=models.CASCADE)
+    
+    def eliminar_medias(self):
+        return f"/training/runningteams/{self.id}/eliminar_media"
 
 class Pedidoentrenador(models.Model):
     usuario = models.OneToOneField(

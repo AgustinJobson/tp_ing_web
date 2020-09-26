@@ -317,3 +317,65 @@ def contenido_media(request, id):
             return redirect('/training/runningteams')
         
     return render (request, "subir_media.html", {'form': form})
+
+def seleccionar_video_eliminar(request,id):
+    rt = runningteam.objects.get(id=id)
+    videos_rt = []
+    videos = runningteam_youtube.objects.all()
+    for v in videos:
+        if v.runningteam == rt:
+            videos_rt.append(v)
+            
+    context = {
+        'runningteam':rt,
+        'videos':videos_rt
+    }
+    return render(request, "seleccionar_youtube_eliminar.html", context)
+
+def eliminar_video_youtube(request, id):
+    video = runningteam_youtube.objects.get(id=id)
+    if request.method == 'POST':
+        video.delete()
+        return redirect('/training/runningteams')
+    
+    context = {
+        'item': video,
+    }
+    return render(request, "eliminar_youtube.html", context)
+
+
+def seleccionar_media_eliminar(request,id):
+    rt = runningteam.objects.get(id=id)
+    medias=runningteam_media.objects.all()
+    medias_rt = []
+    imagenes_rt = []
+    for media in medias:
+        if media.runningteam == rt:
+            last_chars = media.media.url[-3:]
+            
+            if last_chars == "mp4":
+                medias_rt.append(media)
+            else:
+                imagenes_rt.append(media)
+    
+    context = {
+        'runningteam':rt,
+        'medias':medias_rt,
+        'imagenes':imagenes_rt,
+    }
+    return render(request, "seleccionar_media_eliminar.html", context)
+
+def eliminar_media_subida(request, id):
+    media = runningteam_media.objects.get(id=id)
+    if request.method == 'POST':
+        media.delete()
+        return redirect('/training/runningteams')
+    es_video = False
+    if media.media.url[-3:] == "mp4":
+        es_video = True
+    
+    context = {
+        'item': media,
+        'es_video':es_video
+    }
+    return render(request, "eliminar_media.html", context)

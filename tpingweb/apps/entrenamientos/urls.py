@@ -1,25 +1,6 @@
 from django.urls import path
 from . import views
-from .views import (
-    entrenamiento_Get, 
-    entrenamiento_detallado, 
-    carga_entrenamiento, 
-    carga_detalle_entrenamiento, 
-    mis_entrenamientos_Get,
-    modificar_entrenamiento,
-    eliminar_entrenamiento,
-    LikeView,
-    entrenador_bio,
-    runningteams_Get,
-    runningteam_detalle,
-    agregar_runningteam,
-    modificar_runningteam,
-    eliminar_runningteam,
-    modificar_dia,
-    agregar_contenido,
-    contenido_youtube,
-    contenido_media,
-)
+from .views import *
 
 urlpatterns = [
     path('', entrenamiento_Get, name='Training'),
@@ -46,5 +27,9 @@ urlpatterns = [
     path('runningteams/<int:id>/agregar_contenido/', agregar_contenido ),
     path('runningteams/<int:id>/subir_youtube/', contenido_youtube),
     path('runningteams/<int:id>/subir_media/', contenido_media),
+    path('runningteams/<int:id>/eliminar_video_youtube', eliminar_video_youtube, name="eliminar_video_youtube"),
+    path('runningteams/<int:id>/seleccionar_video_eliminar', seleccionar_video_eliminar, name="seleccionar_foto_eliminar"),
+    path('runningteams/<int:id>/seleccionar_media_eliminar', seleccionar_media_eliminar, name="seleccionar_media_eliminar"),
+    path('runningteams/<int:id>/eliminar_media', eliminar_media_subida, name="eliminar_media"),
 ]
 

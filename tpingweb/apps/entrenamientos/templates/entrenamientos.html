@@ -43,7 +43,7 @@
                         </tr>
                         {% for i in entrenamientos_disponibles%}
                             <tr>                     
-                                <td><img class="profile-pic" src="{{i.autor.comun.profile_pic.url}}"> <a class="btn btn -sm light" href='{{i.autor.comun.ver_biografia}}'>{{i.autor.comun}}</a></td>
+                                <td><img class="profile-pic" src="{{i.autor.comun.profile_pic.url}}"> <a class="btn btn-link" href='{{i.autor.comun.ver_biografia}}'>{{i.autor.comun}}</a></td>
                                 <td>{{i.duracion_entrenamiento}}</td>
                                 <td>{{i.nombre_entrenamiento}}</td>                                
                                 <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_entrenamiento}}'>Ver Más</a></td>

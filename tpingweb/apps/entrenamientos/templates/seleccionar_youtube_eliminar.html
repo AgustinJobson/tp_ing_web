@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends 'banner.html' %}
+{% load embed_video_tags %}
+<html>
+    {% block content %}
+        {% if not videos %}
+            <h3>Este evento no contiene videos</h3>
+        {% else %} 
+            <h4>Seleccione el video que desea eliminar del Running Team "{{runningteam.nombre_runningteam}}"</h4>
+            <div class="container">
+                <div class="card-group">
+                        {% for v in videos %}
+                        <div class="card">
+                            {% video v.video as my_video %}
+                            <div class="card-body">
+                                <h5 class="card-title">URL del vídeo</h5>
+                                <a href="{{my_video.url}}">{{ my_video.url }}</a>
+                                <hr>
+                                <div class="card-footer">
+                                    <p class="card-text"> <a class="btn btn -sm btn-danger" href='{{v.eliminar_video}}'>Eliminar Video</a> </p>
+                                </div>
+                            </div>                         
+                        </div>
+                        {% endvideo %}
+                        {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        
+        <hr>
+        <a class="btn btn -sm btn-info" href="/training/runningteams">Volver a Running Teams</a>
+            
+    {% endblock %}
+</html>

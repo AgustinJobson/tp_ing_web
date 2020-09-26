@@ -1,5 +1,11 @@
 {% extends 'banner.html' %}
 {% load embed_video_tags %}
+<style>
+    img{width: 30%;}
+    body {
+        padding-top: 56px;
+    }
+</style>
 <html>
     {% block content %}
     <div class="contains">
@@ -19,11 +25,11 @@
                             {% for foto in imagenes %}
                                 {% if forloop.first %}
                                     <div class="carousel-item active">
-                                        <img class="d-block w-100" src="{{foto.media.url}}" alt=""  width="50%" >
+                                        <img class="d-block w-100" src="{{foto.media.url}}" alt="" width="128" height="428" >
                                     </div>
                                 {% else %}
                                     <div class="carousel-item">
-                                        <img class="d-block w-100" src="{{foto.media.url}}" alt=""  width="50%" >
+                                        <img class="d-block w-100" src="{{foto.media.url}}" alt="" width="128" height="428" >
                                     </div>
                                 {% endif %}
                             {% endfor %}
@@ -59,7 +65,8 @@
     {% if user == runningteam.entrenador %}
         {% if hay_archivos %}
             <hr/>
-            <a href = "#" class="btn btn-danger">Eliminar Archivos</a>
+            <a href = "{{ runningteam.eliminar_media }}" class="btn btn-danger">Eliminar contenido subido a la página</a>
+            <a href= "{{ runningteam.eliminar_youtube }}" class="btn btn-danger">Eliminar contenido de Youtube</a>
         {% endif %}
     {% endif %}
     {% endblock %}

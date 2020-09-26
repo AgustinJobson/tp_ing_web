@@ -1,5 +1,4 @@
 {% extends 'banner.html' %}
-{% load static %}
 {% block content %}
 
 <style>
@@ -12,7 +11,7 @@
 </style>
 
 <br>
-<div class="row">
+<div class="container"> 
     <div class= "col-md-3">
         <div class="card card-body">
             <a class="btn btn-warning" href="{% url 'home' %}"> Volver al Home </a>
@@ -22,18 +21,18 @@
             <img class="profile-pic" src="{{request.user.comun.profile_pic.url}}" >
         </div>
     </div>
-</div>
-<div class="col-md-9">
-    <div class="card card-body">
-        <form method="POST" action="" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{form.as_p}}
-            {% if tipo == "entrenador" %}
+    <div class="col-md-9">
+        <div class="card card-body">
+            <form method="POST" action="" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{form.media}}
-            {% endif %}
+                {{form.as_p}}
+                {% if tipo == "entrenador" %}
+                    {% csrf_token %}
+                    {{form.media}}
+                {% endif %}
             <input class="btn btn-primary" type="submit" value="Actualizar Información">
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 <br>
