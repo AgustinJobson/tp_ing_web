@@ -1,6 +1,8 @@
 {% extends 'banner.html' %}
 <html>
     {% block content %}
+
+    <div class="container">
         <h1>{{post.titulo}}</h1>
         <small>Por:
             {{post.autor.comun}} -
@@ -74,4 +76,5 @@
                 </form>
             </div>
         {% endif %}
+    </div>
     {% endblock %}
