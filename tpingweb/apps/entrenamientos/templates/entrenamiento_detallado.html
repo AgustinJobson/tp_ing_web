@@ -8,6 +8,9 @@
             <br/>
             Categoria: {{entrenamiento.tipo_entrenamiento}}
             Tiempo de carrera estimado: {{entrenamiento.tiempo_estimado}}
+            {% if request.user.comun == entrenador %}
+                <p> </p>
+            {% endif %}
         </strong><br/>
         <hr>
         <br/>

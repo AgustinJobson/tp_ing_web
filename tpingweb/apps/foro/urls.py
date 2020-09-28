@@ -7,7 +7,9 @@ from .views import (
     agregar_tema,
     update_tema,
     delete_post,
-    mis_temas
+    mis_temas,
+    vista_likes,
+    comentario_likes,
 )
 
 urlpatterns = [
@@ -17,6 +19,7 @@ urlpatterns = [
     path("tema-nuevo", agregar_tema),
     path("edit_post/<int:id>", update_tema, name = 'update_post'),
     path("delete_post/<int:id>", delete_post, name = "delete_post"),
-    path("mis_temas/", mis_temas)
-
+    path("mis_temas/", mis_temas),
+    path('like/<int:pk>', vista_likes, name='like_post'),
+    path('comment_like/<int:pk>', comentario_likes, name='like_comentario'),
 ]

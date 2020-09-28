@@ -17,9 +17,13 @@ class Post(models.Model):
     autor = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha_post = models.DateTimeField(auto_now_add=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True)
-
+    likes = models.ManyToManyField(User,related_name="foro_posts")
+    
     def ver_mas_post(self):
         return f"/foro/{self.id}/"
+    
+    def total_likes(self):
+        return self.likes.count()
     
     def edit_post(self):
         return f"/foro/edit_post/{self.id}"
@@ -35,6 +39,13 @@ class Comentario(models.Model):
     autor = models.ForeignKey(User, on_delete=models.CASCADE)
     body = RichTextField(blank=True, null=True)
     fecha_comentario = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User,related_name="comentario_posts")
+    
+    def total_likes(self):
+        return self.likes.count()
 
+    def likeado(self):
+        return self.likes.filter(id=request.user.id).exists()
+    
     def __str__(self):
         return '%s - %s' % (self.post.titulo, self.autor.first_name)

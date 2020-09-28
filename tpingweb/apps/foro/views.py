@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post, Comentario, Categoria
 from .forms import FormPost, FormComentario
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 import datetime
 
 
@@ -8,6 +10,30 @@ def get_categorias(request):
     categorias = Categoria.objects.all()
     context ={'categorias': categorias}
     return render(request, "foro.html", context)
+
+
+def vista_likes(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    liked = False
+    if (post.likes.filter(id=request.user.id).exists()):
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+    return HttpResponseRedirect(reverse('detalle_post', args=[str(pk)]))
+
+def comentario_likes(request, pk):
+    comment = get_object_or_404(Comentario, id=request.POST.get('comentario_id'))
+    liked = False
+    if (comment.likes.filter(id=request.user.id).exists()):
+        comment.likes.remove(request.user)
+        liked = False
+    else:
+        comment.likes.add(request.user)
+        liked = True
+        
+    return HttpResponseRedirect(reverse('detalle_post', args=[str(comment.post.id)]))
 
 
 def get_foro(request, id):
@@ -21,6 +47,7 @@ def get_foro(request, id):
         'categoria':categoria,
         'posts_disponibles':posts_categoria,
     }
+    
     return render(request, "foro_por_categorias.html", context)
 
 def detalle_post(request, id):
@@ -30,12 +57,22 @@ def detalle_post(request, id):
     comentarios_post = Comentario.objects.all()
     for post in posts:
         if (post.id == id):
-            post_pd = post            
+            post_pd = post        
+            coment_likes = []    
             for coment in comentarios_post:
                 if (coment.post.id == id):
                     comentarios.append(coment)
+                    cantidad_likes = coment.total_likes()                    
+                    comment_liked = False
+                    if coment.likes.filter(id = request.user.id).exists():
+                        comment_liked = True
+                    coment_likes.append([coment.id, cantidad_likes, comment_liked])
             #user_entrenador = entren.autor.comun
             cantiadad_comentarios = len(comentarios)
+            comentarios.sort(key=lambda x: x.total_likes(), reverse=True)
+            
+            
+            
             
             form = FormComentario()
             if request.method == "POST":
@@ -50,11 +87,18 @@ def detalle_post(request, id):
                     path = '/foro/'+str(id)
                     return redirect(path)
             
+            total_likes = post_pd.total_likes()
+            liked = False
+            if post.likes.filter(id = request.user.id).exists():
+                liked = True
             context = {
                 'post':post_pd, 
                 'comentarios':comentarios, 
                 'cantidad': cantiadad_comentarios,
-                'form': form
+                'form': form,
+                'total_likes':total_likes,
+                'liked':liked,
+                'comment_likes':coment_likes,
             }
             return render(request, "detalle_post.html", context)
     return redirect('/foro')
