@@ -10,6 +10,7 @@
         {% csrf_token %}
         {{ form|crispy }}
         <input class="btn btn-primary" type="submit" value="Registrar">
+        <a class="btn btn-danger btn-sm" href = "/events">Cancelar</a>
     </form>
 </div>
 {% endblock %}
