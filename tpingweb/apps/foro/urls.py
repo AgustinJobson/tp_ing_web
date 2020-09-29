@@ -10,6 +10,7 @@ from .views import (
     mis_temas,
     vista_likes,
     comentario_likes,
+    get_all_posts
 )
 
 urlpatterns = [
@@ -22,4 +23,5 @@ urlpatterns = [
     path("mis_temas/", mis_temas),
     path('like/<int:pk>', vista_likes, name='like_post'),
     path('comment_like/<int:pk>', comentario_likes, name='like_comentario'),
+    path('all', get_all_posts),
 ]

@@ -11,6 +11,13 @@ def get_categorias(request):
     context ={'categorias': categorias}
     return render(request, "foro.html", context)
 
+def get_all_posts(request):
+    posts = Post.objects.all()
+    posts = sorted(posts, key=lambda x: x.fecha_post)
+    context = {
+        'posts':posts
+    }
+    return render(request, "all_posts.html", context)
 
 def vista_likes(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
