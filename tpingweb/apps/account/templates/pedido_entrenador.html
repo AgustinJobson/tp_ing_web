@@ -3,13 +3,25 @@
 {% extends 'banner.html' %}
 <body>
 {% block content %}
-<h2>Realizar Pedido Entrenador</h2>
-{% load crispy_forms_tags %}
-<form method="POST" action="" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input class="btn btn-primary" type="submit" value="Registrar">
-</form>
+<div class="container">
+    {% if autenticado and not entrenador %}
+        <h2>Realizar Pedido Entrenador</h2>
+        {% load crispy_forms_tags %}
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input class="btn btn-primary" type="submit" value="Enviar">
+        </form>
+    {% else %}
+        {% if not entrenador %}
+            <h2>Necesitás estar logueado para pedir ser entrenador.</h2>
+        {% else %}
+            <h2>Ya sos entrenador!</h2>
+        {% endif %}
+    {% endif %}
+    <br>
+    <a href='/'class="btn btn-info btn-sm"> Volver al home</a>
+</div>
 {% endblock %}
 </body>
 </html>

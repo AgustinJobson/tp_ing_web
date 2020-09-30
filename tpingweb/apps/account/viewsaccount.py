@@ -80,7 +80,7 @@ def home_logueado(request):
         'es_trainer':es_trainer,
         'user':request.user
     }
-    return render(request, "usuario_logueado.html", context)
+    return render(request, "home.html", context)
 
 def pedido_entrenador(request):
     form=CreatePedidoForm()
@@ -103,8 +103,13 @@ def pedido_entrenador(request):
                 'pedido_aceptado':pedido_aceptado
             }
             return render(request, "usuario_logueado.html", context)
-            
-    return render(request, "pedido_entrenador.html", {'form':form})
+    autenticado = False
+    entrenador = False
+    if request.user.is_authenticated:
+        autenticado = True
+        if request.user.groups.filter(name='entrenador').exists():
+            entrenador = True
+    return render(request, "pedido_entrenador.html", {'form':form,'autenticado':autenticado, 'entrenador':entrenador})
 
 @usuario_autentificado
 def register(request):
