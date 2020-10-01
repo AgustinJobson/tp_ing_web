@@ -161,6 +161,8 @@ def carga_detalle_entrenamiento(request, id):
     form = FormDetalleEntrenamiento()
     entrenamientoo = entrenamiento.objects.get(id=id)
     detalles = detalle_entrenamiento.objects.all()
+    if (request.user != entrenamientoo.autor):
+        return redirect("/account/no-autorizado")
     for det in detalles:
         if det.entrenamiento == entrenamientoo:
             cantidad_dias += 1
@@ -187,6 +189,8 @@ def carga_detalle_entrenamiento(request, id):
 def modificar_entrenamiento(request, id):
     entren = entrenamiento.objects.get(id=id)
     form = FormEntrenamiento(instance = entren)
+    if (request.user != entren.autor):
+        return redirect("/account/no-autorizado")
     if request.method == 'POST':
         form = FormEntrenamiento(request.POST, instance = entren)
         if form.is_valid():
@@ -197,8 +201,9 @@ def modificar_entrenamiento(request, id):
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def modificar_dia(request, id_entren, id):
     dia_entren = detalle_entrenamiento.objects.get(id = id)
+    if (request.user != dia_entren.entrenamiento.autor):
+        return redirect("/account/no-autorizado")
     form = FormDetalleEntrenamiento(instance = dia_entren)
-    print(dia_entren)
     if request.method == 'POST':
         form = FormDetalleEntrenamiento(request.POST, instance = dia_entren)
         if form.is_valid():
@@ -210,6 +215,8 @@ def modificar_dia(request, id_entren, id):
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def eliminar_entrenamiento(request, id):
     entren = entrenamiento.objects.get(id=id)
+    if (request.user != entren.autor):
+        return redirect("/account/no-autorizado")
     if request.method == 'POST':
         entren.delete()
         return redirect('/training/mis_entrenamientos')
@@ -221,6 +228,8 @@ def eliminar_entrenamiento(request, id):
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def modificar_runningteam(request, id):
     rt = runningteam.objects.get(id=id)
+    if (request.user != rt.entrenador):
+        return redirect("/account/no-autorizado")
     form = FormRunningTeam(instance = rt)
     if request.method == 'POST':
         form = FormRunningTeam(request.POST, request.FILES, instance = rt)
@@ -232,6 +241,8 @@ def modificar_runningteam(request, id):
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def eliminar_runningteam(request, id):
     rt = runningteam.objects.get(id=id)
+    if (request.user != rt.entrenador):
+        return redirect("/account/no-autorizado")
     if request.method == 'POST':
         rt.delete()
         return redirect('/training/runningteams')
@@ -267,11 +278,14 @@ def agregar_runningteam(request):
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def agregar_contenido(request, id):
     rt = runningteam.objects.get(id=id)
+    if (request.user != rt.entrenador):
+        return redirect("/account/no-autorizado")
     context = {
         'item': rt,
     }
     return render(request,"seleccionar_contenido.html",context)
 
+"""
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def contenido_youtube(request, id):
     rt = runningteam.objects.get(id=id)
@@ -286,10 +300,13 @@ def contenido_youtube(request, id):
             return redirect('/training/runningteams')
         
     return render (request, "subir_youtube.html", {'form': form})
+"""
 
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def contenido_youtube(request, id):
     rt = runningteam.objects.get(id=id)
+    if (request.user != rt.entrenador):
+        return redirect("/account/no-autorizado")
     form = FormYoutube()
     if request.method == 'POST':
         form = FormYoutube(request.POST)
@@ -306,6 +323,8 @@ def contenido_youtube(request, id):
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def contenido_media(request, id):
     rt = runningteam.objects.get(id=id)
+    if (request.user != rt.entrenador):
+        return redirect("/account/no-autorizado")
     form = FormMedia()
     if request.method == 'POST':
         form = FormMedia(request.POST,request.FILES)
@@ -318,8 +337,11 @@ def contenido_media(request, id):
         
     return render (request, "subir_media.html", {'form': form})
 
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
 def seleccionar_video_eliminar(request,id):
     rt = runningteam.objects.get(id=id)
+    if (request.user != rt.entrenador):
+        return redirect("/account/no-autorizado")
     videos_rt = []
     videos = runningteam_youtube.objects.all()
     for v in videos:
@@ -332,8 +354,11 @@ def seleccionar_video_eliminar(request,id):
     }
     return render(request, "seleccionar_youtube_eliminar.html", context)
 
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
 def eliminar_video_youtube(request, id):
     video = runningteam_youtube.objects.get(id=id)
+    if (request.user != video.runningteam.entrenador):
+        return redirect("/account/no-autorizado")
     if request.method == 'POST':
         video.delete()
         return redirect('/training/runningteams')
@@ -343,9 +368,11 @@ def eliminar_video_youtube(request, id):
     }
     return render(request, "eliminar_youtube.html", context)
 
-
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
 def seleccionar_media_eliminar(request,id):
     rt = runningteam.objects.get(id=id)
+    if (request.user != rt.entrenador):
+        return redirect("/account/no-autorizado")
     medias=runningteam_media.objects.all()
     medias_rt = []
     imagenes_rt = []
@@ -365,8 +392,11 @@ def seleccionar_media_eliminar(request,id):
     }
     return render(request, "seleccionar_media_eliminar.html", context)
 
+@usuarios_permitidos(roles_permitidos = ['entrenador'])
 def eliminar_media_subida(request, id):
     media = runningteam_media.objects.get(id=id)
+    if (request.user != media.runningteam.entrenador):
+        return redirect("/account/no-autorizado")
     if request.method == 'POST':
         media.delete()
         return redirect('/training/runningteams')

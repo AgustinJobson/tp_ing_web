@@ -27,30 +27,41 @@ from apps.entrenamientos.models import Pedidoentrenador
 def inicio_sesion(request):
     form = AuthenticationForm()
     no_activo = False
+    mensajes = []
     if request.method == "POST":
-        print('pasa')
-        # Añadimos los datos recibidos al formulario
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            # Recuperamos las credenciales validadas
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
 
-            # Verificamos las credenciales del usuario
             user = authenticate(username=username, password=password)
 
-            # Si existe un usuario con ese nombre y contraseña
             if user is not None:
                 if user.is_active:
                     auth.login(request, user)
                     return redirect('/account/home')
+        else:
+            username = form.cleaned_data['username']        
+            usuarios_comunes = Comun.objects.all()
+            usuario_encontrado = False
+            for com in usuarios_comunes:
+                if (str(com.user) == username): 
+                    usuario_encontrado = True
+                    break
+            if (usuario_encontrado):
+                if (not com.user.is_active):
+                    mensajes.append('El usuario no está activo, verifique su email')
                 else:
-                    no_activo = True
-                    context = {'no_activo': no_activo}
-                    messages.error(request,'El usuario no está activo, verifique su email')
-                    return redirect('/account/login', context)
-            messages.error(request, 'Las credenciales son incorrectas, intente denuevo.')    
-    return render(request, "login.html", {'form': form})
+                    mensajes.append('La contraseña ingresada es incorrecta') 
+            else:
+                mensajes.append('El usuario ingresado no existe')     
+            
+    context = {
+        'form':form,
+        'messages':mensajes,
+        'no_activo': no_activo
+    }
+    return render(request, "login.html", context)
 
 @usuario_no_autentificado
 def pagina_logueado(request):
@@ -113,42 +124,50 @@ def pedido_entrenador(request):
 
 @usuario_autentificado
 def register(request):
-    # Creamos el formulario de autenticación vacío
     form = CreateUserForm()
     if request.method == "POST":
-        # Añadimos los datos recibidos al formulario
         form = CreateUserForm(data=request.POST)
 
         if form.is_valid():
             # Creamos la nueva cuenta de usuario
-            user = form.save()
-            user.is_active=False
-            usernombrex = form.cleaned_data.get('username')
             email_user = form.cleaned_data.get('email')
-            grupo = Group.objects.get(name = 'comun')
-            user.groups.add(grupo)
-            Comun.objects.create(
-                user = user,
-                nombre = user.first_name,
-                apellido = user.last_name,
-                email = user.email
-            )
-            #messages.success(request,'El usuario ' + usernombrex + ' fue creado correctamente!')
-        
-            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-            domain = get_current_site(request).domain
-            link = reverse('activate',kwargs={'uidb64':uidb64,'token':token_generator.make_token(user)})
+            usuarios_all = User.objects.all()
+            email_es_valido = True
+            for us in usuarios_all:
+                if us.email == email_user:
+                    email_es_valido = False
+                    break
+            if (email_es_valido):            
+                user = form.save()
+                user.is_active=False
+                usernombrex = form.cleaned_data.get('username')
+                grupo = Group.objects.get(name = 'comun')
+                user.groups.add(grupo)
+                Comun.objects.create(
+                    user = user,
+                    nombre = user.first_name,
+                    apellido = user.last_name,
+                    email = user.email
+                )
+                #messages.success(request,'El usuario ' + usernombrex + ' fue creado correctamente!')
             
-            activate_url = 'http://'+domain+link
-            user.save()
-            email = EmailMessage(
-                'Hola ' +usernombrex+ '. Gracias Por Registrarte en Jaguarun',
-                'Activa tu cuenta con este link: '+ activate_url,
-                'validation.jaguarun@gmail.com',
-                [email_user]
-            )
-            email.send(fail_silently=False)
-            return redirect('/account/login')
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                domain = get_current_site(request).domain
+                link = reverse('activate',kwargs={'uidb64':uidb64,'token':token_generator.make_token(user)})
+                
+                activate_url = 'http://'+domain+link
+                user.save()
+                email = EmailMessage(
+                    'Hola ' +usernombrex+ '. Gracias Por Registrarte en Jaguarun',
+                    'Activa tu cuenta con este link: '+ activate_url,
+                    'validation.jaguarun@gmail.com',
+                    [email_user]
+                )
+                email.send(fail_silently=False)
+                return redirect('/account/login')
+            else:
+                #MANDAR MENSAJE DE EMAIL YA REGISTRADO
+                pass
 
     # Para borrar los campos de ayuda
     form.fields['username'].help_text = None

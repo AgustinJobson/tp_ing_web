@@ -1,7 +1,5 @@
 {% extends 'banner.html' %}
 <html>
-
-
     {% block content %}
     <style>
         .profile-pic{
@@ -11,36 +9,40 @@
             border-radius: 50%;
         }
     </style>
-        <br>
+    <br>
     <div class="container">
-        <div class="card-deck">
+        <div class="row">
         {% for i in runningteams_disponibles %}
-            <div class="card text-center p-0" style="max-width: 25rem;">
-                <img class="card-img-top" src="{{i.logo.url}}" alt="Card image cap">
-                <div class="card-body">
-                <h5 class="card-title">{{ i.nombre_runningteam }}</h5>
-                <h7 class="card-text">Entrenador</h7>
-                <p class="card-text"> <a class="btn btn-link" href='{{ i.entrenador.comun.ver_biografia }}'>{{i.entrenador.comun}}</a></p>
-                <div class="card-footer">
-                <a href="{{i.ver_mas}}" class="btn btn-primary btn-sm">Ver más</a>
-                {% if es_trainer %}
-                    {% if user == i.entrenador %}
-                        <a href="{{i.modificar_rt}}" class="btn btn-warning btn-sm">Modificar</a>
-                        <a href="{{i.eliminar_rt}}" class="btn btn-danger btn-sm">Eliminar</a>
-                        <hr>
-                        <a href="{{i.agregar_contenido}}" class="btn btn-outline-success btn-sm">Agregar Contenido</a>
-                    {% endif %}
-                {% endif %}
+            <div class ="col-md-4 mb-4">
+                <div class="card text-center p-0">
+                    <img class="card-img-top" src="{{i.logo.url}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ i.nombre_runningteam }}</h5>
+                        <h7 class="card-text">Entrenador</h7>
+                        <p class="card-text"> <a class="btn btn-link" href='{{ i.entrenador.comun.ver_biografia }}'>{{i.entrenador.comun}}</a></p>
+                        <div class="card-footer">
+                            <p><a href="{{i.ver_mas}}" class="btn btn-info btn-sm">Ver más</a></p>
+                            {% if es_trainer %}
+                                {% if user == i.entrenador %}
+                                    <p><a href="{{i.modificar_rt}}" class="btn btn-warning btn-sm">Modificar</a></p>
+                                    <p><a href="{{i.eliminar_rt}}" class="btn btn-danger btn-sm">Eliminar</a></p>
+                                    <hr>
+                                    <a href="{{i.agregar_contenido}}" class="btn btn-outline-success btn-sm">Agregar Contenido</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-            </div>
             </div>
         {% endfor %}
         </div>
     </div>
-
-        {% if es_trainer %}
+    <hr/>
+    {% if es_trainer %}
+        <div class="container">
             <p>{{request.user.comun}}, como sos entrenador podés agregar tu Running Team. </p>
             <p><a class="btn btn -sm btn-info" href='nuevo/'>Crear tu Running Team</a></p>
-        {% endif %}
+        </div>
+    {% endif %}
     {% endblock %}
 </html>

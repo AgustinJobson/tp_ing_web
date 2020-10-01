@@ -11,14 +11,9 @@
     </style>
     <br>
     <!-- Page Content -->
-
-        <div class="row">
-
-            <!-- Blog Entries Column -->
-        
+    <div class="container">
+        <div class="row">        
             <div class="col-md-8">
-
-                <!-- Blog Post -->
                 {% for i in posts%}
                     <div class="card mb-4">
                         <div class="card-header border-0">
@@ -37,13 +32,12 @@
                     </div>
                 {% endfor %}
             </div>
-        </div>  
-        <div class="col-md-4">
-            <br>
-            <div class="card my-4">
-                <a type="button" class="btn btn-info" href="/foro"> Categorías</a>
-            </div>
         </div> 
+    </div>
+    <div class="container">
+        <br>
+         <a type="button" class="btn btn-success" href="/foro"> Categorías</a>
+    </div> 
 
     {% endblock %}
 </html>

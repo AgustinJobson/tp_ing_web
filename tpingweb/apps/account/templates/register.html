@@ -1,49 +1,76 @@
-
-<head>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-</head>
-<style>
-    #login .container #login-row #login-column #login-box {
-      margin-top: 120px;
-      max-width: 600px;
-      height: 320px;
-      border: 1px solid #9C9C9C;
-      background-color: #963434;
-    }
-    #login .container #login-row #login-column #login-box #login-form {
-      padding: 20px;
-    }
-    #login .container #login-row #login-column #login-box #login-form #register-link {
-      margin-top: -85px;
-    }
-</style>
 <!DOCTYPE html>
-<html>
 
-<body>
-    {% load crispy_forms_tags %}
-        <div id="login" >    
-            <h3 class="text-center text-black pt-5">Jaguarun</h3>
-            <div class="container">
-                <div id="login-row" class="row justify-content-center align-items-center"
-                <div id="login-column" class="col-md-6">
-                    <div id="login-box" class="col-md-16">
-                        <form id="login-form" class="form" action="" method="POST">
-                            <h3 class="text-center text-info">Registro</h3>
-                            <hr>
-                            {{ form | crispy }}
-                            {% csrf_token %}
-                            <button class="btn btn-success btn-lg btn-block" type="submit">Registrar</button>
-                        </form>
-                        <hr>
-                        <p><a class="btn btn-secondary btn-lg btn-block" href="/account/login">Sign In</a></p>
-                        <a type="button" href="/"class="btn btn-primary btn-lg btn-block">Volver al Home</a>
+<html>
+    <head>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <title>Jaguarun</title>
+
+        <style>
+            #login .container #login-row #login-column #login-box {
+            margin-top: 15px;
+            max-width: 500px;
+            height: 320px;
+            }
+            #login .container #login-row #login-column #login-box #login-form {
+            padding: 20px;
+            }
+            #login .container #login-row #login-column #login-box #login-form #register-link {
+            margin-top: -85px;
+            }
+        </style>
+    </head>
+    <body>
+        {% load crispy_forms_tags %}
+            <div id="login" >    
+                <div class="container">
+                    <div id="login-row" class="row justify-content-center align-items-center">
+                        <div id="login-column" class="col-md-6">
+                            <div id="login-box" class="col-md-16">
+                                <h3 class="text-center text-black pt-5">Jaguarun</h3>
+                                <form id="login-form" class="form" action="" method="POST">
+                                    <h3 class="text-center text-info">Registro</h3>
+                                    <hr>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="username" class="text-info">Usuario</label><br>
+                                            <input type="text" name="username" id="username" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="first_name" class="text-info">Nombre</label><br>
+                                            <input type="text" name="first_name" id="first_name" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="last_name" class="text-info">Apellido</label><br>
+                                            <input type="text" name="last_name" id="last_name" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email" class="text-info">Email</label><br>
+                                            <input type="text" name="email" id="email" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password1" class="text-info">Contraseña</label><br>
+                                            <input type="password" name="password1" id="password1" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password2" class="text-info">Confirmar Contraseña</label><br>
+                                            <input type="password" name="password2" id="password2" class="form-control">
+                                        </div>
+                                    </div>
+                                    <!--{{ form | crispy }}-->
+                                    {% csrf_token %}
+                                    <button class="btn btn-success btn-lg btn-block" type="submit">Registrar</button>
+                                </form>
+                                <hr>
+                                <p><a class="btn btn-secondary btn-lg btn-block" href="/account/login">Iniciar Sesión</a></p>
+                                <a type="button" href="/"class="btn btn-primary btn-lg btn-block">Volver al Home</a>
+                                <hr/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </body>
 </html>
-    

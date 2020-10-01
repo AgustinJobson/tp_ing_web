@@ -3,46 +3,44 @@
 
 <html>
     {% block content %}
-
     <style>
         .card-img-top {
         width: 100%;
         height: 15vw;
-        object-fit: cover;
     }
     </style>
-
-
-        <br>
-            <h5> Eventos disponibles</h5>
-                <div class="container">
-                    <div class="card-deck">
-                            {% for i in eventos_disponibles %}
-                            <div class="card text-center p-0" style="max-width: 25rem;">
-                                <img class="card-img-top" src="{{i.logo.url}}" alt="Card image cap">
-                                <div class="card-body">
-                                <h5 class="card-title">{{i.nombre_evento}}</h5>
-                                <h7 class="card-text">{{i.empresa_organizadora.nombre_empresa}}</h7>
-                                <div class="card-footer">
-                                    <p class="card-text"> <a class="btn btn-info btn-sm" href='{{i.get_absolute_url}}'>Ver Más</a> </p>
-                                    {% if es_admin %}
-                                        <p><a  class="btn btn-danger btn-sm" href='{{i.eliminar_evento}}'>Eliminar</a></p>
-                                        <td><a class="btn btn-warning btn-sm" href="{{i.modificar_evento}}">Modificar</a></td>
-                                        <hr>
-                                        <p><a href='{{i.subir_foto}}'>Agregar imagen /</a> 
-                                        <a href='{{i.eliminar_foto}}'>Eliminar imagen</a></p>
-                                    {% endif %}
-                                </div>
-                                </div>
-                            </div>
-                            {% endfor %}
+    <br>
+    <div class="container">
+        <h5> Eventos disponibles</h5>
+        <div class ="row">
+            {% for i in eventos_disponibles %}
+            <div class ="col-md-4 mb-4">
+                <div class="card text-center p-0">
+                    <img class="card-img-top" src="{{i.logo.url}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{i.nombre_evento}}</h5>
+                        <h7 class="card-text">{{i.empresa_organizadora.nombre_empresa}}</h7>
+                        <div class="card-footer">
+                            <p class="card-text"> <a class="btn btn-info btn-sm" href='{{i.get_absolute_url}}'>Ver Más</a> </p>
+                            {% if es_admin %}
+                                <p><a  class="btn btn-danger btn-sm" href='{{i.eliminar_evento}}'>Eliminar</a></p>
+                                <td><a class="btn btn-warning btn-sm" href="{{i.modificar_evento}}">Modificar</a></td>
+                                <hr>
+                                <p><a href='{{i.subir_foto}}'>Agregar imagen /</a> 
+                                <a href='{{i.eliminar_foto}}'>Eliminar imagen</a></p>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-    <hr>
+    </div>
+    <hr/>
     {% if es_admin %}
-        <p><a class="btn btn -sm btn-success" href='/events/nuevo'>Agregar nuevo Evento</a></p>
+        <div class="container">
+            <p><a class="btn btn -sm btn-success" href='/events/nuevo'>Agregar nuevo Evento</a></p>
+        </div>
     {% endif %}
     {% endblock %}
-
 </html>
