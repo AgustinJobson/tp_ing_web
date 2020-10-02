@@ -41,7 +41,7 @@ def inicio_sesion(request):
                     auth.login(request, user)
                     return redirect('/account/home')
         else:
-            username = form.cleaned_data['username']        
+            username = form.cleaned_data['username']     
             usuarios_comunes = Comun.objects.all()
             usuario_encontrado = False
             for com in usuarios_comunes:
@@ -54,7 +54,8 @@ def inicio_sesion(request):
                 else:
                     mensajes.append('La contraseña ingresada es incorrecta') 
             else:
-                mensajes.append('El usuario ingresado no existe')     
+                msj = 'El usuario "' + username + '" no existe'
+                mensajes.append(msj)     
             
     context = {
         'form':form,
@@ -125,11 +126,10 @@ def pedido_entrenador(request):
 @usuario_autentificado
 def register(request):
     form = CreateUserForm()
+    mensajes = []
     if request.method == "POST":
         form = CreateUserForm(data=request.POST)
-
         if form.is_valid():
-            # Creamos la nueva cuenta de usuario
             email_user = form.cleaned_data.get('email')
             usuarios_all = User.objects.all()
             email_es_valido = True
@@ -166,15 +166,19 @@ def register(request):
                 email.send(fail_silently=False)
                 return redirect('/account/login')
             else:
-                #MANDAR MENSAJE DE EMAIL YA REGISTRADO
-                pass
-
+                mensajes.append('El email ingresado ya se encuentra en la Base de Datos')
+                
     # Para borrar los campos de ayuda
     form.fields['username'].help_text = None
     form.fields['password1'].help_text = None
     form.fields['password2'].help_text = None
 
-    return render(request, "register.html", {'form': form})
+    context ={
+        'form': form,
+        'messages': mensajes
+    }
+
+    return render(request, "register.html", context)
 
 def logout(request):
     auth.logout(request)

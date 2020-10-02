@@ -9,17 +9,20 @@
         <title>Jaguarun</title>
 
         <style>
-            #login .container #login-row #login-column #login-box {
+        #login .container #login-row #login-column #login-box {
             margin-top: 15px;
             max-width: 500px;
             height: 320px;
-            }
-            #login .container #login-row #login-column #login-box #login-form {
+        }
+        #login .container #login-row #login-column #login-box #login-form {
             padding: 20px;
-            }
-            #login .container #login-row #login-column #login-box #login-form #register-link {
+        }
+        #login .container #login-row #login-column #login-box #login-form #register-link {
             margin-top: -85px;
-            }
+        }
+        #mensajes-error{
+            color: red;
+        }
         </style>
     </head>
     <body>
@@ -61,6 +64,16 @@
                                     </div>
                                     <!--{{ form | crispy }}-->
                                     {% csrf_token %}
+                                    {% if messages%}
+                                        {% for message in messages %}
+                                            <div class="container">
+                                                <div id="mensajes-error">
+                                                    <h5 class="text-center">{{message}}</h5>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        <br>
+                                    {% endif %}
                                     <button class="btn btn-success btn-lg btn-block" type="submit">Registrar</button>
                                 </form>
                                 <hr>
