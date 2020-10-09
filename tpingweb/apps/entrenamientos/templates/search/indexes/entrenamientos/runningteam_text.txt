@@ -1,0 +1,9 @@
+{{ object.nombre_runningteam }}
+
+{{ object.entrenador.comun }}
+
+{{ object.localidad }}
+
+{{ object.weekdays }}
+
+{{ object.logo.url }}

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_extensions',
     'embed_video',
+    'haystack',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -93,6 +94,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    },
 }
 
 

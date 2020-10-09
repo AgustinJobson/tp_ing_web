@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from .views import *
 
@@ -31,5 +31,6 @@ urlpatterns = [
     path('runningteams/<int:id>/seleccionar_video_eliminar', seleccionar_video_eliminar, name="seleccionar_foto_eliminar"),
     path('runningteams/<int:id>/seleccionar_media_eliminar', seleccionar_media_eliminar, name="seleccionar_media_eliminar"),
     path('runningteams/<int:id>/eliminar_media', eliminar_media_subida, name="eliminar_media"),
+    path('search/', include('haystack.urls')),
 ]
 
