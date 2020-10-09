@@ -4,6 +4,10 @@ from apps.entrenamientos.models import *
 class runningteamIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     nombre_runningteam = indexes.CharField(model_attr='nombre_runningteam')
+    url_logo = indexes.CharField()
+
+    def preparar_logo_url(self, obj):
+       return obj.image_field.path
 
     def get_model(self):
         return runningteam
