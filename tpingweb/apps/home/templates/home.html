@@ -2,17 +2,25 @@
 {% extends 'banner.html' %}
 <html>
 {% block content %}
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-
+<style>
+  .profile-pic{
+      max-width: 50px;
+      max-height: 50 px;
+      margin: 0 auto;
+      border-radius: 50%;
+  }
+</style>
 <!-- Bootstrap core CSS -->
 <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <link href="static/css/full-width-pics.css" rel="stylesheet">
-
+</head>
 <body>
 
 <!-- Header - set the background image for the header in the line below -->
@@ -43,6 +51,8 @@
     <p></p>
   </div>
 </section>
+
+
 <section class="py-5">
   <div class="container">
     <h1>¿Cómo utilizar Jaguarun?</h1>
@@ -53,6 +63,51 @@
     <p class="lead">No olvides registrarte, para poder disfrutar de nuestra página al 100%! Si sos entrenador, <a href='/account/pedidoentrenador'>no dudes en contactarnos</a></p>
   </div>
 </section>
+{% if posts %}
+  <section class="py-5">
+    <div class="container">
+    <p class="lead">Posts más interesantes</p>
+      {% for p in posts %}
+        <div class="card border-0">
+          <div class="card-body">
+            <a href="{{p.ver_mas_post}}" class="btn btn-light"> "{{ p.titulo }}", por {{p.autor.comun}} </a>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+
+{% if entrenamientos %}
+  <section class="py-5">
+    <div class="container">
+    <p class="lead">Entrenamientos más seguidos</p>
+      {% for e in entrenamientos %}
+        <div class="card border-0">
+          <div class="card-body">
+            <a href="{{e.ver_mas_entrenamiento}}" class="btn btn-light"> "{{ e }}" </a>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+
+{% if entrenadores %}
+  <section class="py-5">
+    <div class="container">
+      <p class="lead">Nuestros entrenadores destacados</p>
+      <div class="card border-0">
+        <div class="card-body">
+          {% for i in entrenadores %}
+            <img class="profile-pic" src="{{i.comun.profile_pic.url}}"> <a class="btn btn-light" href='{{i.comun.ver_biografia}}'>{{i.comun}}</a>     
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
 </body>
 {% endblock %}
 </html>
