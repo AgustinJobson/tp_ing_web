@@ -1,0 +1,18 @@
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+    {%if user.is_staff %}
+        <p>Seguro que desea banear "{{item}}" ?</p>
+        
+        <form action = "{% url 'banear_post' item.id %}" method = 'POST'>
+            {% csrf_token %}
+            <a class="btn btn -sm btn-info" href = "/foro">Cancelar</a>
+            <input  class="btn btn -sm btn-danger" type = "submit" value = "Banear Definitivamente" name ="confirmar">
+        </form>
+    {% else %}
+        <h3>Usted no tiene permitido banear este post !!!!</h3>
+        <hr/>
+        <a class="btn btn -sm btn-info" href="/foro">Volver al Foro</a>
+    {% endif %}
+    {% endblock %}
+</html>

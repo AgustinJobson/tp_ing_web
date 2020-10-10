@@ -10,7 +10,11 @@ from .views import (
     mis_temas,
     vista_likes,
     comentario_likes,
-    get_all_posts
+    get_all_posts,
+    denunciar_post,
+    all_denuncias,
+    descartar_denuncia,
+    banear_post
 )
 
 urlpatterns = [
@@ -24,4 +28,8 @@ urlpatterns = [
     path('like/<int:pk>', vista_likes, name='like_post'),
     path('comment_like/<int:pk>', comentario_likes, name='like_comentario'),
     path('all', get_all_posts),
+    path('<int:id>/denunciar-post', denunciar_post, name='denunciar_post'),
+    path('<int:id>/banear-post', banear_post, name='banear_post'),
+    path('denuncias/', all_denuncias, name='all_denuncias'),  
+    path('denuncias/<int:id>/descartar', descartar_denuncia, name='descartar_denuncia'),    
 ]

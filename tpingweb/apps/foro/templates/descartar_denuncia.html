@@ -1,0 +1,18 @@
+{% extends 'banner.html' %}
+<html>
+    {% block content %}
+    {%if user.is_staff %}
+        <p>Seguro que desea eliminar "{{item}}" ?</p>
+        
+        <form action = "{% url 'descartar_denuncia' item.id %}" method = 'POST'>
+            {% csrf_token %}
+            <a class="btn btn -sm btn-info" href = "/foro/denuncias">Cancelar</a>
+            <input  class="btn btn -sm btn-danger" type = "submit" value = "Descartar" name ="confirmar">
+        </form>
+    {% else %}
+        <h3>Usted no tiene permitido descartar esta denuncia !!!!</h3>
+        <hr/>
+        <a class="btn btn -sm btn-info" href="/foro">Volver al Foro</a>
+    {% endif %}
+    {% endblock %}
+</html>

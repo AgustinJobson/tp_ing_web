@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post, Comentario, Categoria
-from .forms import FormPost, FormComentario
+from .models import Post, Comentario, Categoria, Denuncia
+from .forms import FormPost, FormComentario, FormDenuncia
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
+from apps.account.decorators import *
 import datetime
 
 
@@ -13,9 +14,13 @@ def get_categorias(request):
 
 def get_all_posts(request):
     posts = Post.objects.all()
+    posts_disponibles = []
     posts = sorted(posts, key=lambda x: x.fecha_post)
+    for post in posts:
+        if (not post.baneado):
+            posts_disponibles.append(post)
     context = {
-        'posts':posts
+        'posts':posts_disponibles
     }
     return render(request, "all_posts.html", context)
 
@@ -42,14 +47,14 @@ def comentario_likes(request, pk):
         
     return HttpResponseRedirect(reverse('detalle_post', args=[str(comment.post.id)]))
 
-
 def get_foro(request, id):
     posts = Post.objects.all()
     categoria = Categoria.objects.get(id=id)
     posts_categoria = []
     for post in posts:
         if (post.categoria == categoria):
-            posts_categoria.append(post)
+            if (not post.baneado):
+                posts_categoria.append(post)
     context = {
         'categoria':categoria,
         'posts_disponibles':posts_categoria,
@@ -74,13 +79,9 @@ def detalle_post(request, id):
                     if coment.likes.filter(id = request.user.id).exists():
                         comment_liked = True
                     coment_likes.append([coment.id, cantidad_likes, comment_liked])
-            #user_entrenador = entren.autor.comun
             cantiadad_comentarios = len(comentarios)
             comentarios.sort(key=lambda x: x.total_likes(), reverse=True)
-            
-            
-            
-            
+
             form = FormComentario()
             if request.method == "POST":
                 form = FormComentario(request.POST)
@@ -98,6 +99,14 @@ def detalle_post(request, id):
             liked = False
             if post.likes.filter(id = request.user.id).exists():
                 liked = True
+            
+            
+            denuncias = Denuncia.objects.filter(descartada = False)
+            no_ha_denunciado = True
+            for den in denuncias:
+                if ((den.post == post) and (den.usuario == request.user)):
+                    no_ha_denunciado = False       
+                      
             context = {
                 'post':post_pd, 
                 'comentarios':comentarios, 
@@ -106,6 +115,7 @@ def detalle_post(request, id):
                 'total_likes':total_likes,
                 'liked':liked,
                 'comment_likes':coment_likes,
+                'no_ha_denunciado': no_ha_denunciado
             }
             return render(request, "detalle_post.html", context)
     return redirect('/foro')
@@ -156,7 +166,8 @@ def mis_temas(request):
     current_user = request.user
     for post in posts:
         if (post.autor == current_user):
-            posts_usuario.append(post)
+            if (not post.baneado):
+                posts_usuario.append(post)
     cantidad = len(posts_usuario)
     context = {
         'posts_disponibles':posts_usuario,
@@ -165,3 +176,61 @@ def mis_temas(request):
         'autor': current_user
     }
     return render(request, "mis_temas.html", context)
+
+@usuario_no_autentificado
+def denunciar_post(request, id):
+    post = Post.objects.get(id=id)
+    form = FormDenuncia()
+    if request.method == 'POST':
+        form = FormDenuncia(data=request.POST)
+        if (form.is_valid()):
+            nueva_denuncia = Denuncia()
+            nueva_denuncia.post = post
+            nueva_denuncia.texto = form.cleaned_data.get('texto')
+            nueva_denuncia.descartada = False
+            nueva_denuncia.usuario = request.user
+            nueva_denuncia.save()
+            return redirect('/foro/all')
+    context = {
+        'post': post,
+        'form': form
+    }
+    return render(request, "denunciar_post.html", context)
+
+@usuarios_permitidos(roles_permitidos = ['admin'])
+def all_denuncias(request):
+    denuncias_disponibles = []
+    denuncias = list(Denuncia.objects.filter(descartada = False))
+    for den in denuncias:
+        if (not den.post.baneado):
+            denuncias_disponibles.append(den)
+    denuncias_disponibles.sort(key=lambda x: len(x.post.total_denuncias()), reverse=True)
+    context = {
+        'denuncias': denuncias_disponibles
+    }
+    return render(request, "all_denuncias.html", context)
+
+@usuarios_permitidos(roles_permitidos = ['admin'])
+def descartar_denuncia(request, id):
+    den = Denuncia.objects.get(id=id)
+    if request.method == 'POST':
+        den.descartada = True
+        den.save()
+        return redirect('/foro/denuncias')
+    context = {
+        'item': den,
+    }
+    return render(request, "descartar_denuncia.html", context)
+
+
+@usuarios_permitidos(roles_permitidos = ['admin'])
+def banear_post(request, id):
+    post = Post.objects.get(id=id)
+    if request.method == 'POST':
+        post.baneado = True
+        post.save()
+        return redirect('/foro/all')
+    context = {
+        'item': post,
+    }
+    return render(request, "banear_post.html", context)

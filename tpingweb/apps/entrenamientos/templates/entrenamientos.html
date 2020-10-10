@@ -24,32 +24,29 @@
             </div>
         </div>
     </div>
-
-
-
-        <br>
-        <div class="row">
-            <div class="col-md">
-                <div class="card card-body">
-                    <h5> Entrenamientos</h5>
-                </div>
-                <div class="card card-body">
-                    <table class="table">
-                        <tr>
-                            <th>Autor</th>
-                            <th>Descripción Entrenamiento</th>
-                            <th>Ver Más</th>
+    <br>
+    <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <h5> Entrenamientos</h5>
+            </div>
+            <div class="card card-body">
+                <table class="table">
+                    <tr>
+                        <th>Autor</th>
+                        <th>Descripción Entrenamiento</th>
+                        <th>Ver Más</th>
+                    </tr>
+                    {% for i in entrenamientos_disponibles%}
+                        <tr>                     
+                            <td><img class="profile-pic" src="{{i.autor.comun.profile_pic.url}}"> <a class="btn btn-link" href='{{i.autor.comun.ver_biografia}}'>{{i.autor.comun}}</a></td>
+                            <td>{{i.nombre_entrenamiento}}</td>                                
+                            <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_entrenamiento}}'>Ver Más</a></td>
                         </tr>
-                        {% for i in entrenamientos_disponibles%}
-                            <tr>                     
-                                <td><img class="profile-pic" src="{{i.autor.comun.profile_pic.url}}"> <a class="btn btn-link" href='{{i.autor.comun.ver_biografia}}'>{{i.autor.comun}}</a></td>
-                                <td>{{i.nombre_entrenamiento}}</td>                                
-                                <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_entrenamiento}}'>Ver Más</a></td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
+                    {% endfor %}
+                </table>
             </div>
         </div>
+    </div>
     {% endblock %}
 </html>

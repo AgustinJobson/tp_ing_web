@@ -1,0 +1,17 @@
+{% extends 'banner.html' %}
+<html>
+    {% block content %}    
+        <p>Seguro que desea denunciar "{{post}}" ?</p>        
+        <form action = "{% url 'denunciar_post' post.id %}" method = 'POST'>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="texto" class="text-info">Explique el motivo de la denuncia</label><br>
+                    <textarea class="form-control" type="text" name="texto" id="texto" rows="6"></textarea>
+                </div>
+            </div>
+            {% csrf_token %}
+            <a class="btn btn -sm btn-info" href = "/foro/all">Cancelar</a>
+            <input  class="btn btn -sm btn-danger" type = "submit" value = "Denunciar" name ="confirmar">
+        </form>
+    {% endblock %}
+</html>

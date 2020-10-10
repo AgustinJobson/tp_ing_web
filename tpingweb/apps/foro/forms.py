@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Post, Comentario
+from .models import Post, Comentario, Denuncia
 
 class FormPost(ModelForm):
     class Meta:
@@ -26,4 +26,14 @@ class FormComentario(ModelForm):
 
         widgets = {
             'body': forms.Textarea(attrs={'class':'form-control'}),
+        }
+    
+class FormDenuncia(ModelForm):
+    class Meta:
+        model = Denuncia
+        fields = [
+            'texto',
+        ]
+        widgets = {
+            'texto': forms.Textarea(attrs={'class':'form-control'}),
         }

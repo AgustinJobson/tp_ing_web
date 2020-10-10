@@ -23,10 +23,10 @@
 </head>
 <body>
 
-<!-- Header - set the background image for the header in the line below -->
+<!-- Header - set the background image for the header in the line below 
 <header class="py-5 bg-image-full" style="background-image: url(https://cdn.hipwallpaper.com/i/73/13/wn0R1s.jpg);">
   <div style="height: 600px;"></div>
-</header>
+</header>-->
 
 <!-- Content section -->
 <section class="py-5">
@@ -63,10 +63,39 @@
     <p class="lead">No olvides registrarte, para poder disfrutar de nuestra página al 100%! Si sos entrenador, <a href='/account/pedidoentrenador'>no dudes en contactarnos</a></p>
   </div>
 </section>
+
 {% if posts %}
-  <section class="py-5">
+<div class="container">
+  <p class="lead">
+    <h3>Posts más interesantes</h3>
+  </p>
+  <div class="row">        
+      <div class="col-md-12">
+          {% for i in posts%}
+              <div class="card mb-4">
+                  <div class="card-header border-0">
+                      <img class="profile-pic" src= {{i.autor.comun.profile_pic.url}} alt="">
+                          <a>{{i.autor.comun}}</a>
+                  </div>
+                  <div class="card-body">
+                      <h4 class="card-title">{{i.titulo}}</h4>
+                      <hr>
+                      <p class="card-text">{{i.body | safe |truncatewords:50 | linebreaks}}</p>
+                      <a href="{{i.ver_mas_post}}" class="btn btn-primary">Ver Más &rarr;</a>
+                  </div>
+                  <div class="card-footer text-muted">
+                      Posted on {{i.fecha_post}}
+                  </div>
+              </div>
+          {% endfor %}
+      </div>
+  </div> 
+</div>
+  <!--<section class="py-5">
     <div class="container">
-    <p class="lead">Posts más interesantes</p>
+    <p class="lead">
+      <h3>Posts más interesantes</h3>
+    </p>
       {% for p in posts %}
         <div class="card border-0">
           <div class="card-body">
@@ -75,13 +104,37 @@
       </div>
       {% endfor %}
     </div>
-  </section>
+  </section>-->
 {% endif %}
 
 {% if entrenamientos %}
-  <section class="py-5">
+<div class="container">
+  <p class="lead">
+    <h3>Entrenamientos más seguidos</h3>
+  </p>
+  <div class="card card-body">
+    <table class="table">
+        <tr>
+            <th>Autor</th>
+            <th>Descripción Entrenamiento</th>
+            <th>Ver Más</th>
+        </tr>
+        {% for i in entrenamientos%}
+            <tr>                     
+                <td><img class="profile-pic" src="{{i.autor.comun.profile_pic.url}}"> <a class="btn btn-link" href='{{i.autor.comun.ver_biografia}}'>{{i.autor.comun}}</a></td>
+                <td>{{i.nombre_entrenamiento}}</td>                                
+                <td><a class="btn btn -sm btn-info" href='{{i.ver_mas_entrenamiento}}'>Ver Más</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+  </div>
+</div>
+
+  <!--<section class="py-5">
     <div class="container">
-    <p class="lead">Entrenamientos más seguidos</p>
+    <p class="lead">
+      <h3>Entrenamientos más seguidos</h3>
+    </p>
       {% for e in entrenamientos %}
         <div class="card border-0">
           <div class="card-body">
@@ -90,7 +143,7 @@
       </div>
       {% endfor %}
     </div>
-  </section>
+  </section>-->
 {% endif %}
 
 {% if entrenadores %}
