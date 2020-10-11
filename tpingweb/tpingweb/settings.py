@@ -39,19 +39,30 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    
+    
+    
+    #APPS del sitio
     'apps.home',
     'apps.account',
     'apps.shared',
     'apps.eventos',
     'apps.entrenamientos',
     'apps.foro',
+    
+    
+    #pip installs
     'crispy_forms',
     'ckeditor',
     'django_filters',
     'django_extensions',
     'embed_video',
     'haystack',
+    'robots',
 ]
+
+SITE_ID = 1
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

@@ -285,22 +285,6 @@ def agregar_contenido(request, id):
     }
     return render(request,"seleccionar_contenido.html",context)
 
-"""
-@usuarios_permitidos(roles_permitidos = ['entrenador'])
-def contenido_youtube(request, id):
-    rt = runningteam.objects.get(id=id)
-    form = FormYoutube()
-    if request.method == 'POST':
-        form = FormYoutube(request.POST)
-        if form.is_valid():
-            yt = runningteam_youtube()
-            yt.runningteam = rt
-            yt.video = form.cleaned_data.get('video')
-            yt.save()
-            return redirect('/training/runningteams')
-        
-    return render (request, "subir_youtube.html", {'form': form})
-"""
 
 @usuarios_permitidos(roles_permitidos = ['entrenador'])
 def contenido_youtube(request, id):

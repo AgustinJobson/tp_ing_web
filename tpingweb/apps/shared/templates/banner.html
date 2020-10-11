@@ -37,8 +37,13 @@
             {% endif %}
             
             <a class="nav-item nav-link" href="/events">Eventos</a>
-            <a class="nav-item nav-link" href="/training/runningteams">Running Teams</a>
-
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Running Teams</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/training/runningteams">Ver todos</a>
+                    <a class="dropdown-item" href="/training/search">Buscar</a>
+                </div>
+            </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Entrenamientos</a>
                 <div class="dropdown-menu">
@@ -47,7 +52,6 @@
                     <a class="dropdown-item" href="/training/mis_entrenamientos/">Mis Entrenamientos</a>
                     {% endif %}
                 </div>
-            
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Foro</a>

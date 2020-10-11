@@ -17,10 +17,10 @@ from django.contrib import admin
 from django.urls import include, path
 from apps.home import viewshome
 from apps.shared import views
-
+from django.views.generic.base import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
-
+from django.contrib.sites.models import Site
 urlpatterns = [
     path('', viewshome.home, name='home'),
     path('account/', include('apps.account.urls')),        
@@ -28,4 +28,5 @@ urlpatterns = [
     path('foro/', include('apps.foro.urls')),
     path('training/',include('apps.entrenamientos.urls')),
     path('admin/', admin.site.urls),
+    path('robots.txt/', include('robots.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

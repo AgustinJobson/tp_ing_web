@@ -8,26 +8,29 @@
 </head>
 <body>
     {% block content %}
-        <h2>Buscar:</h2>
+    <div class="container">
+        <h4>Búsqueda de Running Teams:</h4>
 
         <form method="get" action=".">
-            <div class = "form-group">
-                <input type="text" class="form-control" name="q" id="q" placeholder="Escribe el Runningteam que quieres buscar ...">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+            <div class="col-sm-5 my-1">
+            <div class = "input-group mb-3">
+                <input type="text" class="form-control col-xs-4" name="q" id="q" placeholder="Escribe el Runningteam que quieres buscar ...">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success my-sm-0" type="submit">Buscar</button>
+                </div>
             </div> 
+            </div>
             <!--<form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
                 <i class="fas fa-search" aria-hidden="true"></i>
                 <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
                 aria-label="Search">
             </form>-->
-            <div class="container">
                 {% if query %}
                     <br>
                     <h3>Resultados:</h3>
-                    <div class = "container">
                         <div class="row">
                             {% for i in page.object_list %}
-                            <div class ="col-md-4 mb-4">
+                            <div class ="col-md-5 mb-4">
                                 <div class="card text-center p-0">
                                     <img class="card-img-top" src="{{i.object.logo.url}}" alt="Card image cap">
                                     <div class="card-body">
@@ -51,8 +54,7 @@
                             {% empty %}
                                 <p>No se encontraron Running teams.</p>
                             {% endfor %}
-                        </div>
-                    </div>           
+                        </div>         
                     {% if page.has_previous or page.has_next %}
                         <div>
                             {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
@@ -61,7 +63,7 @@
                         </div>
                     {% endif %}
                 {% endif %}
-            </div>
         </form>
+    </div>
     {% endblock %}
 </body>
