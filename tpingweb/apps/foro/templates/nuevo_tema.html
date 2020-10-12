@@ -5,13 +5,23 @@
 {% block content %}
 <h2>Crear Nuevo Tema</h2>
 <!--{% load crispy_forms_tags %}-->
-<br/><br/>
+<br/>
 <div class="form-group">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+        {% if con_categoria %}
+            <h4>Categoria: {{categoria.nombre}}</h4>
+        {% endif %}
         {{ form.as_p }}
         {{form.media}}
-        <input class="btn btn-primary" type="submit" value="Registrar">
+
+        <input class="btn btn-primary" type="submit" value="Guardar Tema">
+        {% if con_categoria %}
+            <a type="button" class="btn btn-danger" href='{{path}}'>Cancelar</a>
+        {% else %}
+            <a type="button" class="btn btn-danger" href="/foro/mis_temas">Cancelar</a>
+        {% endif %}
+
 </div>
 {% endblock %}
 </body>

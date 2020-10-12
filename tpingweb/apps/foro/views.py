@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post, Comentario, Categoria, Denuncia
-from .forms import FormPost, FormComentario, FormDenuncia
+from .forms import FormPost, FormComentario, FormDenuncia, FormPostCat
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from apps.account.decorators import *
@@ -132,7 +132,35 @@ def agregar_tema(request):
             nuevo_post.categoria = form.cleaned_data.get('categoria')
             nuevo_post.save()
             return redirect('/foro/mis_temas')
-    return render (request, "nuevo_tema.html", {'form': form})
+    
+    context = {
+        'form':form,
+        'con_categoria':False
+    }
+    return render (request, "nuevo_tema.html", context)
+
+def nuevo_tema_con_cat(request, id):
+    categoria = Categoria.objects.get(id=id)
+    form = FormPostCat()
+    path = "/foro/posts/"+str(id)
+    if request.method == "POST":
+        form = FormPostCat(data=request.POST)
+        if form.is_valid():
+            nuevo_post = Post()
+            nuevo_post.titulo = form.cleaned_data.get('titulo')
+            nuevo_post.body = form.cleaned_data.get('body')
+            nuevo_post.autor = request.user
+            nuevo_post.categoria = categoria
+            nuevo_post.save()
+            return redirect(path)
+    
+    context = {
+        'categoria':categoria,
+        'form':form,
+        'con_categoria':True,
+        'path':path
+    }
+    return render (request, "nuevo_tema.html", context)
 
 def update_tema(request, id):
     post = Post.objects.get(id=id)
@@ -234,3 +262,12 @@ def banear_post(request, id):
         'item': post,
     }
     return render(request, "banear_post.html", context)
+
+
+@usuarios_permitidos(roles_permitidos = ['admin'])
+def denuncia_detalle(request, id):
+    den = Denuncia.objects.get(id=id)
+    context = {
+        'denuncia':den
+    }
+    return render(request, "detalle_denuncia.html", context)

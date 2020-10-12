@@ -1,0 +1,37 @@
+{% extends 'banner.html' %}
+<html>
+    <head>
+        <style>
+            #wb { 
+            word-break: break-all; 
+            width: 140px;
+            border: 1px solid green; 
+            }
+        </style>
+    </head>
+    <body>
+    {% block content %}
+
+    <div class="container">
+        <h1>{{denuncia.post}}</h1>
+        <small>Por:
+            {{denuncia.usuario.comun}} 
+            <br/>
+        </small>
+        <hr>
+        <br/>
+        <div class="container">
+            <div class="wb">
+                {{denuncia.texto | safe}}
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <p>
+            <a class="btn btn -sm btn-success" href='{{denuncia.descartar_denuncia}}'>Descartar Denuncia</a>
+            <a class="btn btn -sm btn-info" href='{{denuncia.post.ver_mas_post}}'>Ver Post</a>
+        </p>
+        <a class="btn btn -sm btn-warning" href='/foro/denuncias'>Volver</a>
+    {% endblock %}
+    </body>
+</html>

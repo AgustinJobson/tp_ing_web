@@ -12,6 +12,9 @@ class Categoria(models.Model):
     def ver_mas_categoria(self):
         return f"/foro/posts/{self.id}"
 
+    def agregar_tema(self):
+        return f"/foro/tema-nuevo-cat/{self.id}"
+
 class Post(models.Model):
     titulo = models.CharField(max_length=255)
     body = RichTextField(blank=True, null=True)
@@ -75,4 +78,7 @@ class Denuncia(models.Model):
 
     def descartar_denuncia(self):
         return f"/foro/denuncias/{self.id}/descartar"
+    
+    def ver_denuncia_completa(self):
+        return f"/foro/denuncias/{self.id}/denuncia-completa"
     

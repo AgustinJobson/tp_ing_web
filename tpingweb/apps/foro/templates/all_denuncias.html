@@ -1,38 +1,43 @@
 {% extends 'banner.html' %}
 <html>
-    {% block content %}    
-    <div class="row">
-        <div class="col-md">
-            {% if denuncias %}
-                <div class="card card-body">
-                    <h5> Denuncias Disponibles</h5>
-                </div>
-                <div class="card card-body">
-                    <table class="table">
-                        <tr>
-                            <th>Post</th>
-                            <th>Usuario</th>
-                            <th>Explicacion Denuncia</th>
-                        </tr>
-                        {% for i in denuncias%}
-                            <tr>                     
-                                <td><img class="profile-pic" src="{{i.autor.comun.profile_pic.url}}">{{i.post}}</td>
-                                <td>{{i.usuario}}</td>
-                                <td>{{i.texto}}</td>
-                                <td><a class="btn btn -sm btn-success" href='{{i.descartar_denuncia}}'>Descartar Denuncia</a></td>
-                                <td><a class="btn btn -sm btn-info" href='{{i.post.ver_mas_post}}'>Ver Post</a></td>                               
+    <head>
+    </head>
+    <body>
+        {% block content %}    
+        <div class="row">
+            <div class="col-md">
+                {% if denuncias %}
+                    <div class="card card-body">
+                        <h5> Denuncias Disponibles</h5>
+                    </div>
+                    <div class="card card-body">
+                        <table class="table">
+                            <tr>
+                                <th>Post</th>
+                                <th>Usuario</th>
+                                <th>Explicacion Denuncia</th>
                             </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            {% else  %}
-                <div class="card card-body">
-                    <h5> No hay denuncias disponibles</h5>
-                </div>
-                <br>
-                <a class="btn btn -sm btn-primary" href='/'>Volver al Home</a>
-            {% endif %}
-        </div>
-    </div> 
-    {% endblock %}
+                            {% for i in denuncias%}
+                                <tr>                     
+                                    <td><img class="profile-pic" src="{{i.autor.comun.profile_pic.url}}">{{i.post |truncatechars:20}}</td>
+                                    <td>{{i.usuario}}</td>
+                                    <td><p class="card-text">{{i.texto |truncatechars:30 }}</p></td>
+                                    <td><a class="btn btn -sm btn-success" href='{{i.descartar_denuncia}}'>Descartar Denuncia</a></td>
+                                    <td><a class="btn btn -sm btn-warning" href='{{i.ver_denuncia_completa}}'>Ver denuncia</a></td>
+                                    <td><a class="btn btn -sm btn-info" href='{{i.post.ver_mas_post}}'>Ver Post</a></td>                               
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% else  %}
+                    <div class="card card-body">
+                        <h5> No hay denuncias disponibles</h5>
+                    </div>
+                    <br>
+                    <a class="btn btn -sm btn-primary" href='/'>Volver al Home</a>
+                {% endif %}
+            </div>
+        </div> 
+        {% endblock %}
+    </body>
 </html>

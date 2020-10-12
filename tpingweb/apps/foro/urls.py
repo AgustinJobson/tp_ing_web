@@ -14,7 +14,9 @@ from .views import (
     denunciar_post,
     all_denuncias,
     descartar_denuncia,
-    banear_post
+    banear_post,
+    nuevo_tema_con_cat,
+    denuncia_detalle
 )
 
 urlpatterns = [
@@ -31,5 +33,7 @@ urlpatterns = [
     path('<int:id>/denunciar-post', denunciar_post, name='denunciar_post'),
     path('<int:id>/banear-post', banear_post, name='banear_post'),
     path('denuncias/', all_denuncias, name='all_denuncias'),  
-    path('denuncias/<int:id>/descartar', descartar_denuncia, name='descartar_denuncia'),    
+    path('denuncias/<int:id>/descartar', descartar_denuncia, name='descartar_denuncia'),
+    path('tema-nuevo-cat/<int:id>', nuevo_tema_con_cat, name="tema_nuevo_cat"),
+    path('denuncias/<int:id>/denuncia-completa', denuncia_detalle, name="denuncia_detalle")
 ]
