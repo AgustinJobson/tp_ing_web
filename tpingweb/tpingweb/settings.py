@@ -15,6 +15,7 @@ from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+print(BASE_DIR)
 
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 
@@ -100,12 +101,27 @@ WSGI_APPLICATION = 'tpingweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.environ.get("IS_DOCKER",False): #si tengo la variable is docker
+    DATABASES = {
+        'default': {
+            'ENGINE' : 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR,'..','..','data','db.sqlite3'),
+        }
     }
-}
+    MEDIA_ROOT = os.path.join(BASE_DIR,'apps','static','images')
+    MEDIA_URL = '/data/apps/static/images/'
+    print(os.path.join(BASE_DIR,'..','..','data','db.sqlite3'))
+else: #aca si no estoy en docker
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+    
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'apps/static/images')
+    MEDIA_URL = '/images/'
+    
 
 if os.environ.get('SEARCHBOX_URL'):
     HAYSTACK_CONNECTIONS = {
@@ -178,7 +194,5 @@ EMAIL_HOST_PASSWORD = 'Lokiaqswde1234'
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/images/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'apps/static')]
-MEDIA_ROOT = os.path.join(BASE_DIR, 'apps/static/images')
 django_heroku.settings(locals())
