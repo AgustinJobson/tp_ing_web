@@ -108,7 +108,7 @@ if os.environ.get("IS_DOCKER",False): #si tengo la variable is docker
             'NAME': os.path.join(BASE_DIR,'..','..','data','db.sqlite3'),
         }
     }
-    MEDIA_ROOT = os.path.join(BASE_DIR,'apps','static','images')
+    MEDIA_ROOT = os.path.join(BASE_DIR,'..','..','data','apps','static','images')
     MEDIA_URL = '/data/apps/static/images/'
     print(os.path.join(BASE_DIR,'..','..','data','db.sqlite3'))
 else: #aca si no estoy en docker
