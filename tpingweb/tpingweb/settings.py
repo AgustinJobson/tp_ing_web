@@ -101,16 +101,16 @@ WSGI_APPLICATION = 'tpingweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-if os.environ.get("IS_DOCKER",False): #si tengo la variable is docker
+if os.environ.get("IS_DOCKER",False): #controlo que se esté en docker 
     DATABASES = {
         'default': {
             'ENGINE' : 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR,'..','..','data','db.sqlite3'),
+            'NAME': os.path.join(BASE_DIR,'..','..','data','db.sqlite3'), #debo buscar la base de datos dos directorios atrás, #ya que estoy en /app_grupo/tpingweb. data esta 1 antes de app_grupo
         }
     }
+    #tengo que ir dos directorios atrás
     MEDIA_ROOT = os.path.join(BASE_DIR,'..','..','data','apps','static','images')
     MEDIA_URL = '/data/apps/static/images/'
-    print(os.path.join(BASE_DIR,'..','..','data','db.sqlite3'))
 else: #aca si no estoy en docker
     DATABASES = {
         'default': {
