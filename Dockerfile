@@ -12,6 +12,7 @@ COPY . /app_grupo2
 
 RUN pip install -r requirements.txt
 
+
 ENV IS_DOCKER = True
 
 RUN mkdir /data
