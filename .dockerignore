@@ -1,3 +1,4 @@
 #si tenemos la DB, la ignoramos en el copy . /app_grupo2
 tpingweb/db.sqlite3
-*db.sqlite3
+tpingweb/erd.dot
+Procfile
