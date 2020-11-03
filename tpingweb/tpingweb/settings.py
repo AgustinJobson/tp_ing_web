@@ -110,7 +110,7 @@ if os.environ.get("IS_DOCKER",False): #controlo que se esté en docker
     }
     #tengo que ir dos directorios atrás
     MEDIA_ROOT = os.path.join(BASE_DIR,'..','..','data','apps','static','images')
-    MEDIA_URL = '/data/apps/static/images/'
+    
 else: #aca si no estoy en docker
     DATABASES = {
         'default': {
@@ -120,7 +120,8 @@ else: #aca si no estoy en docker
     }
     
     MEDIA_ROOT = os.path.join(BASE_DIR, 'apps/static/images')
-    MEDIA_URL = '/images/'
+    
+MEDIA_URL = '/images/'
     
 
 if os.environ.get('SEARCHBOX_URL'):
